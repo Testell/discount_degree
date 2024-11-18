@@ -1,0 +1,6 @@
+const courseList = document.getElementById("courses-list");
+const newCourse = document.createElement("li");
+newCourse.textContent = "<%= j @course.name %> - <%= j @course.code %> (<%= j @course.credit_hours %> credits)";
+courseList.appendChild(newCourse);
+
+document.getElementById("new-course-form").reset();

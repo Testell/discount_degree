@@ -13,6 +13,7 @@ class SchoolsController < ApplicationController
   # GET /schools/new
   def new
     @school = School.new
+    @course = Course.new
   end
 
   # GET /schools/1/edit
@@ -27,9 +28,11 @@ class SchoolsController < ApplicationController
       if @school.save
         format.html { redirect_to school_url(@school), notice: "School was successfully created." }
         format.json { render :show, status: :created, location: @school }
+        format.js
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @school.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

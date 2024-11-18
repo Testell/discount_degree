@@ -1,0 +1,5 @@
+document.getElementById("school-info").innerHTML = `<h2>School: <%= j @school.name %></h2>`;
+
+document.getElementById("course-form").style.display = "block";
+
+document.getElementById("school-id-field").value = "<%= j @school.id %>";

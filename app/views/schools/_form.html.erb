@@ -1,18 +1,49 @@
+<%= form_with(model: @school, local: false, html: { id: "new-school-form" }) do |form| %>
+  <% if @school.errors.any? %>
+    <div id="error_explanation">
+      <ul class="list-unstyled">
+        <% @school.errors.full_messages.each do |message| %>
+          <li>
+            <div class="alert alert-danger" role="alert">
+              <%= message %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= simple_form_for(@school) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :school_type %>
-    <%= f.input :credit_hour_price %>
-    <%= f.input :minimum_credits_from_school %>
-    <%= f.input :max_credits_from_community_college %>
-    <%= f.input :max_credits_from_university %>
+  <div class="form-group">
+    <%= form.label :name, "School Name" %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="form-group">
+    <%= form.label :school_type, "School Type" %>
+    <%= form.select :school_type, [["University", "university"], ["Community College", "community_college"]], {}, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :credit_hour_price, "Credit Hour Price" %>
+    <%= form.number_field :credit_hour_price, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :minimum_credits_from_school, "Minimum Credits from School" %>
+    <%= form.number_field :minimum_credits_from_school, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :max_credits_from_community_college, "Max Credits from Community College" %>
+    <%= form.number_field :max_credits_from_community_college, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :max_credits_from_university, "Max Credits from Other Universities" %>
+    <%= form.number_field :max_credits_from_university, class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Add School", class: "btn btn-outline-primary btn-block" %>
   </div>
 <% end %>

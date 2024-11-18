@@ -1,17 +1,36 @@
+<%= form_with(model: @course, url: courses_path, local: false, html: { id: "new-course-form" }) do |form| %>
+  <% if @course.errors.any? %>
+    <div id="error_explanation">
+      <ul class="list-unstyled">
+        <% @course.errors.full_messages.each do |message| %>
+          <li>
+            <div class="alert alert-danger" role="alert">
+              <%= message %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= simple_form_for(@course) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="form-inputs">
-    <%= f.input :credit_hours %>
-    <%= f.input :school_id %>
-    <%= f.input :name %>
-    <%= f.input :code %>
-    <%= f.input :degree_requirement_id %>
+  <div class="form-group">
+    <%= form.label :credit_hours, "Credit Hours" %>
+    <%= form.number_field :credit_hours, class: "form-control" %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <%= hidden_field_tag :school_id, nil, id: "school-id-field" %>
+
+  <div class="form-group">
+    <%= form.label :name, "Course Name" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :code, "Department Code" %>
+    <%= form.text_field :code, class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Add Course", class: "btn btn-outline-primary btn-block" %>
   </div>
 <% end %>
