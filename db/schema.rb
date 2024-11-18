@@ -10,8 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 0) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_18_175823) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "courses", force: :cascade do |t|
+    t.string "credit_hours"
+    t.integer "school_id"
+    t.string "name"
+    t.string "code"
+    t.integer "degree_requirement_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "degree_requirements", force: :cascade do |t|
+    t.string "name"
+    t.integer "credit_hour_amount"
+    t.integer "degree_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "degrees", force: :cascade do |t|
+    t.string "name"
+    t.integer "school_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "schools", force: :cascade do |t|
+    t.string "name"
+    t.string "school_type"
+    t.integer "credit_hour_price"
+    t.integer "minimum_credits_from_school"
+    t.integer "max_credits_from_community_college"
+    t.integer "max_credits_from_university"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transferable_courses", force: :cascade do |t|
+    t.integer "from_course_id"
+    t.integer "to_course_id"
+    t.integer "degree_requirement_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end
