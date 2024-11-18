@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Transferable courses</h1>
+
+<div id="transferable_courses">
+  <% @transferable_courses.each do |transferable_course| %>
+    <%= render transferable_course %>
+    <p>
+      <%= link_to "Show this transferable course", transferable_course %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New transferable course", new_transferable_course_path %>

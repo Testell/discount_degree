@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @transferable_course %>
+
+<div>
+  <%= link_to "Edit this transferable course", edit_transferable_course_path(@transferable_course) %> |
+  <%= link_to "Back to transferable courses", transferable_courses_path %>
+
+  <%= button_to "Destroy this transferable course", @transferable_course, method: :delete %>
+</div>
