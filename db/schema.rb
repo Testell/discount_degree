@@ -10,16 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_18_180607) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_18_204957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "course_requirements", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "degree_requirement_id", null: false
+    t.boolean "is_mandatory", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_requirements_on_course_id"
+    t.index ["degree_requirement_id"], name: "index_course_requirements_on_degree_requirement_id"
+  end
 
   create_table "courses", force: :cascade do |t|
     t.string "credit_hours"
     t.integer "school_id"
     t.string "name"
     t.string "code"
-    t.integer "degree_requirement_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -30,6 +39,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_18_180607) do
     t.integer "degree_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_choice_based", default: false, null: false
   end
 
   create_table "degrees", force: :cascade do |t|
@@ -67,4 +77,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_18_180607) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "course_requirements", "courses"
+  add_foreign_key "course_requirements", "degree_requirements"
 end

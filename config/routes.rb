@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :course_requirements
   resources :users
   resources :transferable_courses
   resources :courses
