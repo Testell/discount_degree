@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @degree_requirement %>
+
+<div>
+  <%= link_to "Edit this degree requirement", edit_degree_requirement_path(@degree_requirement) %> |
+  <%= link_to "Back to degree requirements", degree_requirements_path %>
+
+  <%= button_to "Destroy this degree requirement", @degree_requirement, method: :delete %>
+</div>

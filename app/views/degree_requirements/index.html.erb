@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Degree requirements</h1>
+
+<div id="degree_requirements">
+  <% @degree_requirements.each do |degree_requirement| %>
+    <%= render degree_requirement %>
+    <p>
+      <%= link_to "Show this degree requirement", degree_requirement %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New degree requirement", new_degree_requirement_path %>
