@@ -1,5 +1,6 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: %i[ show edit update destroy ]
+  before_action :set_school, only: [:create]
 
   # GET /courses or /courses.json
   def index
@@ -21,7 +22,7 @@ class CoursesController < ApplicationController
 
   # POST /courses or /courses.json
   def create
-    @course = Course.new(course_params)
+    @course = @school.courses.build(course_params)
 
     respond_to do |format|
       if @course.save
@@ -72,6 +73,10 @@ class CoursesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_course
       @course = Course.find(params[:id])
+    end
+
+    def set_school
+      @school = School.find(params[:school_id]) 
     end
 
     # Only allow a list of trusted parameters through.

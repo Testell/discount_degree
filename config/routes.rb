@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   resources :transferable_courses
   resources :courses
   resources :degree_requirements
-  resources :schools
+  resources :schools do
+    resources :degrees, only: [:create]
+    resources :courses, only: [:create]
+  end
+
   resources :degrees
 
   # This is a blank app! Pick your first screen, build out the RCAV, and go from there. E.g.:

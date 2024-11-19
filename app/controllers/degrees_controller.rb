@@ -1,5 +1,6 @@
 class DegreesController < ApplicationController
   before_action :set_degree, only: %i[ show edit update destroy ]
+  before_action :set_school, only: [:create]
 
   # GET /degrees or /degrees.json
   def index
@@ -21,15 +22,17 @@ class DegreesController < ApplicationController
 
   # POST /degrees or /degrees.json
   def create
-    @degree = Degree.new(degree_params)
+    @degree = @school.degrees.build(degree_params)
 
     respond_to do |format|
       if @degree.save
         format.html { redirect_to degree_url(@degree), notice: "Degree was successfully created." }
         format.json { render :show, status: :created, location: @degree }
+        format.js
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @degree.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -61,6 +64,10 @@ class DegreesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_degree
       @degree = Degree.find(params[:id])
+    end
+
+    def set_school
+      @school = School.find(params[:school_id])
     end
 
     # Only allow a list of trusted parameters through.

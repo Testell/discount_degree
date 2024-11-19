@@ -8,6 +8,11 @@ class SchoolsController < ApplicationController
 
   # GET /schools/1 or /schools/1.json
   def show
+    @school = School.find(params[:id])
+    @degrees = @school.degrees
+    @degree = Degree.new(school: @school) 
+    @courses = @school.courses
+    @course = Course.new(school: @school)
   end
 
   # GET /schools/new
