@@ -21,13 +21,10 @@
 <div class="mt-4">
   <% if params[:section] == 'degrees' %>
     <h2>Degrees Offered</h2>
-    <ul>
-      <% @degrees.each do |degree| %>
-        <li>
-          <%= link_to degree.name, degree_path(degree) %>
-        </li>
-      <% end %>
-    </ul>
+      <ul id="degrees-list">
+        <%= render partial: 'degrees/degree_list_item', collection: @degrees, as: :degree %>
+      </ul>
+
 
     <h3>Add a Degree</h3>
     <%= render 'degrees/form', degree: @degree %>

@@ -1,6 +1,6 @@
 document.getElementById("degrees-list").insertAdjacentHTML(
   "beforeend",
-  "<li><%= j @degree.name %></li>"
+  "<%= j render(partial: 'degrees/degree_list_item', locals: { degree: @degree }) %>"
 );
 
 document.getElementById("new-degree-form").reset();
