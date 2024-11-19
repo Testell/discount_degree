@@ -28,16 +28,14 @@ class SchoolsController < ApplicationController
   # POST /schools or /schools.json
   def create
     @school = School.new(school_params)
-
+  
     respond_to do |format|
       if @school.save
-        format.html { redirect_to school_url(@school), notice: "School was successfully created." }
+        format.html { redirect_to school_path(@school), notice: "School was successfully created." }
         format.json { render :show, status: :created, location: @school }
-        format.js
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @school.errors, status: :unprocessable_entity }
-        format.js
       end
     end
   end
