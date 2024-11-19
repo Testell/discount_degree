@@ -1,14 +1,24 @@
+<%= form_with model: [@school, @degree], local: false, id: "new-degree-form" do |form| %>
+  <% if @degree.errors.any? %>
+    <div id="error_explanation">
+      <ul class="list-unstyled">
+        <% @degree.errors.full_messages.each do |message| %>
+          <li>
+            <div class="alert alert-danger" role="alert">
+              <%= message %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= simple_form_for(@degree) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :school_id %>
+  <div class="form-group">
+    <%= form.label :name, "Degree Name" %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="actions">
+    <%= form.submit "Add Degree", class: "btn btn-outline-primary btn-block" %>
   </div>
 <% end %>

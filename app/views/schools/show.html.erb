@@ -8,3 +8,39 @@
 
   <%= button_to "Destroy this school", @school, method: :delete %>
 </div>
+
+<ul class="nav nav-underline">
+  <li class="nav-item">
+    <a class="nav-link <%= params[:section] == 'courses' || params[:section].nil? ? 'active' : '' %>" href="?section=courses">Courses</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= params[:section] == 'degrees' ? 'active' : '' %>" href="?section=degrees">Degrees</a>
+  </li>
+</ul>
+
+<div class="mt-4">
+  <% if params[:section] == 'degrees' %>
+    <h2>Degrees Offered</h2>
+      <ul id="degrees-list">
+        <%= render partial: 'degrees/degree_list_item', collection: @degrees, as: :degree %>
+      </ul>
+
+
+    <h3>Add a Degree</h3>
+    <%= render 'degrees/form', degree: @degree %>
+  <% else %>
+    <h2>Courses Offered</h2>
+    <ul id="courses-list">
+      <% @courses.each do |course| %>
+        <li>
+          <%= link_to "#{course.name} - #{course.code} (#{course.credit_hours} credits)", course_path(course) %>
+        </li>
+      <% end %>
+    </ul>
+
+    <h3>Add a Course</h3>
+    <%= render 'courses/form', course: @course, school: @school %>
+  <% end %>
+</div>
+
+</div>

@@ -1,4 +1,4 @@
-<div id="<%= dom_id course %>">
+<div id="course_<%= course.id %>">
   <p>
     <strong>Credit hours:</strong>
     <%= course.credit_hours %>
@@ -6,7 +6,7 @@
 
   <p>
     <strong>School:</strong>
-    <%= course.school_id %>
+    <%= course.school.name %>
   </p>
 
   <p>
@@ -19,9 +19,18 @@
     <%= course.code %>
   </p>
 
-  <p>
-    <strong>Degree requirement:</strong>
-    <%= course.degree_requirement_id %>
-  </p>
-
+  <% if course.degree_requirements.any? %>
+    <p>
+      <strong>Degree Requirements:</strong>
+      <ul>
+        <% course.degree_requirements.each do |req| %>
+          <li>
+            <%= link_to req.name, degree_requirement_path(req) %> - Part of <%= req.degree.name %>
+          </li>
+        <% end %>
+      </ul>
+    </p>
+  <% else %>
+    <p><strong>Degree Requirements:</strong> Not yet assigned</p>
+  <% end %>
 </div>

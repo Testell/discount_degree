@@ -1,0 +1,6 @@
+document.getElementById("degrees-list").insertAdjacentHTML(
+  "beforeend",
+  "<%= j render(partial: 'degrees/degree_list_item', locals: { degree: @degree }) %>"
+);
+
+document.getElementById("new-degree-form").reset();
