@@ -33,7 +33,7 @@
     <%= render 'degrees/form', degree: @degree %>
   <% else %>
     <h2>Courses Offered</h2>
-    <ul>
+    <ul id="courses-list">
       <% @courses.each do |course| %>
         <li>
           <%= link_to "#{course.name} - #{course.code} (#{course.credit_hours} credits)", course_path(course) %>
