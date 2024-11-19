@@ -1,6 +1,4 @@
-const courseList = document.getElementById("courses-list");
-const newCourse = document.createElement("li");
-newCourse.textContent = "<%= j @course.name %> - <%= j @course.code %> (<%= j @course.credit_hours %> credits)";
-courseList.appendChild(newCourse);
+let courseList = document.getElementById("courses-list");
+courseList.insertAdjacentHTML('beforeend', "<%= j render(partial: 'courses/course_list_item', locals: { course: @course }) %>");
 
 document.getElementById("new-course-form").reset();

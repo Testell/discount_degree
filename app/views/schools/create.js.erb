@@ -1,4 +1,6 @@
-document.getElementById("school-info").innerHTML = `<h2>School: <%= j @school.name %></h2>`;
+document.querySelector("h1").innerHTML = "<%= j @school.name %>";
+
+document.getElementById("new-school-form").style.display = "none";
 
 document.getElementById("course-form").style.display = "block";
 
