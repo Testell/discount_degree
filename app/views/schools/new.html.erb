@@ -3,7 +3,6 @@
 <%= render "form", school: @school %>
 
 <div id="school-info" style="margin-top: 20px;">
-  
 </div>
 
 <div id="course-form" style="display: none; margin-top: 20px;">
@@ -13,7 +12,7 @@
 
   <h3>Courses in Department</h3>
   <ul id="courses-list">
-
+    <%= render partial: "courses/course_list_item", collection: @courses, as: :course %>
   </ul>
 </div>
 
