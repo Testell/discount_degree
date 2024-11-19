@@ -1,4 +1,6 @@
-let courseList = document.getElementById("courses-list");
-courseList.insertAdjacentHTML('beforeend', "<%= j render(partial: 'courses/course_list_item', locals: { course: @course }) %>");
+document.getElementById("courses-list").insertAdjacentHTML(
+  "beforeend",
+  "<%= j render(partial: 'courses/course_list_item', locals: { course: @course }) %>"
+);
 
 document.getElementById("new-course-form").reset();
