@@ -36,7 +36,7 @@
     <ul>
       <% @courses.each do |course| %>
         <li>
-          <%= course.name %> - <%= course.code %> (<%= course.credit_hours %> credits)
+          <%= link_to "#{course.name} - #{course.code} (#{course.credit_hours} credits)", course_path(course) %>
         </li>
       <% end %>
     </ul>
