@@ -8,8 +8,9 @@ Rails.application.routes.draw do
     resources :degrees, only: [:create]
     resources :courses, only: [:create]
   end
-
-  resources :degrees
+  resources :degrees do
+    resources :degree_requirements, only: [:create]
+  end
 
   # This is a blank app! Pick your first screen, build out the RCAV, and go from there. E.g.:
 

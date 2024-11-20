@@ -1,0 +1,6 @@
+document.getElementById("degree-requirements-list").insertAdjacentHTML(
+  "beforeend",
+  "<%= j render partial: 'degree_requirements/degree_requirement_list_item', locals: { degree_requirement: @degree_requirement } %>"
+);
+
+document.getElementById("new-degree-requirement-form").reset();

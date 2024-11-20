@@ -8,3 +8,11 @@
 
   <%= button_to "Destroy this degree", @degree, method: :delete %>
 </div>
+
+<h2>Degree Requirements</h2>
+<ul id="degree-requirements-list">
+  <%= render partial: "degree_requirements/degree_requirement_list_item", collection: @degree.degree_requirements, as: :degree_requirement %>
+</ul>
+
+<h2>Add a Requirement</h2>
+<%= render "degree_requirements/form", degree: @degree %>
