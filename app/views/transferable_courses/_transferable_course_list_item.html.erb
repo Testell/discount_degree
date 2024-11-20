@@ -1,0 +1,5 @@
+<li id="transferable_course_<%= transferable_course.id %>">
+  From: <%= transferable_course.from_course.name %>
+  To: <%= transferable_course.to_course.name %>
+  <%= link_to "Delete", transferable_course_path(transferable_course), method: :delete, remote: true, class: "btn btn-sm btn-danger" %>
+</li>

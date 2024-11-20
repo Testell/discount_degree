@@ -1,15 +1,28 @@
+<%= form_with(model: @transferable_course, local: false, html: { id: "new-transferable-course-form" }) do |form| %>
+  <% if @transferable_course.errors.any? %>
+    <div id="error_explanation">
+      <ul>
+        <% @transferable_course.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= simple_form_for(@transferable_course) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="form-inputs">
-    <%= f.input :from_course_id %>
-    <%= f.input :to_course_id %>
-    <%= f.input :degree_requirement_id %>
+  <div class="form-group">
+    <%= form.label :from_course_id, "From Course" %>
+    <%= form.collection_select :from_course_id, Course.all, :id, :name, {}, { class: "form-control" } %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="form-group">
+    <%= form.label :to_course_id, "To Course" %>
+    <%= form.collection_select :to_course_id, Course.all, :id, :name, {}, { class: "form-control" } %>
   </div>
+
+  <div class="form-group">
+    <%= form.label :degree_requirement_id, "Degree Requirement" %>
+    <%= form.collection_select :degree_requirement_id, DegreeRequirement.all, :id, :name, {}, { class: "form-control" } %>
+  </div>
+
+  <%= form.submit "Add Transferable Course", class: "btn btn-primary" %>
 <% end %>

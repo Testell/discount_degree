@@ -9,6 +9,9 @@ class CoursesController < ApplicationController
 
   # GET /courses/1 or /courses/1.json
   def show
+    @course = Course.find(params[:id])
+    @transferable_courses = @course.transferable_courses
+    @transferable_course = TransferableCourse.new(from_course: @course)
   end
 
   # GET /courses/new

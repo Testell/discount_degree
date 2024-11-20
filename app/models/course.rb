@@ -17,9 +17,14 @@ class Course < ApplicationRecord
 
   has_many :course_requirements, dependent: :destroy
   has_many :degree_requirements, through: :course_requirements
+
   has_many :start_transferable_courses, class_name: "TransferableCourse", foreign_key: "from_course_id", dependent: :destroy
   has_many :end_transferable_courses, class_name: "TransferableCourse", foreign_key: "to_course_id", dependent: :destroy
 
   validates :course_number, presence: true, numericality: { only_integer: true }
   validates :course_category, presence: true
+
+  def transferable_courses
+    start_transferable_courses + end_transferable_courses
+  end
 end

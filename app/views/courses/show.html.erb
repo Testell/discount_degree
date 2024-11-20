@@ -8,3 +8,13 @@
 
   <%= button_to "Destroy this course", @course, method: :delete %>
 </div>
+
+<h2>Transferable Courses</h2>
+<ul id="transferable-courses-list">
+  <% @transferable_courses.each do |transferable_course| %>
+    <%= render partial: "transferable_courses/transferable_course_list_item", locals: { transferable_course: transferable_course } %>
+  <% end %>
+</ul>
+
+<h3>Add a Transferable Course</h3>
+<%= render "transferable_courses/form", transferable_course: @transferable_course %>
