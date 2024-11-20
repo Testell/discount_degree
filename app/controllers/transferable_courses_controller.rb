@@ -27,6 +27,7 @@ class TransferableCoursesController < ApplicationController
       if @transferable_course.save
         format.html { redirect_to transferable_course_url(@transferable_course), notice: "Transferable course was successfully created." }
         format.json { render :show, status: :created, location: @transferable_course }
+        format.js
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @transferable_course.errors, status: :unprocessable_entity }
