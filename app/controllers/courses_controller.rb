@@ -12,6 +12,7 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:id])
     @transferable_courses = @course.transferable_courses
     @transferable_course = TransferableCourse.new(from_course: @course)
+    @schools = School.all
   end
 
   # GET /courses/new
