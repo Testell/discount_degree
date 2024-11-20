@@ -1,12 +1,13 @@
 <div id="course_<%= course.id %>">
+  
   <p>
-    <strong>Credit hours:</strong>
-    <%= course.credit_hours %>
+    <strong>Code:</strong>
+    <%= course.code %>
   </p>
 
   <p>
-    <strong>School:</strong>
-    <%= course.school.name %>
+    <strong>Number:</strong>
+    <%= course.course_number %>
   </p>
 
   <p>
@@ -15,8 +16,18 @@
   </p>
 
   <p>
-    <strong>Code:</strong>
-    <%= course.code %>
+    <strong>Credit hours:</strong>
+    <%= course.credit_hours %>
+  </p>
+
+  <p>
+    <strong>Category:</strong>
+    <%= course.course_category %>
+  </p>
+
+  <p>
+    <strong>School:</strong>
+    <%= course.school.name %>
   </p>
 
   <% if course.degree_requirements.any? %>
