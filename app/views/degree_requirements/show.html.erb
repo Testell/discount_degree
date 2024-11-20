@@ -8,3 +8,12 @@
 
   <%= button_to "Destroy this degree requirement", @degree_requirement, method: :delete %>
 </div>
+
+<h2>Course Requirements</h2>
+<ul id="course-requirements-list">
+  <%= render partial: "course_requirements/course_requirement_list_item", 
+             collection: @degree_requirement.course_requirements, as: :course_requirement %>
+</ul>
+
+<h3>Add a Course Requirement</h3>
+<%= render partial: "course_requirements/form", locals: { degree_requirement: @degree_requirement, course_requirement: CourseRequirement.new } %>

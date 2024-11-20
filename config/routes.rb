@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   resources :users
   resources :transferable_courses
   resources :courses
-  resources :degree_requirements
+  resources :degree_requirements do
+    resources :course_requirements, only: [:create]
+  end
   resources :schools do
     resources :degrees, only: [:create]
     resources :courses, only: [:create]
