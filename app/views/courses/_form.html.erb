@@ -19,6 +19,11 @@
     <button type="button" id="edit-course-code" class="btn btn-link" style="display: none;">Edit</button>
   </div>
 
+   <div class="form-group">
+    <%= form.label :course_number, "Course Number" %>
+    <%= form.number_field :course_number, class: "form-control" %>
+  </div>
+
   <div class="form-group">
     <%= form.label :name, "Course Name" %>
     <%= form.text_field :name, class: "form-control" %>
@@ -27,6 +32,11 @@
   <div class="form-group">
     <%= form.label :credit_hours, "Credit Hours" %>
     <%= form.number_field :credit_hours, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+  <%= form.label :course_category, "Course Category" %>
+  <%= form.text_field :course_category, class: "form-control" %>
   </div>
 
   <div class="actions">

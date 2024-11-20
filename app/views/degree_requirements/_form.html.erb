@@ -1,15 +1,30 @@
+<%= form_with(model: [@degree, DegreeRequirement.new], local: false, html: { id: "new-degree-requirement-form" }) do |form| %>
+  <% if @degree_requirement&.errors&.any? %>
+    <div id="error_explanation">
+      <ul>
+        <% @degree_requirement.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= simple_form_for(@degree_requirement) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :credit_hour_amount %>
-    <%= f.input :degree_id %>
+  <div>
+    <%= form.label :name, "Requirement Name" %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div>
+    <%= form.label :credit_hour_amount, "Credit Hour Amount" %>
+    <%= form.number_field :credit_hour_amount, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :is_choice_based, "Choice-Based?" %>
+    <%= form.check_box :is_choice_based %>
+  </div>
+
+  <div>
+    <%= form.submit "Add Requirement", class: "btn btn-primary" %>
   </div>
 <% end %>

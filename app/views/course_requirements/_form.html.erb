@@ -1,15 +1,25 @@
+<%= form_with(model: [@degree_requirement, CourseRequirement.new], local: false, html: { id: "new-course-requirement-form" }) do |form| %>
+  <% if @course_requirement&.errors&.any? %>
+    <div id="error_explanation">
+      <ul>
+        <% @course_requirement.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= simple_form_for(@course_requirement) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="form-inputs">
-    <%= f.input :course_id %>
-    <%= f.input :degree_requirement_id %>
-    <%= f.input :is_mandatory %>
+  <div>
+    <%= form.label :course_id, "Course" %>
+    <%= form.collection_select :course_id, Course.all, :id, :name, { prompt: "Select a course" }, class: "form-control" %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div>
+    <%= form.label :is_mandatory, "Mandatory?" %>
+    <%= form.check_box :is_mandatory %>
+  </div>
+
+  <div>
+    <%= form.submit "Add Course Requirement", class: "btn btn-primary" %>
   </div>
 <% end %>

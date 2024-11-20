@@ -1,0 +1,4 @@
+<li id="course-requirement-<%= course_requirement.id %>">
+  <%= link_to "#{course_requirement.course.name} (#{course_requirement.is_mandatory ? 'Mandatory' : 'Optional'})", 
+  course_path(course_requirement.course) %>
+</li>

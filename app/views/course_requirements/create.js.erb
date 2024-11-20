@@ -1,0 +1,6 @@
+document.getElementById("course-requirements-list").insertAdjacentHTML(
+  "beforeend",
+  "<%= j render partial: 'course_requirements/course_requirement_list_item', locals: { course_requirement: @course_requirement } %>"
+);
+
+document.getElementById("new-course-requirement-form").reset();
