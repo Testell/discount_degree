@@ -1,4 +1,5 @@
 class SchoolsController < ApplicationController
+  before_action { authorize(@school || School) }
   before_action :set_school, only: %i[ show edit update destroy ]
 
   # GET /schools or /schools.json
