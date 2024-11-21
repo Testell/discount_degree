@@ -1,4 +1,5 @@
 class CourseRequirementsController < ApplicationController
+  before_action { authorize(@course_requirement || CourseRequirement) }
   before_action :set_course_requirement, only: %i[destroy]
   before_action :set_degree_requirement, only: %i[create]
 
