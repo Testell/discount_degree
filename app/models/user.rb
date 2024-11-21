@@ -26,4 +26,10 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: %w[user admin] }
+
+  after_initialize :set_default_role, if: :new_record?
+
+  def set_default_role
+    self.role ||= 'user'
+  end
 end
