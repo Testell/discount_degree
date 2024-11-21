@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :course_requirements
   resources :users
   resources :transferable_courses
