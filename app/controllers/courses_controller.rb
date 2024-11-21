@@ -1,4 +1,5 @@
 class CoursesController < ApplicationController
+  before_action { authorize(@course || Course) }
   before_action :set_course, only: %i[ show edit update destroy ]
   before_action :set_school, only: [:create]
 

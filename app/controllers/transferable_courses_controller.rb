@@ -1,4 +1,5 @@
 class TransferableCoursesController < ApplicationController
+  before_action { authorize(@transferable_course || TransferableCourse) }
   before_action :set_transferable_course, only: %i[ show edit update destroy ]
 
   # GET /transferable_courses or /transferable_courses.json

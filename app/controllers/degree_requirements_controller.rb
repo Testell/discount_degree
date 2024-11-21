@@ -1,4 +1,5 @@
 class DegreeRequirementsController < ApplicationController
+  before_action { authorize(@degree_requirement || DegreeRequirement) }
   before_action :set_degree_requirement, only: %i[ show edit update destroy ]
   before_action :set_degree, only: [:create] 
 
