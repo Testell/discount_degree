@@ -7,6 +7,14 @@ class SchoolPolicy < ApplicationPolicy
     admin?
   end
 
+  def new?
+    admin?
+  end
+
+  def edit?
+    admin?
+  end
+
   def create?
     admin?
   end
