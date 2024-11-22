@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :degree_requirements, only: [:create]
   end
 
+  get "/plan_page" => "pages#plan_page"
   # This is a blank app! Pick your first screen, build out the RCAV, and go from there. E.g.:
 
   # get "/your_first_screen" => "pages#first"
