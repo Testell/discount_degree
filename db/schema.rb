@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_21_010330) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_27_022529) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,10 +22,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_21_010330) do
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_course_requirements_on_course_id"
     t.index ["degree_requirement_id"], name: "index_course_requirements_on_degree_requirement_id"
+    t.index ["is_mandatory"], name: "index_course_requirements_on_is_mandatory"
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string "credit_hours"
+    t.integer "credit_hours"
     t.integer "school_id"
     t.string "name"
     t.string "code"
@@ -41,7 +42,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_21_010330) do
     t.integer "degree_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_choice_based", default: false, null: false
   end
 
   create_table "degrees", force: :cascade do |t|
@@ -49,6 +49,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_21_010330) do
     t.integer "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.bigint "degree_id", null: false
+    t.bigint "starting_school_id", null: false
+    t.bigint "ending_school_id"
+    t.integer "total_cost", null: false
+    t.text "path", null: false
+    t.text "transferable_courses"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["degree_id"], name: "index_plans_on_degree_id"
+    t.index ["ending_school_id"], name: "index_plans_on_ending_school_id"
+    t.index ["starting_school_id"], name: "index_plans_on_starting_school_id"
   end
 
   create_table "schools", force: :cascade do |t|
@@ -85,4 +99,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_21_010330) do
 
   add_foreign_key "course_requirements", "courses"
   add_foreign_key "course_requirements", "degree_requirements"
+  add_foreign_key "plans", "degrees"
+  add_foreign_key "plans", "schools", column: "ending_school_id"
+  add_foreign_key "plans", "schools", column: "starting_school_id"
 end
