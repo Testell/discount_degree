@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_27_032105) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_27_182848) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -75,6 +75,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_27_032105) do
     t.integer "max_credits_from_university"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "full_time_tuition"
+    t.integer "part_time_tuition"
+    t.integer "single_course_tuition"
   end
 
   create_table "transferable_courses", force: :cascade do |t|

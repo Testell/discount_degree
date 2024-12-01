@@ -72,6 +72,16 @@ class SchoolsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def school_params
-      params.require(:school).permit(:name, :school_type, :credit_hour_price, :minimum_credits_from_school, :max_credits_from_community_college, :max_credits_from_university)
+      params.require(:school).permit(
+        :name, 
+        :school_type, 
+        :credit_hour_price, 
+        :full_time_tuition, 
+        :part_time_tuition, 
+        :single_course_tuition, 
+        :minimum_credits_from_school, 
+        :max_credits_from_community_college, 
+        :max_credits_from_university
+      )
     end
 end
