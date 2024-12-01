@@ -30,10 +30,6 @@ class Plan < ApplicationRecord
   belongs_to :starting_school, class_name: "School", foreign_key: "starting_school_id"
   belongs_to :ending_school, class_name: "School", foreign_key: "ending_school_id", optional: true
 
-  # Removed `serialize` for `term_assignments` since it's a `jsonb` column
-  # Removed `serialize` for `path` since it's a `jsonb` column
-
-  # Updated `serialize` syntax for `transferable_courses`
   serialize :transferable_courses, type: Array
   
   validates :total_cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
