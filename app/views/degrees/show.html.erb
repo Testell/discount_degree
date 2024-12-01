@@ -17,3 +17,38 @@
 
 <h2>Add a Requirement</h2>
 <%= render "degree_requirements/form", degree: @degree %>
+
+<h2 class="mt-5">Find Cheapest Plan</h2>
+<%= form_with url: admin_cheapest_plan_path(degree_id: @degree.id), local: true, id: "generate-plan-form", method: :post do |form| %>
+  <% if @degree.errors.any? %>
+    <div id="error_explanation">
+      <ul class="list-unstyled">
+        <% @degree.errors.full_messages.each do |message| %>
+          <li>
+            <div class="alert alert-danger" role="alert">
+              <%= message %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :starting_school_id, "Select Starting School" %>
+    <%= select_tag :starting_school_id, 
+                   options_from_collection_for_select(School.where(school_type: 'community_college'), :id, :name),
+                   class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :ending_school_id, "Select Ending School (Optional)" %>
+    <%= select_tag :ending_school_id, 
+                   options_from_collection_for_select(School.where(school_type: 'university'), :id, :name, include_blank: "None"),
+                   class: "form-control" %>
+  </div>
+
+  <div class="actions mt-3">
+    <%= form.submit "Generate Cheapest Plan", class: "btn btn-outline-primary btn-block" %>
+  </div>
+<% end %>

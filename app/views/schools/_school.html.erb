@@ -11,7 +11,22 @@
 
   <p>
     <strong>Credit hour price:</strong>
-    <%= school.credit_hour_price %>
+    <%= number_to_currency(school.credit_hour_price) %>
+  </p>
+
+  <p>
+    <strong>Full-time tuition (12+ credits):</strong>
+    <%= number_to_currency(school.full_time_tuition) %>
+  </p>
+
+  <p>
+    <strong>Part-time tuition (6-11 credits):</strong>
+    <%= number_to_currency(school.part_time_tuition) %>
+  </p>
+
+  <p>
+    <strong>Single course tuition:</strong>
+    <%= number_to_currency(school.single_course_tuition) %>
   </p>
 
   <p>
@@ -28,5 +43,4 @@
     <strong>Max credits from university:</strong>
     <%= school.max_credits_from_university %>
   </p>
-
 </div>

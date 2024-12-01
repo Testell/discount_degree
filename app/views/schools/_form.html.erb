@@ -29,6 +29,21 @@
   </div>
 
   <div class="form-group">
+    <%= form.label :full_time_tuition, "Full-Time Tuition (12+ credits)" %>
+    <%= form.number_field :full_time_tuition, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :part_time_tuition, "Part-Time Tuition (6-11 credits)" %>
+    <%= form.number_field :part_time_tuition, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :single_course_tuition, "Single Course Tuition (1 course)" %>
+    <%= form.number_field :single_course_tuition, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
     <%= form.label :minimum_credits_from_school, "Minimum Credits from School" %>
     <%= form.number_field :minimum_credits_from_school, class: "form-control" %>
   </div>

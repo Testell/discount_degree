@@ -1,10 +1,33 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @transferable_course %>
+<h3>Transferable Courses To Other Schools</h3>
+<% if @transferable_to_courses.any? %>
+  <ul>
+    <% @transferable_to_courses.each do |course| %>
+      <li>
+        <%= link_to course.name, course_path(course) %> (<%= course.school.name %>)
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No transferable courses available to other schools.</p>
+<% end %>
+
+<h3>Transferable Courses From Other Schools</h3>
+<% if @transferable_from_courses.any? %>
+  <ul>
+    <% @transferable_from_courses.each do |course| %>
+      <li>
+        <%= link_to course.name, course_path(course) %> (<%= course.school.name %>)
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No transferable courses available from other schools.</p>
+<% end %>
 
 <div>
-  <%= link_to "Edit this transferable course", edit_transferable_course_path(@transferable_course) %> |
-  <%= link_to "Back to transferable courses", transferable_courses_path %>
-
-  <%= button_to "Destroy this transferable course", @transferable_course, method: :delete %>
+  <%= link_to "Edit this course", edit_course_path(@course) %> |
+  <%= link_to "Back to courses", courses_path %>
+  <%= button_to "Destroy this course", @course, method: :delete, data: { confirm: "Are you sure?" } %>
 </div>
