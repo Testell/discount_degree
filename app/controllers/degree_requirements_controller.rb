@@ -75,6 +75,6 @@ class DegreeRequirementsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def degree_requirement_params
-      params.require(:degree_requirement).permit(:name, :credit_hour_amount, :is_choice_based, :degree_id)
+      params.require(:degree_requirement).permit(:name, :credit_hour_amount, :degree_id)
     end
 end

@@ -13,6 +13,7 @@
 #
 #  index_course_requirements_on_course_id              (course_id)
 #  index_course_requirements_on_degree_requirement_id  (degree_requirement_id)
+#  index_course_requirements_on_is_mandatory           (is_mandatory)
 #
 # Foreign Keys
 #
