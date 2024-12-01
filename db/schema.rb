@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_27_182848) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_01_020049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,10 +57,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_27_182848) do
     t.bigint "starting_school_id", null: false
     t.bigint "ending_school_id"
     t.integer "total_cost", null: false
-    t.text "path", null: false
+    t.jsonb "path", null: false
     t.text "transferable_courses"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "term_assignments", default: {}
     t.index ["degree_id"], name: "index_plans_on_degree_id"
     t.index ["ending_school_id"], name: "index_plans_on_ending_school_id"
     t.index ["starting_school_id"], name: "index_plans_on_starting_school_id"
@@ -75,9 +76,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_27_182848) do
     t.integer "max_credits_from_university"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "full_time_tuition"
-    t.integer "part_time_tuition"
-    t.integer "single_course_tuition"
+  end
+
+  create_table "terms", force: :cascade do |t|
+    t.string "name"
+    t.integer "credit_hour_minimum"
+    t.integer "credit_hour_maximum"
+    t.decimal "tuition_cost", precision: 10, scale: 2
+    t.bigint "school_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_terms_on_school_id"
   end
 
   create_table "transferable_courses", force: :cascade do |t|
@@ -106,4 +115,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_27_182848) do
   add_foreign_key "plans", "degrees"
   add_foreign_key "plans", "schools", column: "ending_school_id"
   add_foreign_key "plans", "schools", column: "starting_school_id"
+  add_foreign_key "terms", "schools"
 end
