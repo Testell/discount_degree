@@ -14,6 +14,8 @@ class SchoolsController < ApplicationController
     @degree = Degree.new(school: @school) 
     @courses = @school.courses
     @course = Course.new(school: @school)
+    @terms = @school.terms
+    @term = Term.new(school: @school)
   end
 
   # GET /schools/new

@@ -10,6 +10,7 @@ class DegreesController < ApplicationController
 
   # GET /degrees/1 or /degrees/1.json
   def show
+    @plans = @degree.plans.order(created_at: :desc)
   end
 
   # GET /degrees/new

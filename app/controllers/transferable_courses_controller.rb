@@ -9,6 +9,9 @@ class TransferableCoursesController < ApplicationController
 
   # GET /transferable_courses/1 or /transferable_courses/1.json
   def show
+    @transferable_to_courses = @transferable_course.from_course.transferable_to_courses
+    @transferable_from_courses = @transferable_course.from_course.transferable_from_courses
+    @course = @transferable_course.to_course
   end
 
   # GET /transferable_courses/new
