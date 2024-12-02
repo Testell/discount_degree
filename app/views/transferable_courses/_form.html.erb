@@ -9,16 +9,11 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :from_course_id, value: @course.id %>
+  <%= form.hidden_field :to_course_id, value: @course.id %>
 
   <div class="form-group">
-    <%= form.label :to_school_id, "Transfer School" %>
-    <%= select_tag :to_school_id, options_from_collection_for_select(@schools, :id, :name), class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :to_course_id, "Transfer Course" %>
-    <%= form.collection_select :to_course_id, Course.all, :id, :name, { prompt: "Select a course" }, { class: "form-control" } %>
+    <%= form.label :from_course_id, "Transferable Course" %>
+    <%= form.collection_select :from_course_id, @other_courses, :id, :name_with_school, { prompt: "Select a course" }, { class: "form-control" } %>
   </div>
 
   <%= form.submit "Add Transferable Course", class: "btn btn-primary" %>
