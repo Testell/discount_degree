@@ -9,10 +9,24 @@
     <%= school.school_type %>
   </p>
 
-  <p>
-    <strong>Credit hour price:</strong>
-    <%= school.credit_hour_price %>
-  </p>
+  <% if school.credit_hour_price.present? %>
+    <p>
+      <strong>Credit hour price:</strong>
+      <%= number_to_currency(school.credit_hour_price) %>
+    </p>
+  <% end %>
+
+  <% if school.terms.any? %>
+    <h4>Tuition Costs by Term:</h4>
+    <ul>
+      <% school.terms.each do |term| %>
+        <li>
+          <strong><%= term.name %> (Credits: <%= term.credit_hour_minimum %> - <%= term.credit_hour_maximum %>):</strong>
+          <%= number_to_currency(term.tuition_cost) %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 
   <p>
     <strong>Minimum credits from school:</strong>
@@ -28,5 +42,4 @@
     <strong>Max credits from university:</strong>
     <%= school.max_credits_from_university %>
   </p>
-
 </div>

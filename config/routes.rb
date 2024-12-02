@@ -1,24 +1,36 @@
 Rails.application.routes.draw do
   devise_for :users
+
   resources :course_requirements
+
   resources :transferable_courses
+
   resources :courses do
     resources :transferable_courses
   end
+
   resources :degree_requirements do
     resources :course_requirements, only: [:create]
   end
+
   resources :schools do
     resources :degrees, only: [:create]
     resources :courses, only: [:create]
+    resources :terms, except: [:show]
   end
+
+  resources :terms
+  
   resources :degrees do
     resources :degree_requirements, only: [:create]
+    post 'generate_cheapest_plan', to: 'admin_cheapest_plan#create', as: 'generate_cheapest_plan', on: :member
   end
 
-  get "/plan_page" => "pages#plan_page"
-  # This is a blank app! Pick your first screen, build out the RCAV, and go from there. E.g.:
+  resources :plans
 
-  # get "/your_first_screen" => "pages#first"
+  get '/plan_page', to: 'pages#plan_page', as: 'plan_page'
+
+  post '/generate_plan', to: 'pages#generate_plan', as: 'generate_plan'
+
   root "pages#home" 
 end

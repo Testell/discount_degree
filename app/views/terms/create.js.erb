@@ -1,0 +1,6 @@
+document.getElementById("terms-list").insertAdjacentHTML(
+  "beforeend",
+  "<%= j render(partial: 'terms/term_list_item', locals: { term: @term }) %>"
+);
+
+document.getElementById("new-term-form").reset();

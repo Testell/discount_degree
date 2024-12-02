@@ -16,18 +16,30 @@
   <li class="nav-item">
     <a class="nav-link <%= params[:section] == 'degrees' ? 'active' : '' %>" href="?section=degrees">Degrees</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link <%= params[:section] == 'terms' ? 'active' : '' %>" href="?section=terms">Terms</a>
+  </li>
 </ul>
 
 <div class="mt-4">
   <% if params[:section] == 'degrees' %>
     <h2>Degrees Offered</h2>
-      <ul id="degrees-list">
-        <%= render partial: 'degrees/degree_list_item', collection: @degrees, as: :degree %>
-      </ul>
-
+    <ul id="degrees-list">
+      <%= render partial: 'degrees/degree_list_item', collection: @degrees, as: :degree %>
+    </ul>
 
     <h3>Add a Degree</h3>
     <%= render 'degrees/form', degree: @degree %>
+
+  <% elsif params[:section] == 'terms' %>
+    <h2>Terms</h2>
+    <ul id="terms-list">
+      <%= render partial: 'terms/term_list_item', collection: @school.terms, as: :term %>
+    </ul>
+
+    <h3>Add a Term</h3>
+    <%= render 'terms/form', term: @term, school: @school %>
+
   <% else %>
     <h2>Courses Offered</h2>
     <ul id="courses-list">
@@ -41,6 +53,4 @@
     <h3>Add a Course</h3>
     <%= render 'courses/form', course: @course, school: @school %>
   <% end %>
-</div>
-
 </div>

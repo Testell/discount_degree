@@ -13,3 +13,43 @@
  *= require_tree .
  *= require_self
  */
+ body {
+  background-color: #f8eee7; /* Reversed from #f9f5f0 */
+  color: #343434; /* Optional: Set a default text color for readability */
+}
+
+.custom-navbar {
+  background-color: #f9f5f0; /* Set the navbar background color */
+}
+
+.custom-card {
+  background-color: #f9f5f0; /* Reversed from #e4d7ce */
+  color: #343434; /* Optional: Adjust text color for better contrast */
+}
+
+.form-select {
+  background-color: #f8eee7; /* Reversed from #f9f5f0 */
+  color: #343434; /* Dark text for contrast */
+}
+
+.form-select:focus {
+  outline: none; /* Removes the default outline */
+  box-shadow: 0 0 0 0.25rem rgba(52, 52, 52, 0.5);
+}
+
+.custom-btn {
+  background-color: #f8eee7; /* Reversed from #f9f5f0 */
+  color: #333; /* Optional: Dark text for contrast */
+  border: 1px solid #ccc; /* Optional: Add a subtle border */
+}
+
+.custom-btn:hover {
+  background-color: #f8eee7; /* Slightly darker shade for hover */
+  color: #000; /* Optional: Ensure text remains readable */
+  border-color: #bbb; /* Optional: Darken border on hover */
+}
+
+.custom-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(228, 215, 206, 0.5); /* Reversed to match #e4d7ce */
+}

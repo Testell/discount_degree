@@ -1,0 +1,50 @@
+<div id="<%= dom_id plan %>">
+  <p>
+    <strong>Plan ID:</strong>
+    <%= plan.id %>
+  </p>
+
+  <p>
+    <strong>Total Cost:</strong>
+    $<%= number_with_precision(plan.total_cost, precision: 2) %>
+  </p>
+
+   <p>
+    <strong>Total Credit Hours:</strong>
+    <%= plan.total_credit_hours %>
+  </p>
+
+  <p>
+    <strong>Path:</strong>
+    <%= plan.path.join(' → ') %>
+  </p>
+
+  <p>
+    <strong>Starting School:</strong>
+    <%= plan.starting_school.name %>
+  </p>
+
+  <p>
+    <strong>Ending School:</strong>
+    <%= plan.ending_school.name %>
+  </p>
+
+  <h4>Term Assignments</h4>
+  <ul class="list-group">
+    <% plan.term_assignments.each do |term| %>
+      <li class="list-group-item">
+        <strong>Term <%= term['term_number'] %>:</strong> <%= term['term_name'] %> at <%= term['school_name'] %>
+        <br>
+        <strong>Courses:</strong>
+        <ul>
+          <% term['courses'].each do |course_name| %>
+            <li><%= course_name %></li>
+          <% end %>
+        </ul>
+        <strong>Credit Hours:</strong> <%= term['credit_hours'] %>
+        <br>
+        <strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %>
+      </li>
+    <% end %>
+  </ul>
+</div>

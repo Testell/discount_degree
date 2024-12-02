@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
   before_action { authorize(@course || Course) }
-  before_action :set_course, only: %i[ show edit update destroy ]
+  before_action :set_course, only: %i[show edit update destroy]
   before_action :set_school, only: [:create]
 
   # GET /courses or /courses.json
@@ -11,18 +11,14 @@ class CoursesController < ApplicationController
   # GET /courses/1 or /courses/1.json
   def show
     @course = Course.find(params[:id])
-    @transferable_courses = @course.transferable_courses
-    @transferable_course = TransferableCourse.new(from_course: @course)
-    @schools = School.all
+    @transferable_courses = @course.end_transferable_courses || []
+    @transferable_course = TransferableCourse.new(to_course: @course)
+    @other_courses = Course.where.not(school_id: @course.school_id)
   end
 
   # GET /courses/new
   def new
     @course = Course.new
-  end
-
-  # GET /courses/1/edit
-  def edit
   end
 
   # POST /courses or /courses.json
@@ -31,7 +27,7 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to course_url(@course), notice: "Course was successfully created." }
+        format.html { redirect_to @course, notice: "Course was successfully created." }
         format.json { render :show, status: :created, location: @course }
         format.js
       else
@@ -48,6 +44,7 @@ class CoursesController < ApplicationController
       if @course.update(course_params)
         format.html { redirect_to course_url(@course), notice: "Course was successfully updated." }
         format.json { render :show, status: :ok, location: @course }
+        format.js
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @course.errors, status: :unprocessable_entity }
@@ -65,27 +62,17 @@ class CoursesController < ApplicationController
     end
   end
 
-  def filter_by_code
-    @school = School.find(params[:school_id])
-    @code = params[:code]
-    @courses = @school.courses.where(code: @code)
-    respond_to do |format|
-      format.js 
-    end
+  private
+
+  def set_course
+    @course = Course.find(params[:id])
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_course
-      @course = Course.find(params[:id])
-    end
+  def set_school
+    @school = School.find(params[:school_id]) 
+  end
 
-    def set_school
-      @school = School.find(params[:school_id]) 
-    end
-
-    # Only allow a list of trusted parameters through.
-    def course_params
-      params.require(:course).permit(:credit_hours, :school_id, :name, :code, :degree_requirement_id, :course_number, :course_category)
-    end    
+  def course_params
+    params.require(:course).permit(:department, :category, :code, :course_number, :name, :credit_hours, :school_id)
+  end   
 end

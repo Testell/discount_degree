@@ -1,0 +1,39 @@
+<%= form_with model: [@school, @term], local: false, id: "new-term-form" do |form| %>
+  <% if @term.errors.any? %>
+    <div id="error_explanation">
+      <ul class="list-unstyled">
+        <% @term.errors.full_messages.each do |message| %>
+          <li>
+            <div class="alert alert-danger" role="alert">
+              <%= message %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, "Term Name" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :credit_hour_minimum %>
+    <%= form.number_field :credit_hour_minimum, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :credit_hour_maximum %>
+    <%= form.number_field :credit_hour_maximum, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :tuition_cost %>
+    <%= form.number_field :tuition_cost, step: 0.01, class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Add Term", class: "btn btn-outline-primary btn-block" %>
+  </div>
+<% end %>
