@@ -19,36 +19,70 @@
 <%= render "degree_requirements/form", degree: @degree %>
 
 <h2 class="mt-5">Find Cheapest Plan</h2>
-<%= form_with url: admin_cheapest_plan_path(degree_id: @degree.id), local: true, id: "generate-plan-form", method: :post do |form| %>
-  <% if @degree.errors.any? %>
-    <div id="error_explanation">
-      <ul class="list-unstyled">
-        <% @degree.errors.full_messages.each do |message| %>
-          <li>
-            <div class="alert alert-danger" role="alert">
-              <%= message %>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+<%= form_with url: generate_cheapest_plan_degree_path(@degree), local: true, method: :post, scope: :plan do |form| %>
+  <% if flash[:alert] %>
+    <div class="alert alert-danger"><%= flash[:alert] %></div>
   <% end %>
 
   <div class="form-group">
     <%= form.label :starting_school_id, "Select Starting School" %>
-    <%= select_tag :starting_school_id, 
-                   options_from_collection_for_select(School.where(school_type: 'community_college'), :id, :name),
-                   class: "form-control", required: true %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :ending_school_id, "Select Ending School (Optional)" %>
-    <%= select_tag :ending_school_id, 
-                   options_from_collection_for_select(School.where(school_type: 'university'), :id, :name, include_blank: "None"),
-                   class: "form-control" %>
+    <%= form.select :starting_school_id,
+                    options_from_collection_for_select(School.where(school_type: 'community_college'), :id, :name),
+                    { prompt: "Select Starting School" }, class: "form-control", required: true %>
   </div>
 
   <div class="actions mt-3">
     <%= form.submit "Generate Cheapest Plan", class: "btn btn-outline-primary btn-block" %>
   </div>
+<% end %>
+
+<h2 class="mt-5">Generated Plan</h2>
+<% if @plans.any? %>
+  <% latest_plan = @plans.first %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <p>
+        <strong>Plan ID:</strong> <%= latest_plan.id %>
+      </p>
+      <p>
+        <strong>Total Cost:</strong> $<%= number_with_precision(latest_plan.total_cost, precision: 2) %>
+      </p>
+      <p>
+      <strong>Total Credit Hours:</strong>
+         <%= latest_plan.total_credit_hours %>
+      </p>
+      <p>
+        <strong>Path:</strong> <%= latest_plan.path.join(' → ') %>
+      </p>
+      <p>
+        <strong>Starting School:</strong> <%= latest_plan.starting_school.name %>
+      </p>
+      <p>
+        <strong>Ending School:</strong> <%= latest_plan.ending_school.name %>
+      </p>
+
+      <h4>Term Assignments</h4>
+      <ul class="list-group">
+        <% latest_plan.term_assignments.each do |term| %>
+          <li class="list-group-item">
+            <strong>Term <%= term['term_number'] %>:</strong> <%= term['term_name'] %> at <%= term['school_name'] %>
+            <br>
+            <strong>Courses:</strong>
+            <ul>
+              <% term['courses'].each do |course_name| %>
+                <li><%= course_name %></li>
+              <% end %>
+            </ul>
+            <strong>Credit Hours:</strong> <%= term['credit_hours'] %>
+            <br>
+            <strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %>
+          </li>
+        <% end %>
+      </ul>
+
+      <%= link_to 'View Plan', plan_path(latest_plan), class: 'btn btn-sm btn-primary mt-3' %>
+    </div>
+  </div>
+<% else %>
+  <p>No plans have been generated for this degree yet.</p>
 <% end %>
