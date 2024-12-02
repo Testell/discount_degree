@@ -1,0 +1,44 @@
+<div class="container text-center pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow custom-card mx-auto">
+        <div class="card-body">
+          <h1 class="card-title mb-4">Generate Your Plan</h1>
+
+          <%= form_with url: generate_plan_path, method: :post, local: true do |form| %>
+            <!-- Degree Dropdown -->
+            <div class="mb-3 row justify-content-center">
+              <div class="col-md-6">
+                <%= form.label :degree_id, 'Choose Degree:', class: 'form-label' %>
+                <%= form.collection_select :degree_id, @degrees, :id, :name, { prompt: 'Select Degree' }, { class: 'form-select custom-dropdown' } %>
+              </div>
+            </div>
+
+            <!-- Starting School Dropdown -->
+            <div class="mb-3 row justify-content-center">
+              <div class="col-md-6">
+                <%= form.label :starting_school_id, 'Choose Starting Community College:', class: 'form-label' %>
+                <%= form.collection_select :starting_school_id, @community_colleges, :id, :name, { prompt: 'Select Community College' }, { class: 'form-select custom-dropdown' } %>
+              </div>
+            </div>
+
+            <!-- Ending School Dropdown -->
+            <div class="mb-3 row justify-content-center">
+              <div class="col-md-6">
+                <%= form.label :ending_school_id, 'Choose Ending University:', class: 'form-label' %>
+                <%= form.collection_select :ending_school_id, @universities, :id, :name, { prompt: 'Select University' }, { class: 'form-select custom-dropdown' } %>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="row justify-content-center">
+              <div class="col-md-6 text-center">
+                <%= form.submit 'Generate Plan', class: 'btn custom-btn' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
