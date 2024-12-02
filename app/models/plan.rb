@@ -34,4 +34,8 @@ class Plan < ApplicationRecord
   
   validates :total_cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :path, presence: true
+
+  def total_credit_hours
+    term_assignments.sum { |term| term['credit_hours'].to_f }
+  end
 end

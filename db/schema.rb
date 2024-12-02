@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_01_020049) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_01_225555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,7 +26,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_01_020049) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.integer "credit_hours"
+    t.decimal "credit_hours", precision: 5, scale: 4
     t.integer "school_id"
     t.string "name"
     t.string "code"
