@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_01_225555) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_03_022421) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_01_225555) do
     t.integer "school_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "optional_course_slots", force: :cascade do |t|
+    t.bigint "plan_id", null: false
+    t.bigint "degree_requirement_id", null: false
+    t.integer "term_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["degree_requirement_id"], name: "index_optional_course_slots_on_degree_requirement_id"
+    t.index ["plan_id"], name: "index_optional_course_slots_on_plan_id"
   end
 
   create_table "plans", force: :cascade do |t|
@@ -96,6 +106,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_01_225555) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_plans", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "plan_id", null: false
+    t.bigint "optional_course_slot_id", null: false
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_user_plans_on_course_id"
+    t.index ["optional_course_slot_id"], name: "index_user_plans_on_optional_course_slot_id"
+    t.index ["plan_id"], name: "index_user_plans_on_plan_id"
+    t.index ["user_id", "optional_course_slot_id"], name: "index_user_plans_on_user_id_and_optional_course_slot_id", unique: true
+    t.index ["user_id"], name: "index_user_plans_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "username"
@@ -112,8 +136,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_01_225555) do
 
   add_foreign_key "course_requirements", "courses"
   add_foreign_key "course_requirements", "degree_requirements"
+  add_foreign_key "optional_course_slots", "degree_requirements"
+  add_foreign_key "optional_course_slots", "plans"
   add_foreign_key "plans", "degrees"
   add_foreign_key "plans", "schools", column: "ending_school_id"
   add_foreign_key "plans", "schools", column: "starting_school_id"
   add_foreign_key "terms", "schools"
+  add_foreign_key "user_plans", "courses"
+  add_foreign_key "user_plans", "optional_course_slots"
+  add_foreign_key "user_plans", "plans"
+  add_foreign_key "user_plans", "users"
 end
