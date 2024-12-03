@@ -30,12 +30,18 @@ class Plan < ApplicationRecord
   belongs_to :starting_school, class_name: "School", foreign_key: "starting_school_id"
   belongs_to :ending_school, class_name: "School", foreign_key: "ending_school_id", optional: true
 
+  has_many :optional_course_slots, dependent: :destroy
+  has_many :user_plans, dependent: :destroy
+  has_many :selected_courses, through: :user_plans, source: :course
+
   serialize :transferable_courses, type: Array
   
   validates :total_cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :path, presence: true
 
   def total_credit_hours
-    term_assignments.sum { |term| term['credit_hours'].to_f }
+    mandatory_credits = term_assignments.sum { |term| term['credit_hours'].to_f }
+    optional_credits = selected_courses.sum { |course| course.credit_hours }
+    mandatory_credits + optional_credits
   end
 end
