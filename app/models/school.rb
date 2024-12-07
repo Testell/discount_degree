@@ -7,8 +7,8 @@
 #  max_credits_from_community_college :integer
 #  max_credits_from_university        :integer
 #  minimum_credits_from_school        :integer
-#  name                               :string
-#  school_type                        :string
+#  name                               :string           not null
+#  school_type                        :string           not null
 #  created_at                         :datetime         not null
 #  updated_at                         :datetime         not null
 #

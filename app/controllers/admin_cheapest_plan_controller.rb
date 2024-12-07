@@ -49,7 +49,7 @@ class AdminCheapestPlanController < ApplicationController
         respond_to do |format|
           format.html { redirect_to degree_path(@degree), notice: 'Plan generated successfully.' }
           format.json { render :show, status: :created, location: @plan }
-          format.js   # Optionally render create.js.erb for AJAX
+          format.js   
         end
       else
         Rails.logger.error "Failed to save plan: #{@plan.errors.full_messages.join(', ')}"

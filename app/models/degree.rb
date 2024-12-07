@@ -3,10 +3,18 @@
 # Table name: degrees
 #
 #  id         :bigint           not null, primary key
-#  name       :string
+#  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  school_id  :integer
+#  school_id  :bigint           not null
+#
+# Indexes
+#
+#  index_degrees_on_school_id  (school_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (school_id => schools.id)
 #
 class Degree < ApplicationRecord
 has_many  :degree_requirements, class_name: "DegreeRequirement", foreign_key: "degree_id", dependent: :destroy
