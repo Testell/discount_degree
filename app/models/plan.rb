@@ -33,6 +33,9 @@ class Plan < ApplicationRecord
   belongs_to :starting_school, class_name: "School", foreign_key: "starting_school_id"
   belongs_to :ending_school, class_name: "School", foreign_key: "ending_school_id", optional: true
 
+  has_many :saved_plans, dependent: :destroy
+  has_many :users, through: :saved_plans
+
   validates :total_cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def path

@@ -36,5 +36,25 @@
     <% else %>
       <p>No term assignments available</p>
     <% end %>
+
+    <div class="mt-4">
+      <% if user_signed_in? && current_user == @user %>
+        <% if current_user.plans.include?(plan) %>
+          <%= link_to 'Unsave Plan', 
+              remove_saved_plan_user_path(current_user, plan_id: plan.id), 
+              class: "btn btn-danger",
+              data: { turbo_method: :delete } %>
+        <% else %>
+          <%= link_to 'Save Plan', 
+              save_plan_user_path(current_user, plan_id: plan.id), 
+              class: "btn btn-primary",
+              data: { turbo_method: :post } %>
+        <% end %>
+      <% else %>
+        <%= link_to 'Save Plan', 
+            prompt_save_plan_path(plan_id: plan.id), 
+            class: "btn btn-primary" %>
+      <% end %>
+    </div>
   </div>
 </div>
