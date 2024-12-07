@@ -13,43 +13,76 @@
  *= require_tree .
  *= require_self
  */
+
+
+
+#home-page, #nav {
+  font-family: "Darker Grotesque", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
  body {
-  background-color: #f8eee7; /* Reversed from #f9f5f0 */
-  color: #343434; /* Optional: Set a default text color for readability */
+  background-color: #f8eee7; 
+  color: #343434; 
 }
 
 .custom-navbar {
-  background-color: #f9f5f0; /* Set the navbar background color */
+  background-color: #f9f5f0; 
 }
 
+.purple{
+  color: #94618E;
+}
 .custom-card {
-  background-color: #f9f5f0; /* Reversed from #e4d7ce */
-  color: #343434; /* Optional: Adjust text color for better contrast */
+  background-color: #f9f5f0; 
+  color: #343434; 
 }
 
 .form-select {
-  background-color: #f8eee7; /* Reversed from #f9f5f0 */
-  color: #343434; /* Dark text for contrast */
+  background-color: #f8eee7; 
+  color: #343434; 
 }
 
 .form-select:focus {
-  outline: none; /* Removes the default outline */
+  outline: none;
   box-shadow: 0 0 0 0.25rem rgba(52, 52, 52, 0.5);
 }
 
 .custom-btn {
-  background-color: #f8eee7; /* Reversed from #f9f5f0 */
-  color: #333; /* Optional: Dark text for contrast */
-  border: 1px solid #ccc; /* Optional: Add a subtle border */
+  background-color: #f8eee7; 
+  color: #333; 
+  border: 1px solid #ccc; 
 }
 
 .custom-btn:hover {
-  background-color: #f8eee7; /* Slightly darker shade for hover */
-  color: #000; /* Optional: Ensure text remains readable */
-  border-color: #bbb; /* Optional: Darken border on hover */
+  background-color: #f8eee7; 
+  color: #000; 
+  border-color: #bbb; 
 }
 
 .custom-btn:focus {
   outline: none;
-  box-shadow: 0 0 0 0.25rem rgba(228, 215, 206, 0.5); /* Reversed to match #e4d7ce */
+  box-shadow: 0 0 0 0.25rem rgba(228, 215, 206, 0.5); 
+}
+
+
+.custom-btn-2 {
+  background-color: #f9f5f0; 
+  color: #343434;          
+  border: 1px solid #343434; 
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; 
+}
+
+.custom-btn-2:hover {
+  background-color: #f9f5f0; 
+  color: #000;            
+  border-color: #343434;   
+  box-shadow: 0 0 10px rgba(52, 52, 52, 0.5); 
+}
+
+.custom-btn-2:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(52, 52, 52, 0.2); 
 }
