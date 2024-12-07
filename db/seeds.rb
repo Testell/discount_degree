@@ -38,7 +38,7 @@ if Rails.env.development?
   ccc = School.create!(
     name: "City Colleges of Chicago",
     school_type: "community_college",
-    credit_hour_price: 153.00, # Use credit hour price for calculations
+    credit_hour_price: 153.00,
     max_credits_from_community_college: 66,
     minimum_credits_from_school: 0
   )
@@ -47,7 +47,7 @@ if Rails.env.development?
   uic = School.create!(
     name: "University of Illinois Chicago",
     school_type: "university",
-    credit_hour_price: nil, # Will use term tuition costs based on credit hours
+    credit_hour_price: nil,
     max_credits_from_community_college: 60,
     max_credits_from_university: 60,
     minimum_credits_from_school: 0
@@ -57,7 +57,7 @@ if Rails.env.development?
   depaul = School.create!(
     name: "DePaul",
     school_type: "university",
-    credit_hour_price: 1194.00, # Adjusted per semester hour
+    credit_hour_price: 1194.00,
     max_credits_from_community_college: 66,
     max_credits_from_university: 88,
     minimum_credits_from_school: 40
@@ -65,43 +65,31 @@ if Rails.env.development?
 
   # 2. Add Terms to Schools
 
-  ## CCC Terms (Use credit hour price; term tuition costs set to zero)
+  ## CCC Terms
   ccc.terms.create!([
     { name: "Regular Term", credit_hour_minimum: 1, credit_hour_maximum: 18, tuition_cost: 0.00 }
   ])
 
-  ## UIC Terms (Tuition changes by credit hour amount)
+  ## UIC Terms
   uic.terms.create!([
     { name: "1-5 Credits", credit_hour_minimum: 1, credit_hour_maximum: 5, tuition_cost: 1863.00 },
     { name: "6-11 Credits", credit_hour_minimum: 6, credit_hour_maximum: 11, tuition_cost: 3726.00 },
     { name: "12-18 Credits", credit_hour_minimum: 12, credit_hour_maximum: 18, tuition_cost: 5589.00 }
   ])
 
-  ## DePaul Terms (Adjusted to semester hours)
+  ## DePaul Terms
   depaul.terms.create!([
-    {
-      name: "Full-time",
-      credit_hour_minimum: 12.0,
-      credit_hour_maximum: 18.0,
-      tuition_cost: 15535.00
-    },
-    {
-      name: "Part-time",
-      credit_hour_minimum: 1.0,
-      credit_hour_maximum: 11.0,
-      tuition_cost: 0.00
-    }
+    { name: "Full-time", credit_hour_minimum: 12.0, credit_hour_maximum: 18.0, tuition_cost: 15535.00 },
+    { name: "Part-time", credit_hour_minimum: 1.0, credit_hour_maximum: 11.0, tuition_cost: 0.00 }
   ])
 
   # 3. Create Degree at DePaul
-
   degree = Degree.create!(
     name: "Computer Science - Artificial Intelligence",
     school: depaul
   )
 
-  # 4. Create Degree Requirements (Adjusted to 51, 64, and 14 credits)
-
+  # 4. Create Degree Requirements
   liberal_studies = DegreeRequirement.create!(
     name: "Liberal Studies",
     credit_hour_amount: 51.0,
@@ -120,13 +108,47 @@ if Rails.env.development?
     degree: degree
   )
 
+  # Helper method to generate department code
+  def get_department_code(course_name)
+    case course_name.downcase
+    when /compos|writing|english|literature/
+      "ENG"
+    when /ethic|philosoph/
+      "PHL"
+    when /history/
+      "HST"
+    when /psycholog/
+      "PSY"
+    when /sociolog/
+      "SOC"
+    when /speech|speaking|communication/
+      "CMN"
+    when /art/
+      "ART"
+    when /music/
+      "MUS"
+    when /environment|biology|science/
+      "SCI"
+    when /statistic|algebra|calculus|mathematics|linear/
+      "MAT"
+    when /computer|programming|software|data|algorithm/
+      "CSC"
+    when /business/
+      "BUS"
+    when /economic/
+      "ECO"
+    when /marketing/
+      "MKT"
+    else
+      "GEN"
+    end
+  end
+
   # 5. Create Courses and Link to Degree Requirements
 
   # DePaul Courses
   depaul_courses = []
-
-  # DePaul course credit hours (standardized to semester hours)
-  depaul_course_credit_hours = 4.0
+  course_number_counter = 100
 
   # Liberal Studies Courses at DePaul
   liberal_studies_courses = [
@@ -145,17 +167,18 @@ if Rails.env.development?
     "Introduction to Statistics"
   ]
 
-  # Calculate the number of courses needed to meet 51 credits
-  # Total credits from existing courses: 13 courses * 4.0 credits = 52 credits
-  # Since 52 >= 51, we can proceed with these courses
-
   liberal_studies_courses.each do |course_name|
+    department = get_department_code(course_name)
     course = Course.create!(
       name: course_name,
-      credit_hours: depaul_course_credit_hours,
+      code: department,
+      department: department,
+      course_number: course_number_counter,
+      credit_hours: 4.0,
       school: depaul,
       category: "Liberal Studies"
     )
+    course_number_counter += 1
     depaul_courses << course
 
     CourseRequirement.create!(
@@ -164,6 +187,9 @@ if Rails.env.development?
       is_mandatory: false
     )
   end
+
+  # Reset counter for major courses
+  course_number_counter = 200
 
   # Major and Concentration Courses at DePaul
   major_courses = [
@@ -185,16 +211,18 @@ if Rails.env.development?
     "Capstone Project II"
   ]
 
-  # Calculate total credits from existing courses
-  # 16 courses * 4.0 credits = 64 credits
-
   major_courses.each do |course_name|
+    department = get_department_code(course_name)
     course = Course.create!(
       name: course_name,
-      credit_hours: depaul_course_credit_hours,
+      code: department,
+      department: department,
+      course_number: course_number_counter,
+      credit_hours: 4.0,
       school: depaul,
       category: "Major Requirements"
     )
+    course_number_counter += 1
     depaul_courses << course
 
     CourseRequirement.create!(
@@ -204,6 +232,9 @@ if Rails.env.development?
     )
   end
 
+  # Reset counter for electives
+  course_number_counter = 300
+
   # Open Elective Courses at DePaul
   open_elective_courses = [
     "Advanced Topics in CS",
@@ -212,15 +243,18 @@ if Rails.env.development?
     "Cloud Computing"
   ]
 
-  # Calculate total credits: 4 courses * 4.0 credits = 16 credits (>14 credits needed)
-
   open_elective_courses.each do |course_name|
+    department = get_department_code(course_name)
     course = Course.create!(
       name: course_name,
-      credit_hours: depaul_course_credit_hours,
+      code: department,
+      department: department,
+      course_number: course_number_counter,
+      credit_hours: 4.0,
       school: depaul,
       category: "Open Electives"
     )
+    course_number_counter += 1
     depaul_courses << course
 
     CourseRequirement.create!(
@@ -230,13 +264,11 @@ if Rails.env.development?
     )
   end
 
-  # 6. Create Equivalent Courses at CCC and UIC
+  # Reset counter for CCC courses
+  course_number_counter = 100
 
-  # CCC Courses (66 credits)
+  # CCC Courses
   ccc_courses = []
-
-  # CCC course credit hours (standardized to semester hours)
-  ccc_course_credit_hours = 3.0
 
   # CCC Liberal Studies Courses
   ccc_liberal_studies_courses = [
@@ -256,17 +288,23 @@ if Rails.env.development?
     "Cultural Anthropology"
   ]
 
-  # Total credits: 14 courses * 3.0 credits = 42 credits
-
   ccc_liberal_studies_courses.each do |course_name|
+    department = get_department_code(course_name)
     course = Course.create!(
       name: course_name,
-      credit_hours: ccc_course_credit_hours,
+      code: department,
+      department: department,
+      course_number: course_number_counter,
+      credit_hours: 3.0,
       school: ccc,
       category: "Liberal Studies"
     )
+    course_number_counter += 1
     ccc_courses << course
   end
+
+  # Reset counter for major courses
+  course_number_counter = 200
 
   # CCC Major Courses
   ccc_major_courses = [
@@ -281,19 +319,25 @@ if Rails.env.development?
     "Data Structures"
   ]
 
-  # Total credits: 9 courses * 3.0 credits = 27 credits
-
   ccc_major_courses.each do |course_name|
+    department = get_department_code(course_name)
     course = Course.create!(
       name: course_name,
-      credit_hours: ccc_course_credit_hours,
+      code: department,
+      department: department,
+      course_number: course_number_counter,
+      credit_hours: 3.0,
       school: ccc,
       category: "Major Requirements"
     )
+    course_number_counter += 1
     ccc_courses << course
   end
 
-  # CCC Open Electives to reach 66 credits
+  # Reset counter for electives
+  course_number_counter = 300
+
+  # CCC Open Electives
   ccc_open_electives = [
     "Introduction to Business",
     "Fundamentals of Marketing",
@@ -302,22 +346,25 @@ if Rails.env.development?
     "Public Relations"
   ]
 
-  # Total credits: 5 courses * 3.0 credits = 15 credits
-
   ccc_open_electives.each do |course_name|
+    department = get_department_code(course_name)
     course = Course.create!(
       name: course_name,
-      credit_hours: ccc_course_credit_hours,
+      code: department,
+      department: department,
+      course_number: course_number_counter,
+      credit_hours: 3.0,
       school: ccc,
       category: "Open Electives"
     )
+    course_number_counter += 1
     ccc_courses << course
   end
 
-  # Total CCC credits: 42 + 27 + 15 = 84 credits (will enforce transfer limit of 66 credits)
+  # Reset counter for UIC courses
+  course_number_counter = 200
 
-  # UIC Courses (21 credits)
-
+  # UIC Courses
   uic_courses = []
 
   uic_major_courses = [
@@ -330,23 +377,24 @@ if Rails.env.development?
     "Database Systems"
   ]
 
-  # Total credits: 7 courses * 3.0 credits = 21 credits
-
   uic_major_courses.each do |course_name|
+    department = get_department_code(course_name)
     course = Course.create!(
       name: course_name,
+      code: department,
+      department: department,
+      course_number: course_number_counter,
       credit_hours: 3.0,
       school: uic,
       category: "Major Requirements"
     )
+    course_number_counter += 1
     uic_courses << course
   end
 
-  # 7. Create Transfer Agreements
-
+  # Create Transfer Agreements
   # CCC to DePaul Transfers
   ccc_courses.each do |ccc_course|
-    # Find a matching DePaul course
     depaul_course = depaul_courses.find do |course|
       course.category == ccc_course.category &&
       course.name.downcase.include?(ccc_course.name.split.last.downcase)
@@ -361,7 +409,6 @@ if Rails.env.development?
 
   # UIC to DePaul Transfers
   uic_courses.each do |uic_course|
-    # Find a matching DePaul course
     depaul_course = depaul_courses.find do |course|
       course.category == uic_course.category &&
       course.name.downcase.include?(uic_course.name.split.last.downcase)
@@ -376,7 +423,6 @@ if Rails.env.development?
 
   # CCC to UIC Transfers
   ccc_courses.each do |ccc_course|
-    # Find a matching UIC course
     uic_course = uic_courses.find do |course|
       course.category == ccc_course.category &&
       course.name.downcase.include?(ccc_course.name.split.last.downcase)
@@ -389,12 +435,8 @@ if Rails.env.development?
     )
   end
 
-  # 8. Generate the Plan
-
-  # Instantiate the plan generator
+  # Generate the Plan
   generator = PlanServices::CheapestPlanGenerator.new(degree, ccc, depaul)
-
-  # Generate the plan
   plan = generator.generate_cheapest_plan
 
   if plan

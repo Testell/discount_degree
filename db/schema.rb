@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_01_225555) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_07_011518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,50 +26,55 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_01_225555) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.decimal "credit_hours", precision: 5, scale: 4
-    t.integer "school_id"
-    t.string "name"
-    t.string "code"
+    t.string "name", null: false
+    t.string "code", null: false
+    t.integer "course_number", null: false
+    t.string "department", null: false
+    t.string "category"
+    t.decimal "credit_hours", precision: 5, scale: 4, null: false
+    t.bigint "school_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "course_number"
-    t.string "department"
-    t.string "category"
+    t.index ["school_id"], name: "index_courses_on_school_id"
   end
 
   create_table "degree_requirements", force: :cascade do |t|
-    t.string "name"
-    t.integer "credit_hour_amount"
-    t.integer "degree_id"
+    t.string "name", null: false
+    t.integer "credit_hour_amount", null: false
+    t.bigint "degree_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["degree_id"], name: "index_degree_requirements_on_degree_id"
   end
 
   create_table "degrees", force: :cascade do |t|
-    t.string "name"
-    t.integer "school_id"
+    t.string "name", null: false
+    t.bigint "school_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_degrees_on_school_id"
   end
 
   create_table "plans", force: :cascade do |t|
     t.bigint "degree_id", null: false
     t.bigint "starting_school_id", null: false
     t.bigint "ending_school_id"
+    t.bigint "intermediary_school_id"
     t.integer "total_cost", null: false
-    t.jsonb "path", null: false
-    t.text "transferable_courses"
+    t.jsonb "path", default: [], null: false
+    t.jsonb "term_assignments", default: [], null: false
+    t.jsonb "transferable_courses", default: [], null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "term_assignments", default: {}
     t.index ["degree_id"], name: "index_plans_on_degree_id"
     t.index ["ending_school_id"], name: "index_plans_on_ending_school_id"
+    t.index ["intermediary_school_id"], name: "index_plans_on_intermediary_school_id"
     t.index ["starting_school_id"], name: "index_plans_on_starting_school_id"
   end
 
   create_table "schools", force: :cascade do |t|
-    t.string "name"
-    t.string "school_type"
+    t.string "name", null: false
+    t.string "school_type", null: false
     t.integer "credit_hour_price"
     t.integer "minimum_credits_from_school"
     t.integer "max_credits_from_community_college"
@@ -79,10 +84,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_01_225555) do
   end
 
   create_table "terms", force: :cascade do |t|
-    t.string "name"
-    t.integer "credit_hour_minimum"
-    t.integer "credit_hour_maximum"
-    t.decimal "tuition_cost", precision: 10, scale: 2
+    t.string "name", null: false
+    t.integer "credit_hour_minimum", null: false
+    t.integer "credit_hour_maximum", null: false
+    t.decimal "tuition_cost", precision: 10, scale: 2, null: false
     t.bigint "school_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -90,30 +95,34 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_01_225555) do
   end
 
   create_table "transferable_courses", force: :cascade do |t|
-    t.integer "from_course_id"
-    t.integer "to_course_id"
+    t.integer "from_course_id", null: false
+    t.integer "to_course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email"
-    t.string "username"
-    t.string "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "email", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "username", null: false
+    t.string "role", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "course_requirements", "courses"
   add_foreign_key "course_requirements", "degree_requirements"
+  add_foreign_key "courses", "schools"
+  add_foreign_key "degree_requirements", "degrees"
+  add_foreign_key "degrees", "schools"
   add_foreign_key "plans", "degrees"
   add_foreign_key "plans", "schools", column: "ending_school_id"
+  add_foreign_key "plans", "schools", column: "intermediary_school_id"
   add_foreign_key "plans", "schools", column: "starting_school_id"
   add_foreign_key "terms", "schools"
 end

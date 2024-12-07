@@ -5,8 +5,8 @@
 #  id             :bigint           not null, primary key
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  from_course_id :integer
-#  to_course_id   :integer
+#  from_course_id :integer          not null
+#  to_course_id   :integer          not null
 #
 class TransferableCourse < ApplicationRecord
   belongs_to :from_course, required: true, class_name: "Course", foreign_key: "from_course_id"

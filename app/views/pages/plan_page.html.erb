@@ -6,7 +6,6 @@
           <h1 class="card-title mb-4">Generate Your Plan</h1>
 
           <%= form_with url: generate_plan_path, method: :post, local: true do |form| %>
-            <!-- Degree Dropdown -->
             <div class="mb-3 row justify-content-center">
               <div class="col-md-6">
                 <%= form.label :degree_id, 'Choose Degree:', class: 'form-label' %>
@@ -14,7 +13,6 @@
               </div>
             </div>
 
-            <!-- Starting School Dropdown -->
             <div class="mb-3 row justify-content-center">
               <div class="col-md-6">
                 <%= form.label :starting_school_id, 'Choose Starting Community College:', class: 'form-label' %>
@@ -22,7 +20,6 @@
               </div>
             </div>
 
-            <!-- Ending School Dropdown -->
             <div class="mb-3 row justify-content-center">
               <div class="col-md-6">
                 <%= form.label :ending_school_id, 'Choose Ending University:', class: 'form-label' %>
@@ -30,7 +27,6 @@
               </div>
             </div>
 
-            <!-- Submit Button -->
             <div class="row justify-content-center">
               <div class="col-md-6 text-center">
                 <%= form.submit 'Generate Plan', class: 'btn custom-btn' %>

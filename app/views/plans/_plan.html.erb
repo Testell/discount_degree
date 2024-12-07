@@ -1,50 +1,40 @@
-<div id="<%= dom_id plan %>">
-  <p>
-    <strong>Plan ID:</strong>
-    <%= plan.id %>
-  </p>
+<div id="<%= dom_id plan %>" class="card shadow custom-card mx-auto my-3" style="background-color: #f9f5f0;">
+  <div class="card-body">
+    <h1 class="card-title mb-4">Generated Plan</h1>
 
-  <p>
-    <strong>Total Cost:</strong>
-    $<%= number_with_precision(plan.total_cost, precision: 2) %>
-  </p>
+    <div class="mb-4">
+      <p><strong>Plan ID:</strong> <%= plan.id %></p>
+      <p><strong>Total Cost:</strong> $<%= number_with_precision(plan.total_cost, precision: 2) %></p>
+      <p><strong>Total Credit Hours:</strong> <%= number_with_precision(plan.total_credit_hours, precision: 2) %></p>
+      <p><strong>Path:</strong> <%= plan.path.join(' → ') %></p>
+      <p><strong>Starting School:</strong> <%= plan.starting_school.name %></p>
+      <p><strong>Ending School:</strong> <%= plan.ending_school.name %></p>
+    </div>
 
-   <p>
-    <strong>Total Credit Hours:</strong>
-    <%= plan.total_credit_hours %>
-  </p>
-
-  <p>
-    <strong>Path:</strong>
-    <%= plan.path.join(' → ') %>
-  </p>
-
-  <p>
-    <strong>Starting School:</strong>
-    <%= plan.starting_school.name %>
-  </p>
-
-  <p>
-    <strong>Ending School:</strong>
-    <%= plan.ending_school.name %>
-  </p>
-
-  <h4>Term Assignments</h4>
-  <ul class="list-group">
-    <% plan.term_assignments.each do |term| %>
-      <li class="list-group-item">
-        <strong>Term <%= term['term_number'] %>:</strong> <%= term['term_name'] %> at <%= term['school_name'] %>
-        <br>
-        <strong>Courses:</strong>
-        <ul>
-          <% term['courses'].each do |course_name| %>
-            <li><%= course_name %></li>
-          <% end %>
-        </ul>
-        <strong>Credit Hours:</strong> <%= term['credit_hours'] %>
-        <br>
-        <strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %>
-      </li>
+    <h2 class="mt-4 mb-4">Term Assignments</h2>
+    <% if plan.term_assignments.any? %>
+      <div class="d-flex flex-column gap-3">
+        <% plan.term_assignments.each do |term| %>
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Term <%= term['term_number'] %></h5>
+              <h6 class="mb-3"><%= term['term_name'] %> at <%= term['school_name'] %></h6>
+              <div class="mb-3">
+                <strong>Courses:</strong>
+                <ul class="list-unstyled mt-2">
+                  <% term['courses'].each do |course| %>
+                    <li><%= course %></li>
+                  <% end %>
+                </ul>
+              </div>
+              <p class="mb-1"><strong>Credit Hours:</strong> <%= term['credit_hours'] %></p>
+              <p class="mb-0"><strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p>No term assignments available</p>
     <% end %>
-  </ul>
+  </div>
 </div>
