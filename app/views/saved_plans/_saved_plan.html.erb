@@ -1,0 +1,49 @@
+<!-- app/views/saved_plans/_saved_plan.html.erb -->
+<div id="<%= dom_id(saved_plan) %>" class="card shadow custom-card mx-auto my-3" style="background-color: #f9f5f0;">
+  <div class="card-body">
+    <h1 class="card-title mb-4">Saved Plan Details</h1>
+
+    <div class="mb-4">
+      <p><strong>Plan ID:</strong> <%= saved_plan.plan.id %></p>
+      <p><strong>Total Cost:</strong> $<%= number_with_precision(saved_plan.plan.total_cost, precision: 2) %></p>
+      <p><strong>Total Credit Hours:</strong> <%= number_with_precision(saved_plan.plan.total_credit_hours, precision: 2) %></p>
+      <p><strong>Path:</strong> <%= saved_plan.plan.path.join(' → ') %></p>
+      <p><strong>Starting School:</strong> <%= saved_plan.plan.starting_school.name %></p>
+      <p><strong>Ending School:</strong> <%= saved_plan.plan.ending_school.name %></p>
+    </div>
+
+    <h2 class="mt-4 mb-4">Term Assignments</h2>
+    <% if saved_plan.plan.term_assignments.any? %>
+      <div class="d-flex flex-column gap-3">
+        <% saved_plan.plan.term_assignments.each do |term| %>
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Term <%= term['term_number'] %></h5>
+              <h6 class="mb-3"><%= term['term_name'] %> at <%= term['school_name'] %></h6>
+              <div class="mb-3">
+                <strong>Courses:</strong>
+                <ul class="list-unstyled mt-2">
+                  <% term['courses'].each do |course| %>
+                    <li><%= course %></li>
+                  <% end %>
+                </ul>
+              </div>
+              <p class="mb-1"><strong>Credit Hours:</strong> <%= term['credit_hours'] %></p>
+              <p class="mb-0"><strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p>No term assignments available</p>
+    <% end %>
+
+    <div class="mt-4">
+      <%= button_to 'Remove Plan', 
+          saved_plan_path(saved_plan),
+          method: :delete,
+          class: "btn btn-danger",
+          data: { confirm: "Are you sure you want to remove this plan?" } %>
+    </div>
+  </div>
+</div>

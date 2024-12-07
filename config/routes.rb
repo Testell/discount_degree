@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   
   resources :plans, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
-  resources :saved_plans, only: [:create]
+  resources :saved_plans, only: [:show, :create, :destroy]
 
   resources :course_requirements
 

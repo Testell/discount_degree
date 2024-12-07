@@ -1,4 +1,8 @@
 class SavedPlanPolicy < ApplicationPolicy
+  def show?
+    user == record.user || admin?
+  end
+  
   def create?
     user.present?
   end
