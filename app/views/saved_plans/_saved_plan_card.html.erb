@@ -1,15 +1,17 @@
-<div class="card shadow-sm">
-  <div class="card-body p-4">
-    <h3 class="card-title text-lg font-semibold"><%= saved_plan.plan.degree.name %></h3>
-    <p class="text-gray-600"><%= saved_plan.plan.ending_school.name %></p>
-    <p class="mt-2">
-      <strong>Total Cost:</strong> 
-      $<%= number_with_delimiter(saved_plan.plan.total_cost) %>
-    </p>
-    <div class="mt-4">
-      <%= link_to 'View Plan', 
-          saved_plan_path(saved_plan), 
-          class: "btn btn-primary" %>
+<div class="d-flex justify-content-center">
+  <div class="card" style="width: 18rem;">
+    <%= image_tag 'favicon.png', class: "card-img-top mt-3", alt: "School Logo" %>
+
+    <div class="card-body">
+      <h5 class="card-title"><%= saved_plan.plan.degree.name %></h5>
+      <p class="card-text"><%= saved_plan.plan.ending_school.name %></p>
+      <p class="mt-2">
+        <strong>Total Cost:</strong> 
+        $<%= number_with_delimiter(saved_plan.plan.total_cost) %>
+      </p>
+      <div class="mt-4 text-center">
+        <%= link_to 'View Plan', saved_plan_path(saved_plan), class: "btn btn-primary" %>
+      </div>
     </div>
   </div>
 </div>
