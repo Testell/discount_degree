@@ -5,8 +5,8 @@
 #  id         :bigint           not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  plan_id    :bigint           not null
-#  user_id    :bigint           not null
+#  plan_id    :bigint
+#  user_id    :bigint
 #
 # Indexes
 #
@@ -16,6 +16,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (plan_id => plans.id)
+#  fk_rails_...  (user_id => users.id)
 #
 class SavedPlan < ApplicationRecord
   belongs_to :user

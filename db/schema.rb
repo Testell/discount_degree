@@ -73,8 +73,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_07_174954) do
   end
 
   create_table "saved_plans", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "plan_id", null: false
+    t.bigint "user_id"
+    t.bigint "plan_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["plan_id"], name: "index_saved_plans_on_plan_id"
@@ -134,5 +134,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_07_174954) do
   add_foreign_key "plans", "schools", column: "intermediary_school_id"
   add_foreign_key "plans", "schools", column: "starting_school_id"
   add_foreign_key "saved_plans", "plans"
+  add_foreign_key "saved_plans", "users"
   add_foreign_key "terms", "schools"
 end
