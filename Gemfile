@@ -80,7 +80,7 @@ end
 gem "active_link_to"
 gem "appdev_support"
 gem "awesome_print"
-gem "devise"
+gem 'devise'
 gem "dotenv"
 gem "faker"
 gem "htmlbeautifier"

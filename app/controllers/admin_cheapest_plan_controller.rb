@@ -1,5 +1,4 @@
 class AdminCheapestPlanController < ApplicationController
-  before_action :authenticate_user!
   before_action { authorize(:admin) }
 
   def create

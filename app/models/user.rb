@@ -3,13 +3,13 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  email                  :string           not null
+#  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  role                   :string           not null
-#  username               :string           not null
+#  role                   :string
+#  username               :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -24,12 +24,17 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :username, presence: true, uniqueness: true
-  validates :role, presence: true, inclusion: { in: %w[user admin] }
-
-  after_initialize :set_default_role, if: :new_record?
-
-  def set_default_role
-    self.role ||= 'user'
-  end
+         has_many :saved_plans, dependent: :destroy
+         has_many :plans, through: :saved_plans
+         
+         validates :username, presence: true, uniqueness: true
+         validates :role, presence: true, inclusion: { in: %w[user admin] }
+       
+         after_initialize :set_default_role, if: :new_record?
+       
+         private
+       
+         def set_default_role
+           self.role ||= 'user'
+         end
 end

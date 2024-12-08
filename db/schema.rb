@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_07_011518) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_07_174954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,6 +72,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_07_011518) do
     t.index ["starting_school_id"], name: "index_plans_on_starting_school_id"
   end
 
+  create_table "saved_plans", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "plan_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_saved_plans_on_plan_id"
+    t.index ["user_id"], name: "index_saved_plans_on_user_id"
+  end
+
   create_table "schools", force: :cascade do |t|
     t.string "name", null: false
     t.string "school_type", null: false
@@ -102,13 +111,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_07_011518) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", null: false
+    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "username", null: false
-    t.string "role", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "username"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -124,5 +133,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_07_011518) do
   add_foreign_key "plans", "schools", column: "ending_school_id"
   add_foreign_key "plans", "schools", column: "intermediary_school_id"
   add_foreign_key "plans", "schools", column: "starting_school_id"
+  add_foreign_key "saved_plans", "plans"
   add_foreign_key "terms", "schools"
 end

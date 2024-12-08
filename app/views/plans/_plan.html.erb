@@ -1,40 +1,59 @@
-<div id="<%= dom_id plan %>" class="card shadow custom-card mx-auto my-3" style="background-color: #f9f5f0;">
-  <div class="card-body">
-    <h1 class="card-title mb-4">Generated Plan</h1>
-
+<div id="<%= dom_id(plan) %>" class="card shadow custom-card mx-auto my-4 p-4" style="background-color: #f9f5f0;">
+  <div class="text-center mb-4">
+    <h1 class="card-title mb-3"><%= plan.degree.name %> → <%= plan.ending_school.name %></h1>
     <div class="mb-4">
-      <p><strong>Plan ID:</strong> <%= plan.id %></p>
+      <p><strong>Path:</strong> <%= plan.path.join(' → ') %></p>
       <p><strong>Total Cost:</strong> $<%= number_with_precision(plan.total_cost, precision: 2) %></p>
       <p><strong>Total Credit Hours:</strong> <%= number_with_precision(plan.total_credit_hours, precision: 2) %></p>
-      <p><strong>Path:</strong> <%= plan.path.join(' → ') %></p>
-      <p><strong>Starting School:</strong> <%= plan.starting_school.name %></p>
-      <p><strong>Ending School:</strong> <%= plan.ending_school.name %></p>
     </div>
+  </div>
 
-    <h2 class="mt-4 mb-4">Term Assignments</h2>
-    <% if plan.term_assignments.any? %>
-      <div class="d-flex flex-column gap-3">
-        <% plan.term_assignments.each do |term| %>
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">Term <%= term['term_number'] %></h5>
-              <h6 class="mb-3"><%= term['term_name'] %> at <%= term['school_name'] %></h6>
-              <div class="mb-3">
-                <strong>Courses:</strong>
-                <ul class="list-unstyled mt-2">
+  <h2 class="text-center mt-4 mb-4">Term Assignments</h2>
+
+  <% if plan.term_assignments.any? %>
+    <div class="container">
+      <div class="row g-4">
+        <% plan.term_assignments.each_with_index do |term, index| %>
+          <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-body">
+                <h5 class="card-title mb-1">Term <%= term['term_number'] %></h5>
+                <h6 class="text-muted mb-3"><%= term['term_name'] %> at <%= term['school_name'] %></h6>
+                <p class="mb-1"><strong>Credit Hours:</strong> <%= term['credit_hours'] %></p>
+                <p class="mb-3"><strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %></p>
+                <h6><strong>Courses:</strong></h6>
+                <ul class="list-unstyled mt-2 ps-3">
                   <% term['courses'].each do |course| %>
-                    <li><%= course %></li>
+                    <li>• <%= course %></li>
                   <% end %>
                 </ul>
               </div>
-              <p class="mb-1"><strong>Credit Hours:</strong> <%= term['credit_hours'] %></p>
-              <p class="mb-0"><strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %></p>
             </div>
           </div>
         <% end %>
       </div>
+    </div>
+  <% else %>
+    <p class="text-center">No term assignments available</p>
+  <% end %>
+
+  <div class="mt-4 text-center">
+    <% if user_signed_in? && current_user == @user %>
+      <% if current_user.plans.include?(plan) %>
+        <%= link_to 'Unsave Plan', 
+            remove_saved_plan_user_path(current_user, plan_id: plan.id), 
+            class: "btn btn-danger",
+            data: { turbo_method: :delete } %>
+      <% else %>
+        <%= link_to 'Save Plan', 
+            save_plan_user_path(current_user, plan_id: plan.id), 
+            class: "btn btn-primary",
+            data: { turbo_method: :post } %>
+      <% end %>
     <% else %>
-      <p>No term assignments available</p>
+      <%= link_to 'Save Plan', 
+          prompt_save_plan_path(plan_id: plan.id), 
+          class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
