@@ -34,6 +34,8 @@ module RailsTemplate
 
     config.action_controller.default_protect_from_forgery = false
 
+    config.exceptions_app = self.routes
+
     # Don't generate system test files.
     config.generators.system_tests = nil
   end

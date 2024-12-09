@@ -1,43 +1,76 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="container text-center pt-5">
+ <div class="row justify-content-center">
+   <div class="col-md-8">
+     <div class="card shadow custom-card mx-auto mb-4">
+       <div class="card-body pb-4">
+         <h2 class="card-title mb-4 fs-2">Edit <%= resource.username %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+         <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+           <div class="mb-4 row justify-content-center">
+             <div class="col-md-6">
+               <%= f.label :email, class: 'form-label fs-3 mb-2' %>
+               <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control fs-4' %>
+             </div>
+           </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+           <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+             <div class="mb-4 row justify-content-center">
+               <div class="col-md-6 fs-4">
+                 Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+               </div>
+             </div>
+           <% end %>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+           <div class="mb-4 row justify-content-center">
+             <div class="col-md-6">
+               <%= f.label :password, class: 'form-label fs-3 mb-2' %>
+               <small class="form-text text-muted d-block fs-4">(leave blank if you don't want to change it)</small>
+               <%= f.password_field :password, autocomplete: "new-password", class: 'form-control fs-4' %>
+               <% if @minimum_password_length %>
+                 <small class="form-text text-muted d-block fs-4">(<%= @minimum_password_length %> characters minimum)</small>
+               <% end %>
+             </div>
+           </div>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
+           <div class="mb-4 row justify-content-center">
+             <div class="col-md-6">
+               <%= f.label :password_confirmation, class: 'form-label fs-3 mb-2' %>
+               <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control fs-4' %>
+             </div>
+           </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+           <div class="mb-4 row justify-content-center">
+             <div class="col-md-6">
+               <%= f.label :current_password, class: 'form-label fs-3 mb-2' %>
+               <small class="form-text text-muted d-block fs-4">(we need your current password to confirm your changes)</small>
+               <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control fs-4' %>
+             </div>
+           </div>
 
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
+           <div class="row justify-content-center">
+             <div class="col-md-6 text-center">
+               <%= f.submit "Update", class: 'btn custom-btn-2 fs-4' %>
+             </div>
+           </div>
+         <% end %>
 
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
+         <div class="mt-5 row justify-content-center">
+           <div class="col-md-6">
+             <h3 class="fs-3 mb-3">Cancel account</h3>
+             <%= button_to "Cancel my account", 
+                 registration_path(resource_name), 
+                 data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, 
+                 method: :delete, 
+                 class: 'btn btn-danger fs-4' %>
+             
+             <div class="mt-4">
+               <%= link_to "Back", :back, class: 'fs-4 text-dark' %>
+             </div>
+           </div>
+         </div>
 
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
