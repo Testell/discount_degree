@@ -37,9 +37,6 @@ Rails.application.routes.draw do
     post 'generate_cheapest_plan', to: 'admin_cheapest_plan#create', as: 'generate_cheapest_plan', on: :member
   end
 
-  get '/404', to: 'errors#not_found', as: :not_found
-  match '*unmatched', to: 'errors#not_found', via: :all
-
   get '/plan_page', to: 'pages#plan_page', as: 'plan_page'
 
   get '/show_plan', to: 'pages#show_plan', as: 'show_plan'
