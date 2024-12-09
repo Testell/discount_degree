@@ -31,7 +31,7 @@ schools_data.each do |row|
   )
 end
 
-# Seed Degrees (hardcoded since not in CSV)
+# Seed Degrees
 puts "Seeding degrees..."
 Degree.create!(
   id: 1,
@@ -76,428 +76,425 @@ terms_data.each do |row|
     name: row['name'],
     credit_hour_minimum: row['credit_hour_minimum'],
     credit_hour_maximum: row['credit_hour_maximum'],
-    tuition_cost: row['tuition_cost'].gsub(',', '').to_f, # Remove commas from numbers
+    tuition_cost: row['tuition_cost'].gsub(',', '').to_f,
     school_id: row['school_id']
   )
 end
 
-puts "Seeding completed successfully!"
+puts "Creating sample plans..."
+
+# Helper method to create term assignments with school-specific numbering
+def create_term_assignments(terms_by_school)
+  all_terms = []
+  terms_by_school.each do |school_id, terms|
+    school_term_number = 1
+    terms.each do |term|
+      all_terms << {
+        term_number: school_term_number,
+        school_id: school_id,
+        name: term[:name],
+        credit_hours: term[:credit_hours],
+        cost: term[:cost],
+        courses: term[:courses]
+      }
+      school_term_number += 1
+    end
+  end
+  all_terms
+end
+
+# First Plan
+city_college_terms = [
+  {
+    name: "Full-Time at City Colleges of Chicago",
+    credit_hours: 12.0,
+    cost: 1836.00,
+    courses: [
+      "Composition",
+      "Computer Science 101",
+      "Race & Ethnic Relations",
+      "Radio Production I"
+    ]
+  },
+  {
+    name: "Full-Time at City Colleges of Chicago",
+    credit_hours: 12.0,
+    cost: 1836.00,
+    courses: [
+      "Intro To Programming Logic",
+      "Pop Cul-Mirror Of Amer Life",
+      "Philosophy Of Religion",
+      "Introduction To Religion"
+    ]
+  }
+  {
+    name: "Full-Time at City Colleges of Chicago",
+    credit_hours: 12.0,
+    cost: 1836.00,
+    courses: [
+      "Comparative Religion",
+      "Nutrition-Consumer Education",
+      "Cultural Anthropology",
+      "Applied Anthropology"
+    ]
+  },
+  {
+    name: "Full-Time at City Colleges of Chicago",
+    credit_hours: 12.0,
+    cost: 1836.00,
+    courses: [
+      "History of American People To 1865",
+      "History Of Chicago Metropolitan Area",
+      "Principles Of Economics I",
+      "Social/Political Philosophy"
+    ]
+  },
+  {
+    name: "Full-Time at City Colleges of Chicago",
+    credit_hours: 13.0,
+    cost: 1986.00,
+    courses: [
+      "Composition II",
+      "Introduction To Literature",
+      "Discrete Mathematics",
+      "Introduction to Technical Communication"
+    ]
+  },
+  {
+    name: "Part-Time at City Colleges of Chicago",
+    credit_hours: 5.0,
+    cost: 765.00,
+    courses: [
+      "Calculus & Analytic Geometry I"
+    ]
+  }
+]
+
+uic_terms = [
+  {
+    name: "Part-time at UIC",
+    credit_hours: 10.0,
+    cost: 3726.00,
+    courses: [
+      "Data Structures",
+      "Ethical Issues in Computing",
+      "Programming Practicum"
+    ]
+  },
+  {
+    name: "Part-time at UIC",
+    credit_hours: 10.0,
+    cost: 3726.00,
+    courses: [
+      "Programming Language Design and Implementation",
+      "Software Design",
+      "Machine Organization"
+    ]
+  },
+  {
+    name: "Part-time at UIC",
+    credit_hours: 7.0,
+    cost: 3726.00,
+    courses: [
+      "Systems Programming",
+      "Computer Algorithms I"
+    ]
+  }
+]
+
+depaul_terms = [
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 5.33,
+    cost: 6368.00,
+    courses: [
+      "Data Structures I",
+      "Data Analysis"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 5.33,
+    cost: 6368.00,
+    courses: [
+      "Discrete Mathematics II",
+      "Existential Themes"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 5.33,
+    cost: 6368.00,
+    courses: [
+      "Applied Linear Algebra",
+      "Computer Systems I"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 5.33,
+    cost: 6368.00,
+    courses: [
+      "Foundations of Artificial Intelligence",
+      "Ethics in Artificial Intelligence"
+    ]
+  }
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 5.33,
+    cost: 6368.00,
+    courses: [
+      "Machine Learning",
+      "Symbolic Programming"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 5.33,
+    cost: 6368.00,
+    courses: [
+      "Applied AI Lab",
+      "Introduction to Digital Image Processing"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 5.33,
+    cost: 6368.00,
+    courses: [
+      "Applied Image Analysis",
+      "Deep Learning"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 2.67,
+    cost: 3184.00,
+    courses: [
+      "Software Projects"
+    ]
+  }
+]
+
+# Create the first plan with school-specific term numbering
+Plan.create!(
+  degree_id: 1,
+  starting_school_id: 3,
+  intermediary_school_id: 2,
+  ending_school_id: 1,
+  total_cost: 81533,
+  path: ["City Colleges of Chicago", "UIC", "DePaul"],
+  term_assignments: create_term_assignments({
+    3 => city_college_terms,
+    2 => uic_terms,
+    1 => depaul_terms
+  }),
+  transferable_courses: []
+)
+
+# Second Plan Structure
+puts "Creating second plan..."
+
+# Second plan terms
+city_college_terms_2 = [
+  {
+    name: "Part-Time at City Colleges of Chicago",
+    credit_hours: 9.0,
+    cost: 1377.00,
+    courses: [
+      "English Composition I",
+      "Data Structures",
+      "Programming II"
+    ]
+  },
+  {
+    name: "Part-Time at City Colleges of Chicago",
+    credit_hours: 9.0,
+    cost: 1377.00,
+    courses: [
+      "Programming I",
+      "Introduction to Computing",
+      "College Algebra"
+    ]
+  }
+  {
+    name: "Part-Time at City Colleges of Chicago",
+    credit_hours: 9.0,
+    cost: 1377.00,
+    courses: [
+      "Environmental Biology",
+      "Music Fundamentals",
+      "Art History"
+    ]
+  },
+  {
+    name: "Part-Time at City Colleges of Chicago",
+    credit_hours: 9.0,
+    cost: 1377.00,
+    courses: [
+      "Fundamentals of Speech",
+      "Introduction to Sociology",
+      "General Psychology"
+    ]
+  },
+  {
+    name: "Part-Time at City Colleges of Chicago",
+    credit_hours: 9.0,
+    cost: 1377.00,
+    courses: [
+      "U.S. History",
+      "Introduction to Philosophy",
+      "Ethics"
+    ]
+  },
+  {
+    name: "Part-Time at City Colleges of Chicago",
+    credit_hours: 6.0,
+    cost: 918.00,
+    courses: [
+      "English Composition II",
+      "Computer Organization"
+    ]
+  }
+]
+
+depaul_terms_2 = [
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Creative Writing",
+      "Web Development"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Mobile App Development",
+      "Computer Graphics"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Data Mining",
+      "Parallel Computing"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Capstone Project II",
+      "Capstone Project I"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "AI Ethics",
+      "Robotics"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Computer Vision",
+      "Natural Language Processing"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Deep Learning",
+      "Machine Learning"
+    ]
+  }
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Artificial Intelligence",
+      "Software Engineering"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Operating Systems",
+      "Database Systems"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Algorithms",
+      "Film Studies"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Global Perspectives",
+      "Logic and Reasoning"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 8.0,
+    cost: 9552.00,
+    courses: [
+      "Cultural Studies",
+      "Modern Literature"
+    ]
+  },
+  {
+    name: "Part-time at DePaul",
+    credit_hours: 4.0,
+    cost: 4776.00,
+    courses: [
+      "Cloud Computing"
+    ]
+  }
+]
+
+# Create the second plan
+Plan.create!(
+  degree_id: 1,
+  starting_school_id: 3,
+  intermediary_school_id: nil, # No intermediary school in this plan
+  ending_school_id: 1,
+  total_cost: 127203,
+  path: ["City Colleges of Chicago", "DePaul"],
+  term_assignments: create_term_assignments({
+    3 => city_college_terms_2,
+    1 => depaul_terms_2
+  }),
+  transferable_courses: []
+)
+
+puts "Sample plans created successfully!"
 
 # Reset PostgreSQL sequences
 ActiveRecord::Base.connection.tables.each do |table|
   ActiveRecord::Base.connection.reset_pk_sequence!(table)
 end
-
-# Add this to your seeds.rb file after the other seeds
-
-puts "Creating sample plan..."
-
-Plan.create!(
-  degree_id: 1, # Computer Science - AI degree
-  starting_school_id: 3, # City Colleges of Chicago
-  intermediary_school_id: 2, # UIC
-  ending_school_id: 1, # DePaul
-  total_cost: 81533,
-  path: [
-    {
-      school_id: 3,
-      name: "City Colleges of Chicago"
-    },
-    {
-      school_id: 2,
-      name: "UIC"
-    },
-    {
-      school_id: 1,
-      name: "DePaul"
-    }
-  ],
-  term_assignments: [
-    {
-      term_number: 1,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 12.0,
-      cost: 1836.00,
-      courses: [
-        { name: "Composition" },
-        { name: "Computer Science 101" },
-        { name: "Race & Ethnic Relations" },
-        { name: "Radio Production I" }
-      ]
-    },
-    {
-      term_number: 2,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 12.0,
-      cost: 1836.00,
-      courses: [
-        { name: "Intro To Programming Logic" },
-        { name: "Pop Cul-Mirror Of Amer Life" },
-        { name: "Philosophy Of Religion" },
-        { name: "Introduction To Religion " }
-      ]
-    },
-    {
-      term_number: 3,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 12.0,
-      cost: 1836.00,
-      courses: [
-        { name: "Comparative Religion" },
-        { name: "Nutrition-Consumer Education" },
-        { name: "Cultural Anthropology" },
-        { name: "Applied Anthropology  " }
-      ]
-    },
-    {
-      term_number: 4,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 12.0,
-      cost: 1836.00,
-      courses: [
-        { name: "History of American People To 1865 " },
-        { name: "History Of Chicago Metropolitan Area" },
-        { name: "Principles Of Economics I" },
-        { name: "Social/Political Philosophy" }
-      ]
-    },
-    {
-      term_number: 5,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 13.0,
-      cost: 1986.00,
-      courses: [
-        { name: "Composition II" },
-        { name: "Introduction To Literature " },
-        { name: "Discrete Mathematics" },
-        { name: "Introduction to Technical Communication  " }
-      ]
-    },
-    {
-      term_number: 6,
-      school_id: 3,
-      name: "Part-Time at City Colleges of Chicago",
-      credit_hours: 5.0,
-      cost: 765.00,
-      courses: [
-        { name: "Calculus & Analytic Geometry I" }
-      ]
-    },
-    {
-      term_number: 7,
-      school_id: 2,
-      name: "Part-time at UIC",
-      credit_hours: 10.0,
-      cost: 3726.00,
-      courses: [
-        { name: "Data Structures" },
-        { name: "Ethical Issues in Computing" },
-        { name: "Programming Practicum" }
-      ]
-    },
-    {
-      term_number: 8,
-      school_id: 2,
-      name: "Part-time at UIC",
-      credit_hours: 10.0,
-      cost: 3726.00,
-      courses: [
-        { name: "Programming Language Design and Implementation" },
-        { name: "Software Design" },
-        { name: "Machine Organization" }
-      ]
-    },
-    {
-      term_number: 9,
-      school_id: 2,
-      name: "Part-time at UIC",
-      credit_hours: 7.0,
-      cost: 3726.00,
-      courses: [
-        { name: "Systems Programming" },
-        { name: "Computer Algorithms I" }
-      ]
-    },
-    {
-      term_number: 10,
-      school_id: 1,
-      name: "Full-time at DePaul",
-      credit_hours: 10.66,
-      cost: 15065.00,
-      courses: [
-        { name: "Data Structures I" },
-        { name: "Data Analysis" },
-        { name: "Discrete Mathematics II" },
-        { name: "Existential Themes" }
-      ]
-    },
-    {
-      term_number: 11,
-      school_id: 1,
-      name: "Full-time at DePaul",
-      credit_hours: 10.66,
-      cost: 15065.00,
-      courses: [
-        { name: "Applied Linear Algebra" },
-        { name: "Computer Systems I" },
-        { name: "Foundations of Artificial Intelligence" },
-        { name: "Ethics in Artificial Intelligence" }
-      ]
-    },
-    {
-      term_number: 12,
-      school_id: 1,
-      name: "Full-time at DePaul",
-      credit_hours: 10.66,
-      cost: 15065.00,
-      courses: [
-        { name: "Machine Learning" },
-        { name: "Symbolic Programming" },
-        { name: "Applied AI Lab" },
-        { name: "Introduction to Digital Image Processing" }
-      ]
-    },
-    {
-      term_number: 13,
-      school_id: 1,
-      name: "Part-time at DePaul",
-      credit_hours: 8.0,
-      cost: 15065.00,
-      courses: [
-        { name: "Applied Image Analysis" },
-        { name: "Deep Learning" },
-        { name: "Software Projects" }
-      ]
-    }
-  ],
-  transferable_courses: []
-)
-
-Plan.create!(
-  degree_id: 1, # Computer Science - AI degree
-  starting_school_id: 3, # City Colleges of Chicago
-  intermediary_school_id: 2, # UIC
-  ending_school_id: 1, # DePaul
-  total_cost: 69033,
-  path: [
-    {
-      school_id: 3,
-      name: "City Colleges of Chicago"
-    },
-    {
-      school_id: 2,
-      name: "UIC"
-    },
-    {
-      school_id: 1,
-      name: "DePaul"
-    }
-  ],
-  term_assignments: [
-    {
-      term_number: 1,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 12.0,
-      cost: 1836.00,
-      courses: [
-        { name: "Composition" },
-        { name: "Computer Science 101" },
-        { name: "Race & Ethnic Relations" },
-        { name: "Radio Production I" }
-      ]
-    },
-    {
-      term_number: 2,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 12.0,
-      cost: 1836.00,
-      courses: [
-        { name: "Intro To Programming Logic" },
-        { name: "Pop Cul-Mirror Of Amer Life" },
-        { name: "Philosophy Of Religion" },
-        { name: "Introduction To Religion " }
-      ]
-    },
-    {
-      term_number: 3,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 12.0,
-      cost: 1836.00,
-      courses: [
-        { name: "Comparative Religion" },
-        { name: "Nutrition-Consumer Education" },
-        { name: "Cultural Anthropology" },
-        { name: "Applied Anthropology  " }
-      ]
-    },
-    {
-      term_number: 4,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 12.0,
-      cost: 1836.00,
-      courses: [
-        { name: "History of American People To 1865 " },
-        { name: "History Of Chicago Metropolitan Area" },
-        { name: "Principles Of Economics I" },
-        { name: "Social/Political Philosophy" }
-      ]
-    },
-    {
-      term_number: 5,
-      school_id: 3,
-      name: "Full-Time at City Colleges of Chicago",
-      credit_hours: 13.0,
-      cost: 1986.00,
-      courses: [
-        { name: "Composition II" },
-        { name: "Introduction To Literature " },
-        { name: "Discrete Mathematics" },
-        { name: "Introduction to Technical Communication  " }
-      ]
-    },
-    {
-      term_number: 6,
-      school_id: 3,
-      name: "Part-Time at City Colleges of Chicago",
-      credit_hours: 5.0,
-      cost: 765.00,
-      courses: [
-        { name: "Calculus & Analytic Geometry I" }
-      ]
-    },
-    {
-      term_number: 7,
-      school_id: 2,
-      name: "Part-time at UIC",
-      credit_hours: 10.0,
-      cost: 3726.00,
-      courses: [
-        { name: "Data Structures" },
-        { name: "Ethical Issues in Computing" },
-        { name: "Programming Practicum" }
-      ]
-    },
-    {
-      term_number: 8,
-      school_id: 2,
-      name: "Part-time at UIC",
-      credit_hours: 10.0,
-      cost: 3726.00,
-      courses: [
-        { name: "Programming Language Design and Implementation" },
-        { name: "Software Design" },
-        { name: "Machine Organization" }
-      ]
-    },
-    {
-      term_number: 9,
-      school_id: 2,
-      name: "Part-time at UIC",
-      credit_hours: 7.0,
-      cost: 3726.00,
-      courses: [
-        { name: "Systems Programming" },
-        { name: "Computer Algorithms I" }
-      ]
-    },
-    {
-      term_number: 10,
-      school_id: 1,
-      name: "Part-time at DePaul",
-      credit_hours: 5.33, # 8 quarter hours
-      cost: 6368.00, # 8 quarter hours × $796
-      courses: [
-        { name: "Data Structures I" },
-        { name: "Data Analysis" }
-      ]
-    },
-    {
-      term_number: 11,
-      school_id: 1,
-      name: "Part-time at DePaul",
-      credit_hours: 5.33,
-      cost: 6368.00,
-      courses: [
-        { name: "Discrete Mathematics II" },
-        { name: "Existential Themes" }
-      ]
-    },
-    {
-      term_number: 12,
-      school_id: 1,
-      name: "Part-time at DePaul",
-      credit_hours: 5.33,
-      cost: 6368.00,
-      courses: [
-        { name: "Applied Linear Algebra" },
-        { name: "Computer Systems I" }
-      ]
-    },
-    {
-      term_number: 13,
-      school_id: 1,
-      name: "Part-time at DePaul",
-      credit_hours: 5.33,
-      cost: 6368.00,
-      courses: [
-        { name: "Foundations of Artificial Intelligence" },
-        { name: "Ethics in Artificial Intelligence" }
-      ]
-    },
-    {
-      term_number: 14,
-      school_id: 1,
-      name: "Part-time at DePaul",
-      credit_hours: 5.33,
-      cost: 6368.00,
-      courses: [
-        { name: "Machine Learning" },
-        { name: "Symbolic Programming" }
-      ]
-    },
-    {
-      term_number: 15,
-      school_id: 1,
-      name: "Part-time at DePaul",
-      credit_hours: 5.33,
-      cost: 6368.00,
-      courses: [
-        { name: "Applied AI Lab" },
-        { name: "Introduction to Digital Image Processing" }
-      ]
-    },
-    {
-      term_number: 16,
-      school_id: 1,
-      name: "Part-time at DePaul",
-      credit_hours: 5.33,
-      cost: 6368.00,
-      courses: [
-        { name: "Applied Image Analysis" },
-        { name: "Deep Learning" }
-      ]
-    },
-    {
-      term_number: 17,
-      school_id: 1,
-      name: "Part-time at DePaul",
-      credit_hours: 2.67, # 4 quarter hours
-      cost: 3184.00, # 4 quarter hours × $796
-      courses: [
-        { name: "Software Projects" }
-      ]
-    }
-  ],
-  transferable_courses: []
-)
-
-puts "Sample plan created successfully!"
