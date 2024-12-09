@@ -1,0 +1,4 @@
+id,name,school_type,credit_hour_price,minimum_credits_from_school,max_credits_from_community_college,max_credits_from_university
+1,Depaul University,university,796,40,66,22
+2,University of Illinois Chicago,university,0,60,60,60
+3,City Colleges of Chicago,community_college,153,0,0,0
