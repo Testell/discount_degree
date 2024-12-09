@@ -97,7 +97,7 @@ Plan.create!(
   starting_school_id: 3, # City Colleges of Chicago
   intermediary_school_id: 2, # UIC
   ending_school_id: 1, # DePaul
-  total_cost: 81,533,
+  total_cost: 81533,
   path: [
     {
       school_id: 3,
@@ -118,7 +118,7 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 12.0,
-      cost: 1,836.00,
+      cost: 1836.00,
       courses: [
         { name: "Composition" },
         { name: "Computer Science 101" },
@@ -131,7 +131,7 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 12.0,
-      cost: 1,836.00,
+      cost: 1836.00,
       courses: [
         { name: "Intro To Programming Logic" },
         { name: "Pop Cul-Mirror Of Amer Life" },
@@ -144,7 +144,7 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 12.0,
-      cost: 1,836.00,
+      cost: 1836.00,
       courses: [
         { name: "Comparative Religion" },
         { name: "Nutrition-Consumer Education" },
@@ -157,12 +157,12 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 12.0,
-      cost: 1,836.00,
+      cost: 1836.00,
       courses: [
         { name: "History of American People To 1865 " },
         { name: "History Of Chicago Metropolitan Area" },
         { name: "Principles Of Economics I" },
-        { name: "Social/Political Philosophy" },
+        { name: "Social/Political Philosophy" }
       ]
     },
     {
@@ -170,7 +170,7 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 13.0,
-      cost: 1,986.00,
+      cost: 1986.00,
       courses: [
         { name: "Composition II" },
         { name: "Introduction To Literature " },
@@ -193,7 +193,7 @@ Plan.create!(
       school_id: 2,
       name: "Part-time at UIC",
       credit_hours: 10.0,
-      cost: 3,726.00,
+      cost: 3726.00,
       courses: [
         { name: "Data Structures" },
         { name: "Ethical Issues in Computing" },
@@ -205,7 +205,7 @@ Plan.create!(
       school_id: 2,
       name: "Part-time at UIC",
       credit_hours: 10.0,
-      cost: 3,726.00,
+      cost: 3726.00,
       courses: [
         { name: "Programming Language Design and Implementation" },
         { name: "Software Design" },
@@ -217,7 +217,7 @@ Plan.create!(
       school_id: 2,
       name: "Part-time at UIC",
       credit_hours: 7.0,
-      cost: 3,726.00,
+      cost: 3726.00,
       courses: [
         { name: "Systems Programming" },
         { name: "Computer Algorithms I" }
@@ -228,7 +228,7 @@ Plan.create!(
       school_id: 1,
       name: "Full-time at DePaul",
       credit_hours: 10.66,
-      cost: 15,065.00,
+      cost: 15065.00,
       courses: [
         { name: "Data Structures I" },
         { name: "Data Analysis" },
@@ -241,7 +241,7 @@ Plan.create!(
       school_id: 1,
       name: "Full-time at DePaul",
       credit_hours: 10.66,
-      cost: 15,065.00,
+      cost: 15065.00,
       courses: [
         { name: "Applied Linear Algebra" },
         { name: "Computer Systems I" },
@@ -254,7 +254,7 @@ Plan.create!(
       school_id: 1,
       name: "Full-time at DePaul",
       credit_hours: 10.66,
-      cost: 15,065.00,
+      cost: 15065.00,
       courses: [
         { name: "Machine Learning" },
         { name: "Symbolic Programming" },
@@ -267,7 +267,7 @@ Plan.create!(
       school_id: 1,
       name: "Part-time at DePaul",
       credit_hours: 8.0,
-      cost: 15,065.00,
+      cost: 15065.00,
       courses: [
         { name: "Applied Image Analysis" },
         { name: "Deep Learning" },
@@ -283,7 +283,7 @@ Plan.create!(
   starting_school_id: 3, # City Colleges of Chicago
   intermediary_school_id: 2, # UIC
   ending_school_id: 1, # DePaul
-  total_cost: 69,033,
+  total_cost: 69033,
   path: [
     {
       school_id: 3,
@@ -304,7 +304,7 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 12.0,
-      cost: 1,836.00,
+      cost: 1836.00,
       courses: [
         { name: "Composition" },
         { name: "Computer Science 101" },
@@ -317,7 +317,7 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 12.0,
-      cost: 1,836.00,
+      cost: 1836.00,
       courses: [
         { name: "Intro To Programming Logic" },
         { name: "Pop Cul-Mirror Of Amer Life" },
@@ -330,7 +330,7 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 12.0,
-      cost: 1,836.00,
+      cost: 1836.00,
       courses: [
         { name: "Comparative Religion" },
         { name: "Nutrition-Consumer Education" },
@@ -343,12 +343,12 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 12.0,
-      cost: 1,836.00,
+      cost: 1836.00,
       courses: [
         { name: "History of American People To 1865 " },
         { name: "History Of Chicago Metropolitan Area" },
         { name: "Principles Of Economics I" },
-        { name: "Social/Political Philosophy" },
+        { name: "Social/Political Philosophy" }
       ]
     },
     {
@@ -356,7 +356,7 @@ Plan.create!(
       school_id: 3,
       name: "Full-Time at City Colleges of Chicago",
       credit_hours: 13.0,
-      cost: 1,986.00,
+      cost: 1986.00,
       courses: [
         { name: "Composition II" },
         { name: "Introduction To Literature " },
@@ -379,7 +379,7 @@ Plan.create!(
       school_id: 2,
       name: "Part-time at UIC",
       credit_hours: 10.0,
-      cost: 3,726.00,
+      cost: 3726.00,
       courses: [
         { name: "Data Structures" },
         { name: "Ethical Issues in Computing" },
@@ -391,7 +391,7 @@ Plan.create!(
       school_id: 2,
       name: "Part-time at UIC",
       credit_hours: 10.0,
-      cost: 3,726.00,
+      cost: 3726.00,
       courses: [
         { name: "Programming Language Design and Implementation" },
         { name: "Software Design" },
@@ -403,7 +403,7 @@ Plan.create!(
       school_id: 2,
       name: "Part-time at UIC",
       credit_hours: 7.0,
-      cost: 3,726.00,
+      cost: 3726.00,
       courses: [
         { name: "Systems Programming" },
         { name: "Computer Algorithms I" }
