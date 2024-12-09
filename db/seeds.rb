@@ -81,202 +81,143 @@ terms_data.each do |row|
   )
 end
 
-puts "Creating sample plans..."
+puts "Seeding completed successfully!"
 
-# Helper method to create term assignments with school-specific numbering
-def create_term_assignments(terms_by_school)
-  all_terms = []
-  terms_by_school.each do |school_id, terms|
-    school_term_number = 1
-    terms.each do |term|
-      all_terms << {
-        term_number: school_term_number,
-        school_id: school_id,
-        name: term[:name],
-        credit_hours: term[:credit_hours],
-        cost: term[:cost],
-        courses: term[:courses]
-      }
-      school_term_number += 1
-    end
-  end
-  all_terms
+# Reset PostgreSQL sequences
+ActiveRecord::Base.connection.tables.each do |table|
+  ActiveRecord::Base.connection.reset_pk_sequence!(table)
 end
 
-# First Plan
-city_college_terms = [
-  {
-    name: "Full-Time at City Colleges of Chicago",
-    credit_hours: 12.0,
-    cost: 1836.00,
-    courses: [
-      "Composition",
-      "Computer Science 101",
-      "Race & Ethnic Relations",
-      "Radio Production I"
-    ]
-  },
-  {
-    name: "Full-Time at City Colleges of Chicago",
-    credit_hours: 12.0,
-    cost: 1836.00,
-    courses: [
-      "Intro To Programming Logic",
-      "Pop Cul-Mirror Of Amer Life",
-      "Philosophy Of Religion",
-      "Introduction To Religion"
-    ]
-  }
-  {
-    name: "Full-Time at City Colleges of Chicago",
-    credit_hours: 12.0,
-    cost: 1836.00,
-    courses: [
-      "Comparative Religion",
-      "Nutrition-Consumer Education",
-      "Cultural Anthropology",
-      "Applied Anthropology"
-    ]
-  },
-  {
-    name: "Full-Time at City Colleges of Chicago",
-    credit_hours: 12.0,
-    cost: 1836.00,
-    courses: [
-      "History of American People To 1865",
-      "History Of Chicago Metropolitan Area",
-      "Principles Of Economics I",
-      "Social/Political Philosophy"
-    ]
-  },
-  {
-    name: "Full-Time at City Colleges of Chicago",
-    credit_hours: 13.0,
-    cost: 1986.00,
-    courses: [
-      "Composition II",
-      "Introduction To Literature",
-      "Discrete Mathematics",
-      "Introduction to Technical Communication"
-    ]
-  },
-  {
-    name: "Part-Time at City Colleges of Chicago",
-    credit_hours: 5.0,
-    cost: 765.00,
-    courses: [
-      "Calculus & Analytic Geometry I"
-    ]
-  }
-]
+puts "Creating sample plans..."
 
-uic_terms = [
+# Helper method to create a term assignment with cleaner course format
+def create_term_assignment(term_number, school_id, name, credit_hours, cost, courses)
   {
-    name: "Part-time at UIC",
-    credit_hours: 10.0,
-    cost: 3726.00,
-    courses: [
-      "Data Structures",
-      "Ethical Issues in Computing",
-      "Programming Practicum"
-    ]
-  },
-  {
-    name: "Part-time at UIC",
-    credit_hours: 10.0,
-    cost: 3726.00,
-    courses: [
-      "Programming Language Design and Implementation",
-      "Software Design",
-      "Machine Organization"
-    ]
-  },
-  {
-    name: "Part-time at UIC",
-    credit_hours: 7.0,
-    cost: 3726.00,
-    courses: [
-      "Systems Programming",
-      "Computer Algorithms I"
-    ]
+    term_number: term_number,
+    school_id: school_id,
+    name: name,
+    credit_hours: credit_hours,
+    cost: cost,
+    courses: courses  # Pass course names directly as strings
   }
-]
+end
 
-depaul_terms = [
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 5.33,
-    cost: 6368.00,
-    courses: [
-      "Data Structures I",
-      "Data Analysis"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 5.33,
-    cost: 6368.00,
-    courses: [
-      "Discrete Mathematics II",
-      "Existential Themes"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 5.33,
-    cost: 6368.00,
-    courses: [
-      "Applied Linear Algebra",
-      "Computer Systems I"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 5.33,
-    cost: 6368.00,
-    courses: [
-      "Foundations of Artificial Intelligence",
-      "Ethics in Artificial Intelligence"
-    ]
-  }
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 5.33,
-    cost: 6368.00,
-    courses: [
-      "Machine Learning",
-      "Symbolic Programming"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 5.33,
-    cost: 6368.00,
-    courses: [
-      "Applied AI Lab",
-      "Introduction to Digital Image Processing"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 5.33,
-    cost: 6368.00,
-    courses: [
-      "Applied Image Analysis",
-      "Deep Learning"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 2.67,
-    cost: 3184.00,
-    courses: [
-      "Software Projects"
-    ]
-  }
-]
+# First plan - Part-time at DePaul
+Plan.create!(
+  degree_id: 1,
+  starting_school_id: 3,
+  intermediary_school_id: 2,
+  ending_school_id: 1,
+  total_cost: 69033,
+  path: ["City Colleges of Chicago", "UIC", "DePaul"],  # Simplified path format
+  term_assignments: [
+    create_term_assignment(
+      1, 3,
+      "Full-Time at City Colleges of Chicago",
+      12.0, 1836.00,
+      ["Composition", "Computer Science 101", "Race & Ethnic Relations", "Radio Production I"]
+    ),
+    create_term_assignment(
+      2, 3,
+      "Full-Time at City Colleges of Chicago",
+      12.0, 1836.00,
+      ["Intro To Programming Logic", "Pop Cul-Mirror Of Amer Life", "Philosophy Of Religion", "Introduction To Religion"]
+    ),
+    create_term_assignment(
+      3, 3,
+      "Full-Time at City Colleges of Chicago",
+      12.0, 1836.00,
+      ["Comparative Religion", "Nutrition-Consumer Education", "Cultural Anthropology", "Applied Anthropology"]
+    ),
+    create_term_assignment(
+      4, 3,
+      "Full-Time at City Colleges of Chicago",
+      12.0, 1836.00,
+      ["History of American People To 1865", "History Of Chicago Metropolitan Area", "Principles Of Economics I", "Social/Political Philosophy"]
+    ),
+    create_term_assignment(
+      5, 3,
+      "Full-Time at City Colleges of Chicago",
+      13.0, 1986.00,
+      ["Composition II", "Introduction To Literature", "Discrete Mathematics", "Introduction to Technical Communication"]
+    ),
+    create_term_assignment(
+      6, 3,
+      "Part-Time at City Colleges of Chicago",
+      5.0, 765.00,
+      ["Calculus & Analytic Geometry I"]
+    ),
+    create_term_assignment(
+      7, 2,
+      "Part-time at UIC",
+      10.0, 3726.00,
+      ["Data Structures", "Ethical Issues in Computing", "Programming Practicum"]
+    ),
+    create_term_assignment(
+      8, 2,
+      "Part-time at UIC",
+      10.0, 3726.00,
+      ["Programming Language Design and Implementation", "Software Design", "Machine Organization"]
+    ),
+    create_term_assignment(
+      9, 2,
+      "Part-time at UIC",
+      7.0, 3726.00,
+      ["Systems Programming", "Computer Algorithms I"]
+    ),
+    create_term_assignment(
+      10, 1,
+      "Part-time at DePaul",
+      5.33, 6368.00,
+      ["Data Structures I", "Data Analysis"]
+    ),
+    create_term_assignment(
+      11, 1,
+      "Part-time at DePaul",
+      5.33, 6368.00,
+      ["Discrete Mathematics II", "Existential Themes"]
+    ),
+    create_term_assignment(
+      12, 1,
+      "Part-time at DePaul",
+      5.33, 6368.00,
+      ["Applied Linear Algebra", "Computer Systems I"]
+    ),
+    create_term_assignment(
+      13, 1,
+      "Part-time at DePaul",
+      5.33, 6368.00,
+      ["Foundations of Artificial Intelligence", "Ethics in Artificial Intelligence"]
+    ),
+    create_term_assignment(
+      14, 1,
+      "Part-time at DePaul",
+      5.33, 6368.00,
+      ["Machine Learning", "Symbolic Programming"]
+    ),
+    create_term_assignment(
+      15, 1,
+      "Part-time at DePaul",
+      5.33, 6368.00,
+      ["Applied AI Lab", "Introduction to Digital Image Processing"]
+    ),
+    create_term_assignment(
+      16, 1,
+      "Part-time at DePaul",
+      5.33, 6368.00,
+      ["Applied Image Analysis", "Deep Learning"]
+    ),
+    create_term_assignment(
+      17, 1,
+      "Part-time at DePaul",
+      2.67, 3184.00,
+      ["Software Projects"]
+    )
+  ],
+  transferable_courses: []
+)
 
-# Create the first plan with school-specific term numbering
+# Second plan - Full-time at DePaul
 Plan.create!(
   degree_id: 1,
   starting_school_id: 3,
@@ -284,217 +225,87 @@ Plan.create!(
   ending_school_id: 1,
   total_cost: 81533,
   path: ["City Colleges of Chicago", "UIC", "DePaul"],
-  term_assignments: create_term_assignments({
-    3 => city_college_terms,
-    2 => uic_terms,
-    1 => depaul_terms
-  }),
-  transferable_courses: []
-)
-
-# Second Plan Structure
-puts "Creating second plan..."
-
-# Second plan terms
-city_college_terms_2 = [
-  {
-    name: "Part-Time at City Colleges of Chicago",
-    credit_hours: 9.0,
-    cost: 1377.00,
-    courses: [
-      "English Composition I",
-      "Data Structures",
-      "Programming II"
-    ]
-  },
-  {
-    name: "Part-Time at City Colleges of Chicago",
-    credit_hours: 9.0,
-    cost: 1377.00,
-    courses: [
-      "Programming I",
-      "Introduction to Computing",
-      "College Algebra"
-    ]
-  }
-  {
-    name: "Part-Time at City Colleges of Chicago",
-    credit_hours: 9.0,
-    cost: 1377.00,
-    courses: [
-      "Environmental Biology",
-      "Music Fundamentals",
-      "Art History"
-    ]
-  },
-  {
-    name: "Part-Time at City Colleges of Chicago",
-    credit_hours: 9.0,
-    cost: 1377.00,
-    courses: [
-      "Fundamentals of Speech",
-      "Introduction to Sociology",
-      "General Psychology"
-    ]
-  },
-  {
-    name: "Part-Time at City Colleges of Chicago",
-    credit_hours: 9.0,
-    cost: 1377.00,
-    courses: [
-      "U.S. History",
-      "Introduction to Philosophy",
-      "Ethics"
-    ]
-  },
-  {
-    name: "Part-Time at City Colleges of Chicago",
-    credit_hours: 6.0,
-    cost: 918.00,
-    courses: [
-      "English Composition II",
-      "Computer Organization"
-    ]
-  }
-]
-
-depaul_terms_2 = [
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Creative Writing",
-      "Web Development"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Mobile App Development",
-      "Computer Graphics"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Data Mining",
-      "Parallel Computing"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Capstone Project II",
-      "Capstone Project I"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "AI Ethics",
-      "Robotics"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Computer Vision",
-      "Natural Language Processing"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Deep Learning",
-      "Machine Learning"
-    ]
-  }
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Artificial Intelligence",
-      "Software Engineering"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Operating Systems",
-      "Database Systems"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Algorithms",
-      "Film Studies"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Global Perspectives",
-      "Logic and Reasoning"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 8.0,
-    cost: 9552.00,
-    courses: [
-      "Cultural Studies",
-      "Modern Literature"
-    ]
-  },
-  {
-    name: "Part-time at DePaul",
-    credit_hours: 4.0,
-    cost: 4776.00,
-    courses: [
-      "Cloud Computing"
-    ]
-  }
-]
-
-# Create the second plan
-Plan.create!(
-  degree_id: 1,
-  starting_school_id: 3,
-  intermediary_school_id: nil, # No intermediary school in this plan
-  ending_school_id: 1,
-  total_cost: 127203,
-  path: ["City Colleges of Chicago", "DePaul"],
-  term_assignments: create_term_assignments({
-    3 => city_college_terms_2,
-    1 => depaul_terms_2
-  }),
+  term_assignments: [
+    create_term_assignment(
+      1, 3,
+      "Full-Time at City Colleges of Chicago",
+      12.0, 1836.00,
+      ["Composition", "Computer Science 101", "Race & Ethnic Relations", "Radio Production I"]
+    ),
+    create_term_assignment(
+      2, 3,
+      "Full-Time at City Colleges of Chicago",
+      12.0, 1836.00,
+      ["Intro To Programming Logic", "Pop Cul-Mirror Of Amer Life", "Philosophy Of Religion", "Introduction To Religion"]
+    ),
+    create_term_assignment(
+      3, 3,
+      "Full-Time at City Colleges of Chicago",
+      12.0, 1836.00,
+      ["Comparative Religion", "Nutrition-Consumer Education", "Cultural Anthropology", "Applied Anthropology"]
+    ),
+    create_term_assignment(
+      4, 3,
+      "Full-Time at City Colleges of Chicago",
+      12.0, 1836.00,
+      ["History of American People To 1865", "History Of Chicago Metropolitan Area", "Principles Of Economics I", "Social/Political Philosophy"]
+    ),
+    create_term_assignment(
+      5, 3,
+      "Full-Time at City Colleges of Chicago",
+      13.0, 1986.00,
+      ["Composition II", "Introduction To Literature", "Discrete Mathematics", "Introduction to Technical Communication"]
+    ),
+    create_term_assignment(
+      6, 3,
+      "Part-Time at City Colleges of Chicago",
+      5.0, 765.00,
+      ["Calculus & Analytic Geometry I"]
+    ),
+    create_term_assignment(
+      7, 2,
+      "Part-time at UIC",
+      10.0, 3726.00,
+      ["Data Structures", "Ethical Issues in Computing", "Programming Practicum"]
+    ),
+    create_term_assignment(
+      8, 2,
+      "Part-time at UIC",
+      10.0, 3726.00,
+      ["Programming Language Design and Implementation", "Software Design", "Machine Organization"]
+    ),
+    create_term_assignment(
+      9, 2,
+      "Part-time at UIC",
+      7.0, 3726.00,
+      ["Systems Programming", "Computer Algorithms I"]
+    ),
+    create_term_assignment(
+      10, 1,
+      "Full-time at DePaul",
+      10.66, 15065.00,
+      ["Data Structures I", "Data Analysis", "Discrete Mathematics II", "Existential Themes"]
+    ),
+    create_term_assignment(
+      11, 1,
+      "Full-time at DePaul",
+      10.66, 15065.00,
+      ["Applied Linear Algebra", "Computer Systems I", "Foundations of Artificial Intelligence", "Ethics in Artificial Intelligence"]
+    ),
+    create_term_assignment(
+      12, 1,
+      "Full-time at DePaul",
+      10.66, 15065.00,
+      ["Machine Learning", "Symbolic Programming", "Applied AI Lab", "Introduction to Digital Image Processing"]
+    ),
+    create_term_assignment(
+      13, 1,
+      "Part-time at DePaul",
+      8.0, 15065.00,
+      ["Applied Image Analysis", "Deep Learning", "Software Projects"]
+    )
+  ],
   transferable_courses: []
 )
 
 puts "Sample plans created successfully!"
-
-# Reset PostgreSQL sequences
-ActiveRecord::Base.connection.tables.each do |table|
-  ActiveRecord::Base.connection.reset_pk_sequence!(table)
-end
