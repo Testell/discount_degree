@@ -1,48 +1,71 @@
 <div id="<%= dom_id(saved_plan) %>" class="card shadow custom-card mx-auto my-4 p-4" style="background-color: #f9f5f0;">
   <div class="text-center mb-4">
-    <h1 class="card-title mb-3"> <%= saved_plan.plan.degree.name %> → <%= saved_plan.plan.ending_school.name %></h1>
-
-    <div class="mb-4">
-      <p><strong>Path:</strong> <%= saved_plan.plan.path.join(' → ') %></p>
-      <p><strong>Total Cost:</strong> $<%= number_with_precision(saved_plan.plan.total_cost, precision: 2) %></p>
-      <p><strong>Total Credit Hours:</strong> <%= number_with_precision(saved_plan.plan.total_credit_hours, precision: 2) %></p>
+    <h1 class="card-title mb-3 fs-2">
+      <%= saved_plan.plan.degree.name %> → <%= saved_plan.plan.ending_school.name %>
+    </h1>
+    
+    <div class="mb-4 text-center">
+      <h2 class="fs-3 mb-3">
+        <div class="d-flex flex-column align-items-center">
+          <strong>Path</strong>
+          <span><%= saved_plan.plan.path.join(' → ') %></span>
+        </div>
+      </h2>
+      <h2 class="fs-3 mb-3">
+        <div class="d-flex flex-column align-items-center">
+          <strong>Total Cost</strong>
+          <span>$<%= number_with_precision(saved_plan.plan.total_cost, precision: 2) %></span>
+        </div>
+      </h2>
+      <h2 class="fs-3 mb-3">
+        <div class="d-flex flex-column align-items-center">
+          <strong>Total Credit Hours</strong>
+          <span><%= number_with_precision(saved_plan.plan.total_credit_hours, precision: 2) %></span>
+        </div>
+      </h2>
     </div>
   </div>
 
-  <h2 class="text-center mt-4 mb-4">Term Assignments</h2>
+  <h2 class="text-center mt-4 mb-4 fs-3">Term Assignments</h2>
 
   <% if saved_plan.plan.term_assignments.any? %>
     <div class="container">
       <div class="row g-4">
-        <% saved_plan.plan.term_assignments.each_with_index do |term, index| %>
+        <% terms_by_school = saved_plan.plan.term_assignments.group_by { |term| term['school_id'] }
+           terms_by_school.each do |school_id, school_terms|
+           school_terms.sort_by! { |term| term['term_number'] }
+           term_counter = 1
+           school_terms.each do |term| %>
           <div class="col-md-6">
             <div class="card shadow-sm h-100">
               <div class="card-body">
-                <h5 class="card-title mb-1">Term <%= term['term_number'] %></h5>
-                <h6 class="text-muted mb-3"><%= term['term_name'] %> at <%= term['school_name'] %></h6>
-                <p class="mb-1"><strong>Credit Hours:</strong> <%= term['credit_hours'] %></p>
-                <p class="mb-3"><strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %></p>
-                <h6><strong>Courses:</strong></h6>
+                <h5 class="card-title mb-1 fs-4">Term <%= term_counter %></h5>
+                <h6 class="text-muted mb-3 fs-4"><%= term['name'] %></h6>
+                <p class="mb-1 fs-4"><strong>Credit Hours:</strong> <%= term['credit_hours'] %></p>
+                <p class="mb-3 fs-4"><strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %></p>
+                <h6 class="fs-4"><strong>Courses:</strong></h6>
                 <ul class="list-unstyled mt-2 ps-3">
                   <% term['courses'].each do |course| %>
-                    <li>• <%= course %></li>
+                    <li class="fs-4">• <%= course %></li>
                   <% end %>
                 </ul>
               </div>
             </div>
           </div>
-        <% end %>
+        <% term_counter += 1
+           end
+           end %>
       </div>
     </div>
   <% else %>
-    <p class="text-center">No term assignments available</p>
+    <p class="text-center fs-4">No term assignments available</p>
   <% end %>
 
   <div class="mt-4 text-center">
-    <%= button_to 'Remove Plan', 
+    <%= button_to 'Remove Plan',
         saved_plan_path(saved_plan),
         method: :delete,
-        class: "btn btn-danger",
+        class: "btn btn-danger fs-4",
         data: { confirm: "Are you sure you want to remove this plan?" } %>
   </div>
 </div>

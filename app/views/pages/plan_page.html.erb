@@ -3,33 +3,39 @@
     <div class="col-md-8">
       <div class="card shadow custom-card mx-auto">
         <div class="card-body">
-          <h1 class="card-title mb-4">Generate Your Plan</h1>
+          <h1 class="card-title mb-4 fs-2">Generate Your Plan</h1>
 
           <%= form_with url: generate_plan_path, method: :post, local: true do |form| %>
-            <div class="mb-3 row justify-content-center">
+            <div class="mb-4 row justify-content-center">
               <div class="col-md-6">
-                <%= form.label :degree_id, 'Choose Degree:', class: 'form-label' %>
-                <%= form.collection_select :degree_id, @degrees, :id, :name, { prompt: 'Select Degree' }, { class: 'form-select custom-dropdown' } %>
+                <%= form.label :degree_id, 'Choose Degree:', class: 'form-label fs-3 mb-2' %>
+                <%= form.collection_select :degree_id, @degrees, :id, :name, 
+                    { prompt: 'Select Degree' }, 
+                    { class: 'form-select custom-dropdown fs-4' } %>
               </div>
             </div>
 
-            <div class="mb-3 row justify-content-center">
+            <div class="mb-4 row justify-content-center">
               <div class="col-md-6">
-                <%= form.label :starting_school_id, 'Choose Starting Community College:', class: 'form-label' %>
-                <%= form.collection_select :starting_school_id, @community_colleges, :id, :name, { prompt: 'Select Community College' }, { class: 'form-select custom-dropdown' } %>
+                <%= form.label :starting_school_id, 'Choose Starting Community College:', class: 'form-label fs-3 mb-2' %>
+                <%= form.collection_select :starting_school_id, @community_colleges, :id, :name, 
+                    { prompt: 'Select Community College' }, 
+                    { class: 'form-select custom-dropdown fs-4' } %>
               </div>
             </div>
 
-            <div class="mb-3 row justify-content-center">
+            <div class="mb-4 row justify-content-center">
               <div class="col-md-6">
-                <%= form.label :ending_school_id, 'Choose Ending University:', class: 'form-label' %>
-                <%= form.collection_select :ending_school_id, @universities, :id, :name, { prompt: 'Select University' }, { class: 'form-select custom-dropdown' } %>
+                <%= form.label :ending_school_id, 'Choose Ending University:', class: 'form-label fs-3 mb-2' %>
+                <%= form.collection_select :ending_school_id, @universities, :id, :name, 
+                    { prompt: 'Select University' }, 
+                    { class: 'form-select custom-dropdown fs-4' } %>
               </div>
             </div>
 
             <div class="row justify-content-center">
               <div class="col-md-6 text-center">
-                <%= form.submit 'Generate Plan', class: 'btn custom-btn' %>
+                <%= form.submit 'Generate Plan', class: 'btn custom-btn fs-4' %>
               </div>
             </div>
           <% end %>
