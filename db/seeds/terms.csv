@@ -1,0 +1,8 @@
+id,name,credit_hour_minimum,credit_hour_maximum,tuition_cost,school_id
+1,Full-Time(9-12 credit hours),9,12,"15,065",1
+2,Part-TIme(1-8 credit hours),1,8,0,1
+3,Full-Time(12+ credit hours),12,20,"5,589",2
+4,Part-Time(6-11 credit hours),6,11,"3,726",2
+5,Single-Class(1-6 credit hours),1,5,"1,863",2
+6,Full-Time,12,18,0,3
+7,Part-Time,1,11,0,3
