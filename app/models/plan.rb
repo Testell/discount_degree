@@ -52,7 +52,7 @@ class Plan < ApplicationRecord
   end
 
   def total_credit_hours
-    term_assignments.sum { |term| term['credit_hours'].to_f }
+    term_assignments.sum { |term| term["credit_hours"].to_f }
   end
 
   private

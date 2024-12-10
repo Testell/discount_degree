@@ -22,7 +22,11 @@
 class Term < ApplicationRecord
   belongs_to :school
 
-  validates :credit_hour_minimum, :credit_hour_maximum, :tuition_cost, presence: true, numericality: true
+  validates :credit_hour_minimum,
+            :credit_hour_maximum,
+            :tuition_cost,
+            presence: true,
+            numericality: true
 
   has_many :courses
 end
