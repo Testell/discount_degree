@@ -3,26 +3,21 @@ class CourseRequirementsController < ApplicationController
   before_action :set_course_requirement, only: %i[destroy]
   before_action :set_degree_requirement, only: %i[create]
 
-  # GET /course_requirements or /course_requirements.json
   def index
     @course_requirements = CourseRequirement.all
   end
 
-  # GET /course_requirements/1 or /course_requirements/1.json
   def show
     @course_requirement = CourseRequirement.find(params[:id])
   end
 
-  # GET /course_requirements/new
   def new
     @course_requirement = CourseRequirement.new
   end
 
-  # GET /course_requirements/1/edit
   def edit
   end
 
-  # POST /course_requirements or /course_requirements.json
   def create
     @course_requirement = @degree_requirement.course_requirements.build(course_requirement_params)
 
@@ -44,7 +39,6 @@ class CourseRequirementsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /course_requirements/1 or /course_requirements/1.json
   def update
     respond_to do |format|
       if @course_requirement.update(course_requirement_params)
@@ -60,13 +54,12 @@ class CourseRequirementsController < ApplicationController
     end
   end
 
-  # DELETE /course_requirements/1 or /course_requirements/1.json
   def destroy
     @degree_requirement = @course_requirement.degree_requirement
     @course_requirement.destroy!
 
     respond_to do |format|
-      format.js # For AJAX-based removal
+      format.js
       format.html do
         redirect_to degree_requirement_path(@degree_requirement),
                     notice: "Course requirement was successfully destroyed."
@@ -77,7 +70,6 @@ class CourseRequirementsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_course_requirement
     @course_requirement = CourseRequirement.find(params[:id])
   end
@@ -86,7 +78,6 @@ class CourseRequirementsController < ApplicationController
     @degree_requirement = DegreeRequirement.find(params[:degree_requirement_id])
   end
 
-  # Only allow a list of trusted parameters through.
   def course_requirement_params
     params.require(:course_requirement).permit(:course_id, :is_mandatory)
   end

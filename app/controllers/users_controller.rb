@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show save_plan save_plan_prompt remove_saved_plan ]
-  before_action :authenticate_user!, only: [:save_plan, :remove_saved_plan]
+  before_action :set_user, only: %i[show save_plan save_plan_prompt remove_saved_plan]
+  before_action :authenticate_user!, only: %i[save_plan remove_saved_plan]
   skip_before_action :authenticate_user!, only: [:save_plan_prompt]
   skip_after_action :verify_authorized, only: [:save_plan_prompt]
 
@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
   def save_plan_prompt
     session[:save_plan_id] = params[:plan_id]
-    redirect_to new_user_session_path, notice: 'Please sign in to save the plan.'
+    redirect_to new_user_session_path, notice: "Please sign in to save the plan."
   end
 
   def save_plan
@@ -20,12 +20,12 @@ class UsersController < ApplicationController
     authorize @saved_plan
 
     if @saved_plan.save
-      redirect_to user_path(@user), notice: 'Plan was successfully saved.'
+      redirect_to user_path(@user), notice: "Plan was successfully saved."
     else
       redirect_to plan_path(plan), alert: @saved_plan.errors.full_messages.to_sentence
     end
   rescue ActiveRecord::RecordNotFound
-    redirect_to plans_path, alert: 'Plan not found.'
+    redirect_to plans_path, alert: "Plan not found."
   end
 
   def remove_saved_plan
@@ -34,12 +34,12 @@ class UsersController < ApplicationController
     authorize @saved_plan
 
     if @saved_plan&.destroy
-      redirect_to user_path(@user), notice: 'Plan was successfully removed from your saved plans.'
+      redirect_to user_path(@user), notice: "Plan was successfully removed from your saved plans."
     else
-      redirect_to user_path(@user), alert: 'Unable to remove the plan.'
+      redirect_to user_path(@user), alert: "Unable to remove the plan."
     end
   rescue ActiveRecord::RecordNotFound
-    redirect_to user_path(@user), alert: 'Plan not found.'
+    redirect_to user_path(@user), alert: "Plan not found."
   end
 
   private

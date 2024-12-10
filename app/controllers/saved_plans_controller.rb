@@ -1,5 +1,5 @@
 class SavedPlansController < ApplicationController
-  before_action :set_saved_plan, only: [:show, :destroy]
+  before_action :set_saved_plan, only: %i[show destroy]
   before_action :authenticate_user!
 
   def show
@@ -12,7 +12,7 @@ class SavedPlansController < ApplicationController
     authorize @saved_plan
 
     if @saved_plan.save
-      redirect_to user_path(current_user), notice: 'Plan was successfully saved.'
+      redirect_to user_path(current_user), notice: "Plan was successfully saved."
     else
       redirect_to plan_path(@plan), alert: @saved_plan.errors.full_messages.to_sentence
     end
@@ -21,7 +21,7 @@ class SavedPlansController < ApplicationController
   def destroy
     authorize @saved_plan
     @saved_plan.destroy
-    redirect_to user_path(current_user), notice: 'Plan was successfully removed.'
+    redirect_to user_path(current_user), notice: "Plan was successfully removed."
   end
 
   private
