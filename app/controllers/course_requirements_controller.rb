@@ -28,11 +28,17 @@ class CourseRequirementsController < ApplicationController
 
     respond_to do |format|
       if @course_requirement.save
-        format.html { redirect_to degree_requirement_path(@degree_requirement), notice: "Course requirement was successfully created." }
+        format.html do
+          redirect_to degree_requirement_path(@degree_requirement),
+                      notice: "Course requirement was successfully created."
+        end
         format.json { render :show, status: :created, location: @course_requirement }
-        format.js 
+        format.js
       else
-        format.html { redirect_to degree_requirement_path(@degree_requirement), alert: "Unable to create course requirement." }
+        format.html do
+          redirect_to degree_requirement_path(@degree_requirement),
+                      alert: "Unable to create course requirement."
+        end
         format.json { render json: @course_requirement.errors, status: :unprocessable_entity }
       end
     end
@@ -42,7 +48,10 @@ class CourseRequirementsController < ApplicationController
   def update
     respond_to do |format|
       if @course_requirement.update(course_requirement_params)
-        format.html { redirect_to course_requirement_url(@course_requirement), notice: "Course requirement was successfully updated." }
+        format.html do
+          redirect_to course_requirement_url(@course_requirement),
+                      notice: "Course requirement was successfully updated."
+        end
         format.json { render :show, status: :ok, location: @course_requirement }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,24 +67,27 @@ class CourseRequirementsController < ApplicationController
 
     respond_to do |format|
       format.js # For AJAX-based removal
-      format.html { redirect_to degree_requirement_path(@degree_requirement), notice: "Course requirement was successfully destroyed." }
+      format.html do
+        redirect_to degree_requirement_path(@degree_requirement),
+                    notice: "Course requirement was successfully destroyed."
+      end
       format.json { head :no_content }
     end
   end
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_course_requirement
-      @course_requirement = CourseRequirement.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_course_requirement
+    @course_requirement = CourseRequirement.find(params[:id])
+  end
 
-    def set_degree_requirement
-      @degree_requirement = DegreeRequirement.find(params[:degree_requirement_id])
-    end
+  def set_degree_requirement
+    @degree_requirement = DegreeRequirement.find(params[:degree_requirement_id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def course_requirement_params
-      params.require(:course_requirement).permit(:course_id, :is_mandatory)
-    end
+  # Only allow a list of trusted parameters through.
+  def course_requirement_params
+    params.require(:course_requirement).permit(:course_id, :is_mandatory)
+  end
 end
