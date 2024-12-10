@@ -1,6 +1,6 @@
 class CourseRequirementPolicy < ApplicationPolicy
   def index?
-    admin? 
+    admin?
   end
 
   def show?

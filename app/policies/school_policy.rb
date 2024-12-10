@@ -1,6 +1,6 @@
 class SchoolPolicy < ApplicationPolicy
   def index?
-    admin? 
+    admin?
   end
 
   def show?

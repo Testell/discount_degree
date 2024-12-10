@@ -39,11 +39,11 @@ class ApplicationPolicy
   private
 
   def admin?
-    user&.role == 'admin'
+    user&.role == "admin"
   end
 
   def user?
-    user&.role == 'user'
+    user&.role == "user"
   end
 
   class Scope
