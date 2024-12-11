@@ -1,9 +1,13 @@
-name: "Ruby Linting"
-
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+name: "Rubocop"
 on:
   push:
     branches: [ "main" ]
   pull_request:
+    # The branches below must be a subset of the branches above
     branches: [ "main" ]
   schedule:
     - cron: '16 5 * * 0'
@@ -13,49 +17,37 @@ permissions:
   security-events: write
 
 jobs:
-  linting:
+  rubocop:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.2.1
-          bundler-cache: true
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
+      with:
+        ruby-version: 3.2.1
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
+    - name: Install Code Scanning integration
+      run: bundle add code-scanning-rubocop --version 0.3.0 --skip-install
 
-      - name: Install Prettier and dependencies
-        run: |
-          gem install prettier_print syntax_tree syntax_tree-haml syntax_tree-rbs
-          npm install --save-dev prettier@3.4.2 @prettier/plugin-ruby@4.0.4
+    - name: Install dependencies
+      run: bundle install
 
-      - name: Run Prettier check
-        run: npx prettier --check '**/*.rb'
+    - name: Rubocop run
+      run: |
+        bash -c "
+          bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+          [[ $? -ne 2 ]]
+        "
 
-      - name: Install Ruby dependencies
-        run: bundle install
+    - name: Upload Sarif output
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: rubocop.sarif
 
-      - name: Install code-scanning Rubocop extension
-        run: gem install code-scanning-rubocop
-
-      - name: Run Rubocop with SARIF output
-        run: |
-          bundle exec rubocop \
-            --require code_scanning \
-            --format CodeScanning::SarifFormatter \
-            --out rubocop.sarif
-
-      - name: Upload SARIF results
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: rubocop.sarif
+    - name: Prettier Ruby Check
+      run: bundle exec rbprettier --check '**/*.rb'
