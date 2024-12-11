@@ -36,7 +36,8 @@ jobs:
 
       - name: Create RuboCop config
         run: |
-          echo "inherit_from:
+          echo "# Configuration for RuboCop
+          inherit_from:
             - node_modules/@prettier/plugin-ruby/rubocop.yml
             
           AllCops:
@@ -47,16 +48,15 @@ jobs:
               - 'node_modules/**/*'
               - 'vendor/**/*'
               
-          # This setting allows RuboCop to continue even if it encounters unknown cops
+          # Handle unrecognized cops gracefully
           Lint/UnrecognizedCopName:
             Enabled: false" > .rubocop.yml
 
       - name: Install dependencies
         run: |
           gem install rubocop -v 1.57.2
-          bundle init
-          bundle add rubocop -v 1.57.2
-          bundle add code-scanning-rubocop --version 0.3.0
+          bundle add rubocop -v 1.57.2 --skip-install
+          bundle add code-scanning-rubocop --version 0.3.0 --skip-install
           bundle install
 
       - name: Run RuboCop
