@@ -57,6 +57,8 @@ group :development do
   gem 'code-scanning-rubocop', '~> 0.5.0'  # Latest version
 gem 'rubocop', '~> 1.60'
 
+gem 'rubocop-performance'
+gem 'rubocop-rails'
   
   # Prettier support gems
   gem 'syntax_tree'
@@ -127,5 +129,3 @@ group :test do
   gem "rspec-html-matchers"
   gem "webmock"
 end
-
-
