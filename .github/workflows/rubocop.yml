@@ -35,9 +35,25 @@ jobs:
         run: |
           npm install prettier@3.4.2 @prettier/plugin-ruby@4.0.4
 
+      - name: Create Prettier config
+        run: |
+          echo "printWidth: 100
+          tabWidth: 2
+          semi: false
+          singleQuote: true
+          trailingComma: 'none'
+          plugins:
+            - '@prettier/plugin-ruby'
+          '@prettier/plugin-ruby':
+            rubyArrayLiteral: true
+            rubyHashLabel: true
+            rubyModifier: true
+            rubySingleQuote: true
+            rubyToProc: false" > .prettierrc.yml
+
       - name: Create RuboCop config
         run: |
-          echo "# Configuration for RuboCop with Prettier
+          echo "# Configuration for RuboCop
           inherit_from:
             - node_modules/@prettier/plugin-ruby/rubocop.yml
 
