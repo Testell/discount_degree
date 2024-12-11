@@ -17,57 +17,66 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2.1
+          bundler-cache: true
 
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Install Prettier and plugin-ruby
         run: |
-          npm install prettier@3.4.2 @prettier/plugin-ruby@4.0.4
+          npm install --save-dev prettier@3.4.2 @prettier/plugin-ruby@4.0.4
 
       - name: Create Prettier config
         run: |
-          echo "printWidth: 100
+          echo 'printWidth: 100
           tabWidth: 2
           semi: false
           singleQuote: true
-          trailingComma: 'none'
+          trailingComma: "none"
           plugins:
-            - '@prettier/plugin-ruby'
-          '@prettier/plugin-ruby':
-            rubyArrayLiteral: true
-            rubyHashLabel: true
-            rubyModifier: true
-            rubySingleQuote: true
-            rubyToProc: false" > .prettierrc.yml
+            - "@prettier/plugin-ruby"
+          overrides:
+            - files: "**/*.rb"
+              options:
+                parser: "ruby"' > .prettierrc.yml
+
+      - name: Create Prettier ignore
+        run: |
+          echo 'node_modules/
+          vendor/
+          tmp/
+          log/
+          db/schema.rb' > .prettierignore
 
       - name: Create RuboCop config
         run: |
-          echo "# Configuration for RuboCop
+          echo '# Configuration for RuboCop
           inherit_from:
             - node_modules/@prettier/plugin-ruby/rubocop.yml
-
+          
           AllCops:
             NewCops: enable
             TargetRubyVersion: 3.2
             SuggestExtensions: false
             Exclude:
-              - 'node_modules/**/*'
-              - 'vendor/**/*'
-              - 'bin/**/*'
-              - 'db/**/*'
-              - 'tmp/**/*'
-              - 'config/**/*'" > .rubocop.yml
+              - "node_modules/**/*"
+              - "vendor/**/*"
+              - "bin/**/*"
+              - "db/**/*"
+              - "tmp/**/*"
+              - "config/**/*"' > .rubocop.yml
 
       - name: Install dependencies
         run: |

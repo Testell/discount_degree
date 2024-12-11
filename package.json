@@ -2,5 +2,19 @@
   "devDependencies": {
     "@prettier/plugin-ruby": "^4.0.4",
     "prettier": "^3.4.2"
-  }
+  },
+  "name": "discount_degree",
+  "description": "Discount Degree is a web app that shows users the cheapest path to get a degree from an acreddited four year university. It will show you all available transfer credits from a community college, and possibly a cheaper intermediary university, before finishing the degree at the university of choice.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
