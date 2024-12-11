@@ -4,11 +4,4 @@ AllCops:
   Exclude:
     - 'node_modules/**/*'
     - 'vendor/**/*'
-    - 'vendor/bundle/**/*'
   SuggestExtensions: false
-  DisabledByDefault: false
-  DisplayWarning: false
-
-Lint:
-  Enabled: true
-  Warning: false
