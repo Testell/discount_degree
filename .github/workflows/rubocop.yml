@@ -54,9 +54,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          gem install rubocop -v 1.57.2
-          bundle add rubocop -v 1.57.2 --skip-install
-          bundle add code-scanning-rubocop --version 0.3.0 --skip-install
+          # Add code-scanning-rubocop to development group
+          if ! grep -q "code-scanning-rubocop" Gemfile; then
+            sed -i '/group :development do/a\  gem "code-scanning-rubocop", "0.3.0", require: false' Gemfile
+          fi
           bundle install
 
       - name: Run RuboCop
