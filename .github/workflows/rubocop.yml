@@ -1,4 +1,4 @@
-name: "Rubocop with Prettier"
+name: "Rubocop"
 
 on:
   push:
@@ -19,82 +19,55 @@ jobs:
       fail-fast: false
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.2.1
-          bundler-cache: true
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf
+      with:
+        ruby-version: 3.2.1
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
 
-      - name: Install Prettier and plugin-ruby
-        run: |
-          npm install --save-dev prettier@3.4.2 @prettier/plugin-ruby@4.0.4
+    - name: Install Prettier and plugin-ruby
+      run: |
+        npm install --save-dev prettier@3.4.2 @prettier/plugin-ruby@4.0.4
 
-      - name: Create Prettier config
-        run: |
-          echo 'printWidth: 100
-          tabWidth: 2
-          semi: false
-          singleQuote: true
-          trailingComma: "none"
-          plugins:
-            - "@prettier/plugin-ruby"
-          overrides:
-            - files: "**/*.rb"
-              options:
-                parser: "ruby"' > .prettierrc.yml
+    - name: Create Prettier config
+      run: |
+        echo 'printWidth: 100
+        tabWidth: 2
+        semi: false
+        singleQuote: true
+        trailingComma: "none"
+        plugins:
+          - "@prettier/plugin-ruby"
+        overrides:
+          - files: "**/*.rb"
+            options:
+              parser: "ruby"' > .prettierrc.yml
 
-      - name: Create Prettier ignore
-        run: |
-          echo 'node_modules/
-          vendor/
-          tmp/
-          log/
-          db/schema.rb' > .prettierignore
+    - name: Run Prettier check
+      run: npx prettier --check '**/*.rb'
 
-      - name: Create RuboCop config
-        run: |
-          echo '# Configuration for RuboCop
-          inherit_from:
-            - node_modules/@prettier/plugin-ruby/rubocop.yml
-          
-          AllCops:
-            NewCops: enable
-            TargetRubyVersion: 3.2
-            SuggestExtensions: false
-            Exclude:
-              - "node_modules/**/*"
-              - "vendor/**/*"
-              - "bin/**/*"
-              - "db/**/*"
-              - "tmp/**/*"
-              - "config/**/*"' > .rubocop.yml
+    - name: Install Code Scanning integration
+      run: bundle add code-scanning-rubocop --version 0.3.0 --skip-install
 
-      - name: Install dependencies
-        run: |
-          if ! grep -q "code-scanning-rubocop" Gemfile; then
-            sed -i '/group :development do/a\  gem "code-scanning-rubocop", "0.3.0", require: false' Gemfile
-          fi
-          bundle install
+    - name: Install dependencies
+      run: bundle install
 
-      - name: Run Prettier check
-        run: npx prettier --check '**/*.rb'
+    - name: Rubocop run
+      run: |
+        bash -c "
+          bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+          [[ $? -ne 2 ]]
+        "
 
-      - name: Run RuboCop
-        run: |
-          bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif --config .rubocop.yml
-          ls -la rubocop.sarif
-
-      - name: Upload SARIF output
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: rubocop.sarif
-          wait-for-processing: true
+    - name: Upload Sarif output
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: rubocop.sarif
