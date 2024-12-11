@@ -41,13 +41,23 @@ jobs:
             
           AllCops:
             NewCops: enable
-            TargetRubyVersion: 3.2" > .rubocop.yml
-
-      - name: Install Code Scanning integration
-        run: bundle add code-scanning-rubocop --version 0.3.0
+            TargetRubyVersion: 3.2
+            SuggestExtensions: false
+            Exclude:
+              - 'node_modules/**/*'
+              - 'vendor/**/*'
+              
+          # This setting allows RuboCop to continue even if it encounters unknown cops
+          Lint/UnrecognizedCopName:
+            Enabled: false" > .rubocop.yml
 
       - name: Install dependencies
-        run: bundle install
+        run: |
+          gem install rubocop -v 1.57.2
+          bundle init
+          bundle add rubocop -v 1.57.2
+          bundle add code-scanning-rubocop --version 0.3.0
+          bundle install
 
       - name: Run RuboCop
         run: |
