@@ -6,8 +6,6 @@ if Rails.env.development?
   # Create Admin User
   admin_email = ENV.fetch('ADMIN_EMAIL', 'admin@example.com')
   admin_password = ENV.fetch('ADMIN_PASSWORD', 'password123')
-
-@@ -18,6 +17,394 @@
   end
 
   puts "Admin user created in development: #{admin_user.email}, role: #{admin_user.role}"
