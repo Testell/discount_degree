@@ -19,63 +19,43 @@ jobs:
       fail-fast: false
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf
-      with:
-        ruby-version: 3.2.1
-        bundler-cache: true
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.1
+          bundler-cache: true
 
-    - name: Install Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-    - name: Install Prettier and plugin-ruby
-      run: |
-        gem install prettier_print syntax_tree syntax_tree-haml syntax_tree-rbs
-        npm install --save-dev prettier@3.4.2 @prettier/plugin-ruby@4.0.4
+      - name: Install Prettier and plugin-ruby
+        run: |
+          gem install prettier_print syntax_tree syntax_tree-haml syntax_tree-rbs
+          npm install --save-dev prettier@3.4.2 @prettier/plugin-ruby@4.0.4
 
-    - name: Create Prettier config
-      run: |
-        echo '{
-          "printWidth": 100,
-          "tabWidth": 2,
-          "semi": false,
-          "singleQuote": true,
-          "trailingComma": "none",
-          "plugins": ["@prettier/plugin-ruby"],
-          "overrides": [
-            {
-              "files": "**/*.rb",
-              "options": {
-                "parser": "ruby",
-                "rubyPluginParserTimeout": 10000
-              }
-            }
-          ]
-        }' > .prettierrc.json
+      - name: Run Prettier check
+        run: npx prettier --check '**/*.rb'
 
-    - name: Run Prettier check
-      run: npx prettier --check '**/*.rb'
+      - name: Install Code Scanning integration
+        run: bundle add code-scanning-rubocop --version 0.3.0 --skip-install
 
-    - name: Install Code Scanning integration
-      run: bundle add code-scanning-rubocop --version 0.3.0 --skip-install
+      - name: Install dependencies
+        run: bundle install
 
-    - name: Install dependencies
-      run: bundle install
+      - name: Rubocop run
+        run: |
+          bash -c "
+            bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+            [[ $? -ne 2 ]]
+          "
 
-    - name: Rubocop run
-      run: |
-        bash -c "
-          bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
-          [[ $? -ne 2 ]]
-        "
-
-    - name: Upload Sarif output
-      uses: github/codeql-action/upload-sarif@v3
-      with:
-        sarif_file: rubocop.sarif
+      - name: Upload Sarif output
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: rubocop.sarif
