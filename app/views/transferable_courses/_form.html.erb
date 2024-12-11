@@ -13,7 +13,12 @@
 
   <div class="form-group">
     <%= form.label :from_course_id, "Transferable Course" %>
-    <%= form.collection_select :from_course_id, @other_courses, :id, :name_with_school, { prompt: "Select a course" }, { class: "form-control" } %>
+    <%= form.collection_select :from_course_id,
+                           @other_courses,
+                           :id,
+                           :name_with_school,
+                           { prompt: "Select a course" },
+                           { class: "form-control" } %>
   </div>
 
   <%= form.submit "Add Transferable Course", class: "btn btn-primary" %>

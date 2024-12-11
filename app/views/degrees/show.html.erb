@@ -3,7 +3,8 @@
 <%= render @degree %>
 
 <div>
-  <%= link_to "Edit this degree", edit_degree_path(@degree) %> |
+  <%= link_to "Edit this degree", edit_degree_path(@degree) %>
+  |
   <%= link_to "Back to degrees", degrees_path %>
 
   <%= button_to "Destroy this degree", @degree, method: :delete %>
@@ -11,8 +12,9 @@
 
 <h2>Degree Requirements</h2>
 <ul id="degree-requirements-list">
-  <%= render partial: "degree_requirements/degree_requirement_list_item", 
-  collection: @degree.degree_requirements, as: :degree_requirement %>
+  <%= render partial: "degree_requirements/degree_requirement_list_item",
+  collection: @degree.degree_requirements,
+  as: :degree_requirement %>
 </ul>
 
 <h2>Add a Requirement</h2>
@@ -27,8 +29,14 @@
   <div class="form-group">
     <%= form.label :starting_school_id, "Select Starting School" %>
     <%= form.select :starting_school_id,
-                    options_from_collection_for_select(School.where(school_type: 'community_college'), :id, :name),
-                    { prompt: "Select Starting School" }, class: "form-control", required: true %>
+                options_from_collection_for_select(
+                  School.where(school_type: "community_college"),
+                  :id,
+                  :name,
+                ),
+                { prompt: "Select Starting School" },
+                class: "form-control",
+                required: true %>
   </div>
 
   <div class="actions mt-3">

@@ -1,7 +1,11 @@
 <li id="course-requirement-<%= course_requirement.id %>">
-  <%= link_to "#{course_requirement.course.name} (#{course_requirement.is_mandatory ? 'Mandatory' : 'Optional'})", 
+  <%= link_to "#{course_requirement.course.name} (#{course_requirement.is_mandatory ? "Mandatory" : "Optional"})",
   course_path(course_requirement.course) %>
-  <%= button_to "Delete", course_requirement_path(course_requirement), method: :delete, 
-    data: { confirm: "Are you sure you want to delete this course requirement?" }, 
-    class: "btn btn-danger btn-sm" %>
+  <%= button_to "Delete",
+  course_requirement_path(course_requirement),
+  method: :delete,
+  data: {
+    confirm: "Are you sure you want to delete this course requirement?",
+  },
+  class: "btn btn-danger btn-sm" %>
 </li>
