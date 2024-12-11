@@ -1,4 +1,4 @@
-name: "Rubocop"
+name: "Ruby Linting"
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
   security-events: write
 
 jobs:
-  rubocop:
+  linting:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -34,7 +34,7 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      - name: Install Prettier and plugin-ruby
+      - name: Install Prettier and dependencies
         run: |
           gem install prettier_print syntax_tree syntax_tree-haml syntax_tree-rbs
           npm install --save-dev prettier@3.4.2 @prettier/plugin-ruby@4.0.4
@@ -42,13 +42,20 @@ jobs:
       - name: Run Prettier check
         run: npx prettier --check '**/*.rb'
 
-      - name: Install dependencies
+      - name: Install Ruby dependencies
         run: bundle install
 
-      - name: Rubocop run
-        run: bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+      - name: Install code-scanning Rubocop extension
+        run: gem install code-scanning-rubocop
 
-      - name: Upload Sarif output
+      - name: Run Rubocop with SARIF output
+        run: |
+          bundle exec rubocop \
+            --require code_scanning \
+            --format CodeScanning::SarifFormatter \
+            --out rubocop.sarif
+
+      - name: Upload SARIF results
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: rubocop.sarif

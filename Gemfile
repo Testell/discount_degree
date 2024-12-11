@@ -53,10 +53,11 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 group :development do
+  # Linting and formatting
   gem 'rubocop', require: false
-end
-
-group :development do
+  gem 'code-scanning-rubocop', '0.3.0'
+  
+  # Prettier support gems
   gem 'syntax_tree'
   gem 'prettier_print'
   gem 'syntax_tree-haml'

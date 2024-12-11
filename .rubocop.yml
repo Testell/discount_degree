@@ -1,12 +1,34 @@
-inherit_from:
-  - node_modules/@prettier/plugin-ruby/rubocop.yml
-
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.0
   ForceExclusion: true
   Exclude:
     - 'node_modules/**/*'
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - 'config/**/*'
+    - 'public/**/*'
 
+# Prettier compatibility settings
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+Layout/EmptyLines:
+  Enabled: false
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+Layout/FirstHashElementIndentation:
+  Enabled: false
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: false
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false
 Style/QuotedSymbols:
   Enabled: false
