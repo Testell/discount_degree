@@ -66,7 +66,7 @@ Tyler - [tylerestell1@gmail.com](mailto:tylerestell1@gmail.com)
 Project Link: [https://github.com/Testell/discount_degree](https://github.com/Testell/discount_degree)
 
 ## Current state of project
-![Screenshot 2024-12-09 at 9 42 55 AM](https://gist.github.com/user-attachments/assets/bfc267ef-b60e-45ed-832e-7f1709dfeea5)
+![ERD](image-1.png)
 
 - Next steps for domain modeling:
   1. Plans needs to be refactored to account for custom user plans in the future
@@ -80,3 +80,6 @@ Project Link: [https://github.com/Testell/discount_degree](https://github.com/Te
       of credits will be added PAST the required amount. This is from starting the process over again, and eventually a bug happens where 
       more classes then needed are added. I believe this is happening in the reconstruct_path method of the cheapest_plan_generater service file
   
+  Sketch for algo:
+
+  ![Alt text](image-2.png)
