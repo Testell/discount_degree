@@ -3,37 +3,5 @@ AllCops:
   TargetRubyVersion: 2.7
   Exclude:
     - 'node_modules/**/*'
-
-Layout:
-  ConditionPosition: {}
-  DotPosition: {}
-  ExtraSpacing: {}
-  InitialIndentation: {}
-  LineLength: {}
-  MultilineMethodCallIndentation: {}
-  MultilineOperationIndentation: {}
-
-Naming:
-  AccessorMethodName: {}
-  AsciiIdentifiers: {}
-  BinaryOperatorParameterName: {}
-  FileName: {}
-  PredicateName:
-    ForbiddenPrefixes:
-      - is_
-      - has_
-      - have_
-
-Lint:
-  DuplicateHashKey: {}
-  FlipFlop: {}
-  SuppressedException: {}
-
-Style:
-  Sample: {}
-  TrailingCommaInArrayLiteral: {}
-  TrailingCommaInHashLiteral: {}
-
-require:
-  - rubocop-performance
-  - rubocop-rails
+    - 'vendor/**/*'
+    - 'vendor/bundle/**/*'
