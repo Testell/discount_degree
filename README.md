@@ -8,6 +8,9 @@ It will show you all available transfer credits from a community college, and po
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Current State](#current-state-of-project)
 
 ## Installation
 
