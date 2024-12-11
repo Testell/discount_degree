@@ -54,8 +54,9 @@ gem "bootsnap", require: false
 
 group :development do
   # Linting and formatting
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.82.0', require: false  
   gem 'code-scanning-rubocop', '0.3.0'
+
   
   # Prettier support gems
   gem 'syntax_tree'
