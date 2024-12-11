@@ -40,12 +40,15 @@
       <ul>
         <% course.degree_requirements.each do |req| %>
           <li>
-            <%= link_to req.name, degree_requirement_path(req) %> - Part of <%= req.degree.name %>
+            <%= link_to req.name, degree_requirement_path(req) %>
+            - Part of
+            <%= req.degree.name %>
           </li>
         <% end %>
       </ul>
     </p>
   <% else %>
-    <p><strong>Degree Requirements:</strong> Not yet assigned</p>
+    <p><strong>Degree Requirements:</strong>
+      Not yet assigned</p>
   <% end %>
 </div>

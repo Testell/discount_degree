@@ -1,0 +1,8 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.7
+  Exclude:
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'vendor/bundle/ruby/3.2.0/gems/code-scanning-rubocop-0.5.0/**/*'
+  SuggestExtensions: false

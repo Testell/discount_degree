@@ -1,37 +1,32 @@
 class SchoolsController < ApplicationController
   before_action { authorize(@school || School) }
-  before_action :set_school, only: %i[ show edit update destroy ]
+  before_action :set_school, only: %i[show edit update destroy]
 
-  # GET /schools or /schools.json
   def index
     @schools = School.all
   end
 
-  # GET /schools/1 or /schools/1.json
   def show
     @school = School.find(params[:id])
     @degrees = @school.degrees
-    @degree = Degree.new(school: @school) 
+    @degree = Degree.new(school: @school)
     @courses = @school.courses
     @course = Course.new(school: @school)
     @terms = @school.terms
     @term = Term.new(school: @school)
   end
 
-  # GET /schools/new
   def new
     @school = School.new
     @course = Course.new
   end
 
-  # GET /schools/1/edit
   def edit
   end
 
-  # POST /schools or /schools.json
   def create
     @school = School.new(school_params)
-  
+
     respond_to do |format|
       if @school.save
         format.html { redirect_to school_path(@school), notice: "School was successfully created." }
@@ -43,7 +38,6 @@ class SchoolsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /schools/1 or /schools/1.json
   def update
     respond_to do |format|
       if @school.update(school_params)
@@ -56,7 +50,6 @@ class SchoolsController < ApplicationController
     end
   end
 
-  # DELETE /schools/1 or /schools/1.json
   def destroy
     @school.destroy!
 
@@ -67,13 +60,22 @@ class SchoolsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_school
-      @school = School.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def school_params
-      params.require(:school).permit(:name, :school_type, :credit_hour_price, :full_time_tuition, :part_time_tuition, :single_course_tuition, :minimum_credits_from_school, :max_credits_from_community_college, :max_credits_from_university)
-    end
+  def set_school
+    @school = School.find(params[:id])
+  end
+
+  def school_params
+    params.require(:school).permit(
+      :name,
+      :school_type,
+      :credit_hour_price,
+      :full_time_tuition,
+      :part_time_tuition,
+      :single_course_tuition,
+      :minimum_credits_from_school,
+      :max_credits_from_community_college,
+      :max_credits_from_university
+    )
+  end
 end

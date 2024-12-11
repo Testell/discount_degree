@@ -3,14 +3,14 @@ Rails.application.routes.draw do
 
   resources :users do
     member do
-      post 'save_plan', to: 'saved_plans#create', as: 'save_plan'
-      delete 'remove_saved_plan', to: 'saved_plans#destroy', as: 'remove_saved_plan'
+      post "save_plan", to: "saved_plans#create", as: "save_plan"
+      delete "remove_saved_plan", to: "saved_plans#destroy", as: "remove_saved_plan"
     end
   end
-  
-  resources :plans, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
-  resources :saved_plans, only: [:show, :create, :destroy]
+  resources :plans, only: %i[index show new create edit update destroy]
+
+  resources :saved_plans, only: %i[show create destroy]
 
   resources :course_requirements
 
@@ -31,17 +31,20 @@ Rails.application.routes.draw do
   end
 
   resources :terms
-  
+
   resources :degrees do
     resources :degree_requirements, only: [:create]
-    post 'generate_cheapest_plan', to: 'admin_cheapest_plan#create', as: 'generate_cheapest_plan', on: :member
+    post "generate_cheapest_plan",
+         to: "admin_cheapest_plan#create",
+         as: "generate_cheapest_plan",
+         on: :member
   end
 
-  get '/plan_page', to: 'pages#plan_page', as: 'plan_page'
+  get "/plan_page", to: "pages#plan_page", as: "plan_page"
 
-  get '/show_plan', to: 'pages#show_plan', as: 'show_plan'
-  get 'save_plan_prompt', to: 'users#save_plan_prompt', as: 'prompt_save_plan'
-  post '/generate_plan', to: 'pages#generate_plan', as: 'generate_plan'
+  get "/show_plan", to: "pages#show_plan", as: "show_plan"
+  get "save_plan_prompt", to: "users#save_plan_prompt", as: "prompt_save_plan"
+  post "/generate_plan", to: "pages#generate_plan", as: "generate_plan"
 
-  root "pages#home" 
+  root "pages#home"
 end

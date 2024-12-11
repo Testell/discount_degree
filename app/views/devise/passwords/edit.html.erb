@@ -10,24 +10,32 @@
 
             <div class="mb-4 row justify-content-center">
               <div class="col-md-6">
-                <%= f.label :password, "New password", class: 'form-label fs-3 mb-2' %>
+                <%= f.label :password, "New password", class: "form-label fs-3 mb-2" %>
                 <% if @minimum_password_length %>
-                  <small class="form-text text-muted d-block fs-4">(<%= @minimum_password_length %> characters minimum)</small>
+                  <small class="form-text text-muted d-block fs-4">(<%= @minimum_password_length %>
+                    characters minimum)</small>
                 <% end %>
-                <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: 'form-control fs-4' %>
+                <%= f.password_field :password,
+                                 autofocus: true,
+                                 autocomplete: "new-password",
+                                 class: "form-control fs-4" %>
               </div>
             </div>
 
             <div class="mb-4 row justify-content-center">
               <div class="col-md-6">
-                <%= f.label :password_confirmation, "Confirm new password", class: 'form-label fs-3 mb-2' %>
-                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control fs-4' %>
+                <%= f.label :password_confirmation,
+                        "Confirm new password",
+                        class: "form-label fs-3 mb-2" %>
+                <%= f.password_field :password_confirmation,
+                                 autocomplete: "new-password",
+                                 class: "form-control fs-4" %>
               </div>
             </div>
 
             <div class="row justify-content-center">
               <div class="col-md-6 text-center">
-                <%= f.submit "Change my password", class: 'btn custom-btn-2 fs-4' %>
+                <%= f.submit "Change my password", class: "btn custom-btn-2 fs-4" %>
               </div>
             </div>
           <% end %>

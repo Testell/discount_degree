@@ -1,0 +1,11 @@
+printWidth: 100
+tabWidth: 2
+semi: false
+singleQuote: true
+trailingComma: 'none'
+plugins:
+  - '@prettier/plugin-ruby'
+overrides:
+  - files: '**/*.rb'
+    options:
+      parser: 'ruby'

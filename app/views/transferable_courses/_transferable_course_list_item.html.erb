@@ -1,5 +1,8 @@
 <li id="transferable_course_<%= transferable_course.id %>">
   <%= link_to transferable_course_path(transferable_course) do %>
-    From: <%= transferable_course.from_course.name %> - To: <%= transferable_course.to_course.name %>
+    From:
+    <%= transferable_course.from_course.name %>
+    - To:
+    <%= transferable_course.to_course.name %>
   <% end %>
 </li>

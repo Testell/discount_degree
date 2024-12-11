@@ -52,6 +52,22 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+group :development do
+  # Linting and formatting
+  gem 'code-scanning-rubocop', '~> 0.5.0'  # Latest version
+gem 'rubocop', '~> 1.60'
+
+gem 'rubocop-performance'
+gem 'rubocop-rails'
+  
+  # Prettier support gems
+  gem 'prettier'
+  gem 'syntax_tree'
+  gem 'prettier_print'
+  gem 'syntax_tree-haml'
+  gem 'syntax_tree-rbs'
+end
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

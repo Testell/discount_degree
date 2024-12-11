@@ -1,17 +1,17 @@
 class PagePolicy < ApplicationPolicy
   def home?
-    true  
+    true
   end
 
   def plan_page?
-    true  
+    true
   end
 
   def generate_plan?
-    true  
+    true
   end
 
   def show_plan?
-    true  
+    true
   end
 end

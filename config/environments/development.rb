@@ -7,9 +7,7 @@ Rails.application.configure do
   config.web_console.allowed_ips = "0.0.0.0/0.0.0.0"
   BetterErrors::Middleware.allow_ip! "0.0.0.0/0.0.0.0"
   # Auto-connect to database when rails console opens
-  console do
-    ActiveRecord::Base.connection
-  end
+  console { ActiveRecord::Base.connection }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
@@ -33,9 +31,7 @@ Rails.application.configure do
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
-    config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
-    }
+    config.public_file_server.headers = { "Cache-Control" => "public, max-age=#{2.days.to_i}" }
   else
     config.action_controller.perform_caching = false
 

@@ -12,16 +12,12 @@ class UserPolicy < ApplicationPolicy
   end
 
   def save_plan_prompt?
-    true 
+    true
   end
 
   class Scope < Scope
     def resolve
-      if user.admin?
-        scope.all
-      else
-        scope.where(id: user.id)
-      end
+      user.admin? ? scope.all : scope.where(id: user.id)
     end
   end
 end

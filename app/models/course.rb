@@ -23,13 +23,19 @@
 #
 class Course < ApplicationRecord
   belongs_to :school, required: true, class_name: "School", foreign_key: "school_id"
-  belongs_to :term, optional: true 
+  belongs_to :term, optional: true
 
   has_many :course_requirements, dependent: :destroy
   has_many :degree_requirements, through: :course_requirements
 
-  has_many :start_transferable_courses, class_name: "TransferableCourse", foreign_key: "from_course_id", dependent: :destroy
-  has_many :end_transferable_courses, class_name: "TransferableCourse", foreign_key: "to_course_id", dependent: :destroy
+  has_many :start_transferable_courses,
+           class_name: "TransferableCourse",
+           foreign_key: "from_course_id",
+           dependent: :destroy
+  has_many :end_transferable_courses,
+           class_name: "TransferableCourse",
+           foreign_key: "to_course_id",
+           dependent: :destroy
 
   has_many :transferable_to_courses, through: :start_transferable_courses, source: :to_course
   has_many :transferable_from_courses, through: :end_transferable_courses, source: :from_course

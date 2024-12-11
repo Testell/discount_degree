@@ -14,17 +14,25 @@
   <% end %>
 
   <div class="form-group">
-  <%= form.label :department, "Department" %>
-  <%= form.text_field :department, class: "form-control" %>
-  </div>
-  
-  <div class="form-group">
-    <%= form.label :code, "Department Code" %>
-    <%= form.text_field :code, class: "form-control", id: "course-code-field", disabled: false %>
-    <button type="button" id="edit-course-code" class="btn btn-link" style="display: none;">Edit</button>
+    <%= form.label :department, "Department" %>
+    <%= form.text_field :department, class: "form-control" %>
   </div>
 
-   <div class="form-group">
+  <div class="form-group">
+    <%= form.label :code, "Department Code" %>
+    <%= form.text_field :code,
+                    class: "form-control",
+                    id: "course-code-field",
+                    disabled: false %>
+    <button
+      type="button"
+      id="edit-course-code"
+      class="btn btn-link"
+      style="display: none;"
+    >Edit</button>
+  </div>
+
+  <div class="form-group">
     <%= form.label :course_number, "Course Number" %>
     <%= form.number_field :course_number, class: "form-control" %>
   </div>
@@ -36,16 +44,15 @@
 
   <div class="form-group">
     <%= form.label :credit_hours, "Credit Hours" %>
-    <%= form.number_field :credit_hours, class: "form-control", step: '0.0001' %>
+    <%= form.number_field :credit_hours, class: "form-control", step: "0.0001" %>
   </div>
 
   <div class="form-group">
-  <%= form.label :category, "Category" %>
-  <%= form.text_field :category, class: "form-control" %>
+    <%= form.label :category, "Category" %>
+    <%= form.text_field :category, class: "form-control" %>
   </div>
 
   <div class="actions">
     <%= form.submit "Add Course", class: "btn btn-outline-primary btn-block" %>
   </div>
 <% end %>
- 

@@ -1,6 +1,6 @@
 class DegreePolicy < ApplicationPolicy
   def index?
-    admin? 
+    admin?
   end
 
   def show?

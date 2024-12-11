@@ -135,4 +135,12 @@ a:hover, a:visited, a:active {
   text-decoration: none !important;
 }
 
+.custom-navbar .nav-link {
+  text-decoration: none; /* No underline by default */
+}
 
+.custom-navbar .nav-link:hover {
+  text-decoration: underline !important; /* Add underline on hover */
+  color: #000 !important; /* Ensure consistent hover color */
+  cursor: pointer; /* Show pointer cursor */
+}

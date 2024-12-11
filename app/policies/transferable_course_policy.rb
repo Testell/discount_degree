@@ -1,6 +1,6 @@
 class TransferableCoursePolicy < ApplicationPolicy
   def index?
-    admin? 
+    admin?
   end
 
   def show?

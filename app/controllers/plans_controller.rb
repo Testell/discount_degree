@@ -14,24 +14,25 @@ class PlansController < ApplicationController
   def new
     @plan = Plan.new
     @degrees = Degree.all
-    @schools = School.where(school_type: 'community_college')
+    @schools = School.where(school_type: "community_college")
   end
 
   def create
-    ending_school = @degree.school  
+    ending_school = @degree.school
 
     generator = PlanServices::CheapestPlanGenerator.new(@degree, @starting_school, ending_school)
     generated_plan = generator.generate_cheapest_plan
 
     respond_to do |format|
       if generated_plan.present?
-        @plan = @degree.plans.build(
-          starting_school: @starting_school,
-          ending_school: ending_school,
-          total_cost: generated_plan[:total_cost],
-          path: generated_plan[:path],
-          term_assignments: generated_plan[:term_assignments]
-        )
+        @plan =
+          @degree.plans.build(
+            starting_school: @starting_school,
+            ending_school: ending_school,
+            total_cost: generated_plan[:total_cost],
+            path: generated_plan[:path],
+            term_assignments: generated_plan[:term_assignments]
+          )
 
         if @plan.save
           format.html { redirect_to @plan, notice: "Plan was successfully created." }
@@ -44,7 +45,9 @@ class PlansController < ApplicationController
         end
       else
         format.html { render :new, alert: "Failed to generate plan." }
-        format.json { render json: { error: "Failed to generate plan." }, status: :unprocessable_entity }
+        format.json do
+          render json: { error: "Failed to generate plan." }, status: :unprocessable_entity
+        end
         format.js
       end
     end
@@ -91,7 +94,6 @@ class PlansController < ApplicationController
     @starting_school = School.find(plan_params[:starting_school_id])
   end
 
-  # Only allow a list of trusted parameters through.
   def plan_params
     params.require(:plan).permit(:degree_id, :starting_school_id)
   end

@@ -3,12 +3,10 @@ class CoursesController < ApplicationController
   before_action :set_course, only: %i[show edit update destroy]
   before_action :set_school, only: [:create]
 
-  # GET /courses or /courses.json
   def index
     @courses = Course.all
   end
 
-  # GET /courses/1 or /courses/1.json
   def show
     @course = Course.find(params[:id])
     @transferable_courses = @course.end_transferable_courses || []
@@ -16,12 +14,10 @@ class CoursesController < ApplicationController
     @other_courses = Course.where.not(school_id: @course.school_id)
   end
 
-  # GET /courses/new
   def new
     @course = Course.new
   end
 
-  # POST /courses or /courses.json
   def create
     @course = @school.courses.build(course_params)
 
@@ -38,7 +34,6 @@ class CoursesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /courses/1 or /courses/1.json
   def update
     respond_to do |format|
       if @course.update(course_params)
@@ -52,7 +47,6 @@ class CoursesController < ApplicationController
     end
   end
 
-  # DELETE /courses/1 or /courses/1.json
   def destroy
     @course.destroy!
 
@@ -69,10 +63,18 @@ class CoursesController < ApplicationController
   end
 
   def set_school
-    @school = School.find(params[:school_id]) 
+    @school = School.find(params[:school_id])
   end
 
   def course_params
-    params.require(:course).permit(:department, :category, :code, :course_number, :name, :credit_hours, :school_id)
-  end   
+    params.require(:course).permit(
+      :department,
+      :category,
+      :code,
+      :course_number,
+      :name,
+      :credit_hours,
+      :school_id
+    )
+  end
 end

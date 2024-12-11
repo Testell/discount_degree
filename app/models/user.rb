@@ -21,20 +21,19 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
-         has_many :saved_plans, dependent: :destroy
-         has_many :plans, through: :saved_plans
-         
-         validates :username, presence: true, uniqueness: true
-         validates :role, presence: true, inclusion: { in: %w[user admin] }
-       
-         after_initialize :set_default_role, if: :new_record?
-       
-         private
-       
-         def set_default_role
-           self.role ||= 'user'
-         end
+  has_many :saved_plans, dependent: :destroy
+  has_many :plans, through: :saved_plans
+
+  validates :username, presence: true, uniqueness: true
+  validates :role, presence: true, inclusion: { in: %w[user admin] }
+
+  after_initialize :set_default_role, if: :new_record?
+
+  private
+
+  def set_default_role
+    self.role ||= "user"
+  end
 end

@@ -1,77 +1,63 @@
-<div id="<%= dom_id(plan) %>" class="card shadow custom-card mx-auto my-4 p-4" style="background-color: #f9f5f0;">
+<div
+  id="<%= dom_id(plan) %>"
+  class="card shadow custom-card mx-auto my-4 p-4"
+  style="background-color: #f9f5f0;"
+>
   <div class="mb-4 text-center">
-  <h2 class="fs-3 mb-3">
-    <div class="d-flex flex-column align-items-center">
-      <strong>Path</strong>
-      <span><%= plan.path.join(' → ') %></span>
-    </div>
-  </h2>
-  <h2 class="fs-3 mb-3">
-    <div class="d-flex flex-column align-items-center">
-      <strong>Total Cost</strong>
-      <span>$<%= number_with_precision(plan.total_cost, precision: 2) %></span>
-    </div>
-  </h2>
-  <h2 class="fs-3 mb-3">
-    <div class="d-flex flex-column align-items-center">
-      <strong>Total Credit Hours</strong>
-      <span><%= number_with_precision(plan.total_credit_hours, precision: 2) %></span>
-    </div>
-  </h2>
-</div>
+    <h2 class="fs-3 mb-3">
+      <div class="d-flex flex-column align-items-center">
+        <strong>Path</strong>
+        <span><%= plan.path.join(" → ") %></span>
+      </div>
+    </h2>
+    <h2 class="fs-3 mb-3">
+      <div class="d-flex flex-column align-items-center">
+        <strong>Total Cost</strong>
+        <span>$<%= number_with_precision(plan.total_cost, precision: 2) %></span>
+      </div>
+    </h2>
+    <h2 class="fs-3 mb-3">
+      <div class="d-flex flex-column align-items-center">
+        <strong>Total Credit Hours</strong>
+        <span><%= number_with_precision(plan.total_credit_hours, precision: 2) %></span>
+      </div>
+    </h2>
+  </div>
 
   <h2 class="text-center mt-4 mb-4 fs-3">Term Assignments</h2>
 
   <% if plan.term_assignments.any? %>
     <div class="container">
       <div class="row g-4">
-        <% terms_by_school = plan.term_assignments.group_by { |term| term['school_id'] }
-           terms_by_school.each do |school_id, school_terms|
-           school_terms.sort_by! { |term| term['term_number'] }
-           term_counter = 1
-           school_terms.each do |term| %>
-          <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title mb-1 fs-4">Term <%= term_counter %></h5>
-                <h6 class="text-muted mb-3 fs-4"><%= term['name'] %></h6>
-                <p class="mb-1 fs-4"><strong>Credit Hours:</strong> <%= term['credit_hours'] %></p>
-                <p class="mb-3 fs-4"><strong>Cost:</strong> $<%= number_with_precision(term['cost'], precision: 2) %></p>
-                <h6 class="fs-4"><strong>Courses:</strong></h6>
-                <ul class="list-unstyled mt-2 ps-3">
-                  <% term['courses'].each do |course| %>
-                    <li class="fs-4">• <%= course %></li>
-                  <% end %>
-                </ul>
+        <% terms_by_school = plan.term_assignments.group_by { |term| term["school_id"] } %>
+        <% terms_by_school.each do |school_id, school_terms| %>
+          <% school_terms.sort_by! { |term| term["term_number"] } %>
+          <% school_terms.each_with_index do |term, index| %>
+            <div class="col-md-6">
+              <div class="card shadow-sm h-100">
+                <div class="card-body">
+                  <h5 class="card-title mb-1 fs-4">Term
+                    <%= index + 1 %></h5>
+                  <h6 class="text-muted mb-3 fs-4"><%= term["name"] %></h6>
+                  <p class="mb-1 fs-4"><strong>Credit Hours:</strong>
+                    <%= term["credit_hours"] %></p>
+                  <p class="mb-3 fs-4"><strong>Cost:</strong>
+                    $<%= number_with_precision(term["cost"], precision: 2) %></p>
+                  <h6 class="fs-4"><strong>Courses:</strong></h6>
+                  <ul class="list-unstyled mt-2 ps-3">
+                    <% term['courses'].each do |course| %>
+                      <li class="fs-4">•
+                        <%= course %></li>
+                    <% end %>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        <% term_counter += 1
-           end
-           end %>
+          <% end %>
+        <% end %>
       </div>
     </div>
   <% else %>
-    <p class="text-center fs-4">No term assignments available</p>
+    <p>No term assignments found.</p>
   <% end %>
-
-  <div class="mt-4 text-center">
-    <% if user_signed_in? && current_user == @user %>
-      <% if current_user.plans.include?(plan) %>
-        <%= link_to 'Unsave Plan',
-            remove_saved_plan_user_path(current_user, plan_id: plan.id),
-            class: "btn btn-danger fs-4",
-            data: { turbo_method: :delete } %>
-      <% else %>
-        <%= link_to 'Save Plan',
-            save_plan_user_path(current_user, plan_id: plan.id),
-            class: "btn btn-primary fs-4",
-            data: { turbo_method: :post } %>
-      <% end %>
-    <% else %>
-      <%= link_to 'Save Plan',
-          prompt_save_plan_path(plan_id: plan.id),
-          class: "btn custom-btn-2 fs-4" %>
-    <% end %>
-  </div>
 </div>

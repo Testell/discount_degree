@@ -8,15 +8,20 @@
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
             <div class="mb-4 row justify-content-center">
               <div class="col-md-6">
-                <%= f.label :email, class: 'form-label fs-3 mb-2' %>
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control fs-4' %>
+                <%= f.label :email, class: "form-label fs-3 mb-2" %>
+                <%= f.email_field :email,
+                              autofocus: true,
+                              autocomplete: "email",
+                              class: "form-control fs-4" %>
               </div>
             </div>
 
             <div class="mb-4 row justify-content-center">
               <div class="col-md-6">
-                <%= f.label :password, class: 'form-label fs-3 mb-2' %>
-                <%= f.password_field :password, autocomplete: "current-password", class: 'form-control fs-4' %>
+                <%= f.label :password, class: "form-label fs-3 mb-2" %>
+                <%= f.password_field :password,
+                                 autocomplete: "current-password",
+                                 class: "form-control fs-4" %>
               </div>
             </div>
 
@@ -24,8 +29,8 @@
               <div class="mb-4 row justify-content-center">
                 <div class="col-md-6 text-start fs-4">
                   <div class="form-check">
-                    <%= f.check_box :remember_me, class: 'form-check-input' %>
-                    <%= f.label :remember_me, class: 'form-check-label' %>
+                    <%= f.check_box :remember_me, class: "form-check-input" %>
+                    <%= f.label :remember_me, class: "form-check-label" %>
                   </div>
                 </div>
               </div>
@@ -33,7 +38,7 @@
 
             <div class="row justify-content-center">
               <div class="col-md-6 text-center">
-                <%= f.submit "Log in", class: 'btn custom-btn-2 fs-4' %>
+                <%= f.submit "Log in", class: "btn custom-btn-2 fs-4" %>
               </div>
             </div>
           <% end %>

@@ -2,15 +2,11 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-
-# pulled from repo
 name: "Rubocop"
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
-    # The branches below must be a subset of the branches above
     branches: [ "main" ]
   schedule:
     - cron: '16 5 * * 0'
@@ -29,16 +25,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # If running on a self-hosted runner, check it meets the requirements
-    # listed at https://github.com/ruby/setup-ruby#using-self-hosted-runners
     - name: Set up Ruby
       uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
       with:
         ruby-version: 3.2.1
-
-    # This step is not necessary if you add the gem to your Gemfile
-    - name: Install Code Scanning integration
-      run: bundle add code-scanning-rubocop --version 0.3.0 --skip-install
 
     - name: Install dependencies
       run: bundle install
@@ -54,3 +44,6 @@ jobs:
       uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: rubocop.sarif
+
+    - name: Prettier Ruby Check
+      run: bundle exec rbprettier --check '**/*.rb'
