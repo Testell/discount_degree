@@ -4,3 +4,9 @@ inherit_from:
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.0
+  ForceExclusion: true
+  Exclude:
+    - 'node_modules/**/*'
+
+Style/QuotedSymbols:
+  Enabled: false
