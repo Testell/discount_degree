@@ -125,3 +125,5 @@ group :test do
   gem "rspec-html-matchers"
   gem "webmock"
 end
+
+gem "code-scanning-rubocop", "= 0.3.0"
