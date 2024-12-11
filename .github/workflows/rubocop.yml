@@ -1,4 +1,4 @@
-name: "Rubocop"
+name: "Rubocop with Prettier"
 
 on:
   push:
@@ -32,14 +32,15 @@ jobs:
           node-version: '18'
 
       - name: Install Prettier and plugin-ruby
-        run: npm install prettier @prettier/plugin-ruby
+        run: |
+          npm install prettier@3.4.2 @prettier/plugin-ruby@4.0.4
 
       - name: Create RuboCop config
         run: |
-          echo "# Configuration for RuboCop
+          echo "# Configuration for RuboCop with Prettier
           inherit_from:
             - node_modules/@prettier/plugin-ruby/rubocop.yml
-            
+
           AllCops:
             NewCops: enable
             TargetRubyVersion: 3.2
@@ -47,18 +48,20 @@ jobs:
             Exclude:
               - 'node_modules/**/*'
               - 'vendor/**/*'
-              
-          # Handle unrecognized cops gracefully
-          Lint/UnrecognizedCopName:
-            Enabled: false" > .rubocop.yml
+              - 'bin/**/*'
+              - 'db/**/*'
+              - 'tmp/**/*'
+              - 'config/**/*'" > .rubocop.yml
 
       - name: Install dependencies
         run: |
-          # Add code-scanning-rubocop to development group
           if ! grep -q "code-scanning-rubocop" Gemfile; then
             sed -i '/group :development do/a\  gem "code-scanning-rubocop", "0.3.0", require: false' Gemfile
           fi
           bundle install
+
+      - name: Run Prettier check
+        run: npx prettier --check '**/*.rb'
 
       - name: Run RuboCop
         run: |
