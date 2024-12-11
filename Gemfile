@@ -54,8 +54,8 @@ gem "bootsnap", require: false
 
 group :development do
   # Linting and formatting
-  gem 'rubocop', '~> 0.82.0', require: false  
-  gem 'code-scanning-rubocop', '0.3.0'
+  gem 'code-scanning-rubocop', '~> 0.5.0'  # Latest version
+gem 'rubocop', '~> 1.60'
 
   
   # Prettier support gems
@@ -128,4 +128,4 @@ group :test do
   gem "webmock"
 end
 
-gem "code-scanning-rubocop", "= 0.3.0"
+
