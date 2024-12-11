@@ -61,6 +61,7 @@ gem 'rubocop-performance'
 gem 'rubocop-rails'
   
   # Prettier support gems
+  gem 'prettier'
   gem 'syntax_tree'
   gem 'prettier_print'
   gem 'syntax_tree-haml'

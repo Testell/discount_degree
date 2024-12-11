@@ -269,6 +269,10 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.6)
+    prettier (4.0.4)
+      syntax_tree (>= 4.0.1)
+      syntax_tree-haml (>= 2.0.0)
+      syntax_tree-rbs (>= 0.2.0)
     prettier_print (1.2.1)
     pry (0.14.2)
       coderay (~> 1.1)
@@ -513,6 +517,7 @@ DEPENDENCIES
   jbuilder
   nokogiri (= 1.16.5)
   pg (~> 1.1)
+  prettier
   prettier_print
   pry-rails
   puma
