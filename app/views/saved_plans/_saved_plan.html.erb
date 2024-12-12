@@ -71,4 +71,11 @@
   <% else %>
     <p>No term assignments found.</p>
   <% end %>
+  <div class="mt-4 text-center">
+    <%= button_to 'Remove Plan',
+        saved_plan_path(saved_plan),
+        method: :delete,
+        class: "btn btn-danger fs-4",
+        data: { confirm: "Are you sure you want to remove this plan?" } %>
+  </div>
 </div>
