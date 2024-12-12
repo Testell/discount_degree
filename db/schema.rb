@@ -20,7 +20,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_12_153125) do
     t.string "logic_type", default: "and", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id", "prerequisite_id"], name: "index_course_prerequisites_on_course_id_and_prerequisite_id", unique: true
+    t.index %w[course_id prerequisite_id],
+            name: "index_course_prerequisites_on_course_id_and_prerequisite_id",
+            unique: true
     t.index ["course_id"], name: "index_course_prerequisites_on_course_id"
     t.index ["prerequisite_id"], name: "index_course_prerequisites_on_prerequisite_id"
   end
