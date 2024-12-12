@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_07_174954) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_12_153125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "course_prerequisites", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "prerequisite_id", null: false
+    t.string "logic_type", default: "and", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id", "prerequisite_id"], name: "index_course_prerequisites_on_course_id_and_prerequisite_id", unique: true
+    t.index ["course_id"], name: "index_course_prerequisites_on_course_id"
+    t.index ["prerequisite_id"], name: "index_course_prerequisites_on_prerequisite_id"
+  end
 
   create_table "course_requirements", force: :cascade do |t|
     t.bigint "course_id", null: false
@@ -35,6 +46,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_07_174954) do
     t.bigint "school_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
     t.index ["school_id"], name: "index_courses_on_school_id"
   end
 
@@ -66,9 +78,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_07_174954) do
     t.jsonb "transferable_courses", default: [], null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "plan_type"
     t.index ["degree_id"], name: "index_plans_on_degree_id"
     t.index ["ending_school_id"], name: "index_plans_on_ending_school_id"
     t.index ["intermediary_school_id"], name: "index_plans_on_intermediary_school_id"
+    t.index ["plan_type"], name: "index_plans_on_plan_type"
     t.index ["starting_school_id"], name: "index_plans_on_starting_school_id"
   end
 
@@ -124,6 +138,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_07_174954) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "course_prerequisites", "courses"
+  add_foreign_key "course_prerequisites", "courses", column: "prerequisite_id"
   add_foreign_key "course_requirements", "courses"
   add_foreign_key "course_requirements", "degree_requirements"
   add_foreign_key "courses", "schools"

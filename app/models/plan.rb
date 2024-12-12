@@ -4,6 +4,7 @@
 #
 #  id                     :bigint           not null, primary key
 #  path                   :jsonb            not null
+#  plan_type              :string
 #  term_assignments       :jsonb            not null
 #  total_cost             :integer          not null
 #  transferable_courses   :jsonb            not null
@@ -19,6 +20,7 @@
 #  index_plans_on_degree_id               (degree_id)
 #  index_plans_on_ending_school_id        (ending_school_id)
 #  index_plans_on_intermediary_school_id  (intermediary_school_id)
+#  index_plans_on_plan_type               (plan_type)
 #  index_plans_on_starting_school_id      (starting_school_id)
 #
 # Foreign Keys

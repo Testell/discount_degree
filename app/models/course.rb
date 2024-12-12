@@ -8,6 +8,7 @@
 #  course_number :integer          not null
 #  credit_hours  :decimal(5, 4)    not null
 #  department    :string           not null
+#  description   :text
 #  name          :string           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -27,6 +28,9 @@ class Course < ApplicationRecord
 
   has_many :course_requirements, dependent: :destroy
   has_many :degree_requirements, through: :course_requirements
+
+  has_many :course_prerequisites, dependent: :destroy
+  has_many :prerequisites, through: :course_prerequisites, source: :prerequisite
 
   has_many :start_transferable_courses,
            class_name: "TransferableCourse",
