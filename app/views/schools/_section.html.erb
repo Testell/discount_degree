@@ -1,5 +1,4 @@
 <% if section == 'degrees' %>
-  <h2 class="fs-2 text-center mb-4">Degrees Offered</h2>
   
   <div class="mb-5">
     <h3 class="fs-3">Add a Degree</h3>
@@ -7,6 +6,7 @@
   </div>
 
   <%= render 'schools/search_form', type: 'degrees' %>
+   <h2 class="fs-2 text-center mb-4">Degrees Offered</h2>
   <ul id="degrees-list" class="list-unstyled">
     <% degrees.each do |degree| %>
       <li class="mb-2">
@@ -16,13 +16,11 @@
   </ul>
 
 <% elsif section == 'terms' %>
-  <h2 class="fs-2 text-center mb-4">Terms</h2>
-  
   <div class="mb-5">
     <h3 class="fs-3">Add a Term</h3>
     <%= render 'terms/form', term: @term, school: @school %>
   </div>
-
+  <h2 class="fs-2 text-center mb-4">Terms</h2>
   <ul id="terms-list" class="list-unstyled">
     <% terms.each do |term| %>
       <li class="mb-2">
@@ -32,13 +30,11 @@
   </ul>
 
 <% else %>
-  <h2 class="fs-2 text-center mb-4">Courses Offered</h2>
-  
   <div class="mb-5">
     <h3 class="fs-3">Add a Course</h3>
     <%= render 'courses/form', course: @course, school: @school %>
   </div>
-  
+  <h2 class="fs-2 text-center mb-4">Courses Offered</h2>
   <%= render 'search_form' %>
   <%= turbo_frame_tag "courses-list" do %>
     <%= render 'schools/courses_list', courses: courses, school: school %>

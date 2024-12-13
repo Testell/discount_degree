@@ -5,7 +5,7 @@ class CoursesController < ApplicationController
   before_action :set_transferable_courses, only: [:show]
 
   def index
-    @courses = Course.includes(:school, :degree_requirements).all
+    @courses = Course.with_common_includes
   end
 
   def show
@@ -16,7 +16,7 @@ class CoursesController < ApplicationController
   end
 
   def create
-    @course = @school.courses.build(course_params)
+    @course = Course.new_with_school(@school, course_params)
 
     respond_to do |format|
       if @course.save
@@ -67,9 +67,10 @@ class CoursesController < ApplicationController
   end
 
   def set_transferable_courses
-    @transferable_courses = @course.transferable_course_relationships
-    @transferable_course = TransferableCourse.new(to_course: @course)
-    @other_courses = @course.available_for_transfer
+    transfer_info = @course.transfer_details
+    @transferable_courses = transfer_info[:transferable_courses]
+    @transferable_course = transfer_info[:transferable_course]
+    @other_courses = transfer_info[:other_courses]
   end
 
   def course_params

@@ -4,7 +4,7 @@ class DegreesController < ApplicationController
   before_action :set_school, only: [:create]
 
   def index
-    @degrees = Degree.all
+    @degrees = Degree.includes(:school).all
   end
 
   def show

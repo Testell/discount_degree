@@ -31,7 +31,6 @@ class Course < ApplicationRecord
 
   has_many :course_prerequisites, dependent: :destroy
   has_many :prerequisites, through: :course_prerequisites, source: :prerequisite
-
   has_many :prerequisite_for,
            class_name: "CoursePrerequisite",
            foreign_key: "prerequisite_id",
@@ -45,14 +44,36 @@ class Course < ApplicationRecord
            class_name: "TransferableCourse",
            foreign_key: "to_course_id",
            dependent: :destroy
-
   has_many :transferable_to_courses, through: :start_transferable_courses, source: :to_course
   has_many :transferable_from_courses, through: :end_transferable_courses, source: :from_course
+
   scope :with_schools, -> { includes(:school) }
+  scope :with_common_includes, -> { includes(:school, :degree_requirements) }
   scope :except_course, ->(course) { where.not(id: course.id) }
+  scope :with_transfer_associations, -> { includes(:school) }
+
+  def self.new_with_school(school, params = {})
+    school.courses.build(params)
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name code course_number]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["school"]
+  end
+
+  def transfer_details
+    {
+      transferable_courses: transferable_course_relationships,
+      transferable_course: TransferableCourse.new(to_course: self),
+      other_courses: available_for_transfer
+    }
+  end
 
   def transferable_course_relationships
-    start_transferable_courses.or(end_transferable_courses)
+    TransferableCourse.with_courses.where("from_course_id = :id OR to_course_id = :id", id: id)
   end
 
   def available_for_transfer
@@ -63,15 +84,7 @@ class Course < ApplicationRecord
     "#{code} - #{course_number} #{name} (#{school.name})"
   end
 
-  def self.ransackable_attributes(auth_object = nil)
-    %w[name code course_number]
-  end
-
   ransacker :course_number_search do
     Arel.sql("CAST(course_number AS TEXT)")
-  end
-
-  def self.ransackable_associations(auth_object = nil)
-    ["school"]
   end
 end

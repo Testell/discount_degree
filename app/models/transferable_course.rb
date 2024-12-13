@@ -14,4 +14,6 @@ class TransferableCourse < ApplicationRecord
 
   validates :from_course, presence: true
   validates :to_course, presence: true
+
+  scope :with_courses, -> { includes(from_course: :school, to_course: :school) }
 end

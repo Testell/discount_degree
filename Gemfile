@@ -62,7 +62,7 @@ group :development do
 
   gem "rubocop-performance"
   gem "rubocop-rails"
-
+  gem "erb-formatter"
   # Prettier support gems
   gem "prettier"
   gem "syntax_tree"
