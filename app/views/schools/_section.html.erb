@@ -38,18 +38,9 @@
     <h3 class="fs-3">Add a Course</h3>
     <%= render 'courses/form', course: @course, school: @school %>
   </div>
-
+  
   <%= render 'search_form' %>
   <%= turbo_frame_tag "courses-list" do %>
-    <ul id="courses-list" class="list-unstyled">
-      <% courses.each do |course| %>
-        <li class="mb-2">
-          <%= link_to "#{course.code} - #{course.course_number} - #{course.name} (#{course.credit_hours} credits)",
-                      course_path(course),
-                      class: "fs-4",
-                      data: { turbo_frame: "_top" } %>
-        </li>
-      <% end %>
-    </ul>
+    <%= render 'schools/courses_list', courses: courses, school: school %>
   <% end %>
 <% end %>

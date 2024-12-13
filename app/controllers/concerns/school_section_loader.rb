@@ -17,11 +17,7 @@ module SchoolSectionLoader
     when "terms"
       base_query.includes(:terms)
     else
-      if params[:q].present?
-        base_query.joins(:courses).merge(Course.ransack(params[:q]).result).distinct
-      else
-        base_query.includes(:courses)
-      end
+      base_query
     end.first!
   end
 
@@ -35,7 +31,12 @@ module SchoolSectionLoader
       @term = Term.new(school: @school)
     else
       @q_courses = @school.courses.ransack(params[:q])
-      @courses = params[:q].present? ? @q_courses.result : @school.courses
+      @courses =
+        if params[:q].present?
+          @q_courses.result.distinct.page(params[:page]).per(10)
+        else
+          @school.courses.page(params[:page]).per(10)
+        end
       @course = Course.new(school: @school)
     end
   end

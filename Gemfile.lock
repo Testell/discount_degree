@@ -527,6 +527,7 @@ DEPENDENCIES
   httparty
   importmap-rails
   jbuilder
+  kaminari
   nokogiri (= 1.16.5)
   pg (~> 1.1)
   prettier

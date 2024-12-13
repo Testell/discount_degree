@@ -9,6 +9,7 @@ class SchoolsController < ApplicationController
 
   def show
     load_school_with_section
+
     respond_to do |format|
       format.html
       format.turbo_stream do
@@ -18,7 +19,8 @@ class SchoolsController < ApplicationController
                      "courses-list",
                      partial: "schools/courses_list",
                      locals: {
-                       courses: @courses
+                       courses: @courses,
+                       school: @school
                      }
                    )
         else
