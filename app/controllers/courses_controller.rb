@@ -2,16 +2,13 @@ class CoursesController < ApplicationController
   before_action { authorize(@course || Course) }
   before_action :set_course, only: %i[show edit update destroy]
   before_action :set_school, only: [:create]
+  before_action :set_transferable_courses, only: [:show]
 
   def index
     @courses = Course.all
   end
 
   def show
-    @course = Course.find(params[:id])
-    @transferable_courses = @course.end_transferable_courses || []
-    @transferable_course = TransferableCourse.new(to_course: @course)
-    @other_courses = Course.where.not(school_id: @course.school_id)
   end
 
   def new
@@ -23,13 +20,16 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, notice: "Course was successfully created." }
+        format.html do
+          redirect_to school_path(@school, section: "courses"),
+                      notice: "Course was successfully created."
+        end
         format.json { render :show, status: :created, location: @course }
-        format.js
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html do
+          redirect_to school_path(@school, section: "courses"), status: :unprocessable_entity
+        end
         format.json { render json: @course.errors, status: :unprocessable_entity }
-        format.js
       end
     end
   end
@@ -59,11 +59,17 @@ class CoursesController < ApplicationController
   private
 
   def set_course
-    @course = Course.find(params[:id])
+    @course = Course.includes(:school).find(params[:id])
   end
 
   def set_school
     @school = School.find(params[:school_id])
+  end
+
+  def set_transferable_courses
+    @transferable_courses = @course.transferable_course_relationships
+    @transferable_course = TransferableCourse.new(to_course: @course)
+    @other_courses = @course.available_for_transfer
   end
 
   def course_params

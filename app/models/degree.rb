@@ -23,4 +23,12 @@ class Degree < ApplicationRecord
            dependent: :destroy
   belongs_to :school, required: true, class_name: "School", foreign_key: "school_id"
   has_many :plans, dependent: :destroy
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["name"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["school"]
+  end
 end

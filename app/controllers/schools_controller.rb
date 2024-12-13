@@ -1,4 +1,5 @@
 class SchoolsController < ApplicationController
+  include SchoolSectionLoader
   before_action { authorize(@school || School) }
   before_action :set_school, only: %i[show edit update destroy]
 
@@ -7,13 +8,44 @@ class SchoolsController < ApplicationController
   end
 
   def show
-    @school = School.includes(:terms, :degrees, :courses).find(params[:id])
-    @degrees = @school.degrees
-    @degree = Degree.new(school: @school)
-    @courses = @school.courses
-    @course = Course.new(school: @school)
-    @terms = @school.terms
-    @term = Term.new(school: @school)
+    load_school_with_section
+    respond_to do |format|
+      format.html
+      format.turbo_stream do
+        if params[:q]
+          render turbo_stream:
+                   turbo_stream.update(
+                     "courses-list",
+                     partial: "schools/courses_list",
+                     locals: {
+                       courses: @courses
+                     }
+                   )
+        else
+          render turbo_stream: [
+                   turbo_stream.update(
+                     "section_content",
+                     partial: "schools/section",
+                     locals: {
+                       section: params[:section],
+                       courses: @courses,
+                       degrees: @degrees,
+                       terms: @terms,
+                       school: @school
+                     }
+                   ),
+                   turbo_stream.update(
+                     "navigation",
+                     partial: "schools/navigation",
+                     locals: {
+                       school: @school,
+                       current_section: params[:section]
+                     }
+                   )
+                 ]
+        end
+      end
+    end
   end
 
   def new
@@ -62,7 +94,7 @@ class SchoolsController < ApplicationController
   private
 
   def set_school
-    @school = School.includes(:terms, :degrees, :courses).find(params[:id])
+    @school = School.find(params[:id])
   end
 
   def school_params

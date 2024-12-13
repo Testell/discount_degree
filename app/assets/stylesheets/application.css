@@ -13,16 +13,6 @@
  *= require_tree .
  *= require_self
  */
-
-
-
-/* #home-page, #nav {
-  font-family: "Darker Grotesque", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-} */
-
  body {
   font-family: "Darker Grotesque", sans-serif;
   font-optical-sizing: auto;
@@ -135,12 +125,13 @@ a:hover, a:visited, a:active {
   text-decoration: none !important;
 }
 
+
 .custom-navbar .nav-link {
-  text-decoration: none; /* No underline by default */
+  text-decoration: none; 
 }
 
 .custom-navbar .nav-link:hover {
-  text-decoration: underline !important; /* Add underline on hover */
-  color: #000 !important; /* Ensure consistent hover color */
-  cursor: pointer; /* Show pointer cursor */
+  text-decoration: underline !important; 
+  color: #000 !important; 
+  cursor: pointer; 
 }

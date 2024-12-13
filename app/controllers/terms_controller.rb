@@ -27,11 +27,11 @@ class TermsController < ApplicationController
                       notice: "Term was successfully created."
         end
         format.json { render :show, status: :created, location: @term }
-        format.js
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html do
+          redirect_to school_path(@school, section: "terms"), status: :unprocessable_entity
+        end
         format.json { render json: @term.errors, status: :unprocessable_entity }
-        format.js
       end
     end
   end

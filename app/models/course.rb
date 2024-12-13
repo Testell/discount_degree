@@ -48,8 +48,30 @@ class Course < ApplicationRecord
 
   has_many :transferable_to_courses, through: :start_transferable_courses, source: :to_course
   has_many :transferable_from_courses, through: :end_transferable_courses, source: :from_course
+  scope :with_schools, -> { includes(:school) }
+  scope :except_course, ->(course) { where.not(id: course.id) }
+
+  def transferable_course_relationships
+    start_transferable_courses.or(end_transferable_courses)
+  end
+
+  def available_for_transfer
+    self.class.with_schools.except_course(self)
+  end
 
   def name_with_school
     "#{code} - #{course_number} #{name} (#{school.name})"
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name code course_number]
+  end
+
+  ransacker :course_number_search do
+    Arel.sql("CAST(course_number AS TEXT)")
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["school"]
   end
 end

@@ -1,4 +1,4 @@
-<%= form_with model: [@school, @degree], local: false, id: "new-degree-form" do |form| %>
+<%= form_with(model: [@school, @degree], local: true, html: { id: "new-degree-form" }) do |form| %>
   <% if @degree.errors.any? %>
     <div id="error_explanation">
       <ul class="list-unstyled">

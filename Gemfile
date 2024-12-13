@@ -34,6 +34,7 @@ gem "redis", "~> 4.0"
 
 gem "nokogiri", "1.16.5"
 gem "httparty"
+gem 'ransack'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
