@@ -9,6 +9,7 @@ if Rails.env.development?
 
   admin_user = User.find_or_initialize_by(email: admin_email)
   if admin_user.new_record?
+    admin_user.username = "admin"
     admin_user.password = admin_password
     admin_user.role = "admin"
     admin_user.save!
@@ -22,6 +23,7 @@ if Rails.env.development?
   Plan.destroy_all
   TransferableCourse.destroy_all
   CourseRequirement.destroy_all
+  CoursePrerequisite.destroy_all
   DegreeRequirement.destroy_all
   Course.destroy_all
   Degree.destroy_all
@@ -37,7 +39,7 @@ if Rails.env.development?
     School.create!(
       name: "City Colleges of Chicago",
       school_type: "community_college",
-      credit_hour_price: 153.00, # Use credit hour price for calculations
+      credit_hour_price: 153.00,
       max_credits_from_community_college: 66,
       minimum_credits_from_school: 0
     )
@@ -58,7 +60,7 @@ if Rails.env.development?
     School.create!(
       name: "DePaul",
       school_type: "university",
-      credit_hour_price: 1194.00, # Adjusted per semester hour
+      credit_hour_price: 1194.00,
       max_credits_from_community_college: 66,
       max_credits_from_university: 88,
       minimum_credits_from_school: 40
@@ -95,7 +97,7 @@ if Rails.env.development?
     ]
   )
 
-  ## DePaul Terms (Adjusted to semester hours)
+  ## DePaul Terms
   depaul.terms.create!(
     [
       {
@@ -111,7 +113,7 @@ if Rails.env.development?
   # 3. Create Degree at DePaul
   degree = Degree.create!(name: "Computer Science - Artificial Intelligence", school: depaul)
 
-  # 4. Create Degree Requirements (Adjusted to 51, 64, and 14 credits)
+  # 4. Create Degree Requirements
   liberal_studies =
     DegreeRequirement.create!(name: "Liberal Studies", credit_hour_amount: 51.0, degree: degree)
 
@@ -126,12 +128,10 @@ if Rails.env.development?
     DegreeRequirement.create!(name: "Open Electives", credit_hour_amount: 14.0, degree: degree)
 
   # 5. Create Courses and Link to Degree Requirements
-
-  # DePaul Courses
   depaul_courses = []
 
-  # DePaul course credit hours (standardized to semester hours)
-  depaul_course_credit_hours = 4.0
+  # DePaul course credit hours
+  depaul_course_credit_hours = BigDecimal("2.6667")
 
   # Liberal Studies Courses at DePaul
   liberal_studies_courses = [
@@ -150,14 +150,13 @@ if Rails.env.development?
     "Introduction to Statistics"
   ]
 
-  # Calculate the number of courses needed to meet 51 credits
-  # Total credits from existing courses: 13 courses * 4.0 credits = 52 credits
-  # Since 52 >= 51, we can proceed with these courses
-
-  liberal_studies_courses.each do |course_name|
+  liberal_studies_courses.each_with_index do |course_name, index|
     course =
       Course.create!(
         name: course_name,
+        code: "LSP",
+        course_number: (100 + index),
+        department: "Liberal Studies",
         credit_hours: depaul_course_credit_hours,
         school: depaul,
         category: "Liberal Studies"
@@ -171,7 +170,7 @@ if Rails.env.development?
     )
   end
 
-  # Major and Concentration Courses at DePaul
+  # Major Courses at DePaul
   major_courses = [
     "Introduction to Computer Science",
     "Data Structures",
@@ -191,13 +190,13 @@ if Rails.env.development?
     "Capstone Project II"
   ]
 
-  # Calculate total credits from existing courses
-  # 16 courses * 4.0 credits = 64 credits
-
-  major_courses.each do |course_name|
+  major_courses.each_with_index do |course_name, index|
     course =
       Course.create!(
         name: course_name,
+        code: "CSC",
+        course_number: (300 + index),
+        department: "Computer Science",
         credit_hours: depaul_course_credit_hours,
         school: depaul,
         category: "Major Requirements"
@@ -219,12 +218,13 @@ if Rails.env.development?
     "Cloud Computing"
   ]
 
-  # Calculate total credits: 4 courses * 4.0 credits = 16 credits (>14 credits needed)
-
-  open_elective_courses.each do |course_name|
+  open_elective_courses.each_with_index do |course_name, index|
     course =
       Course.create!(
         name: course_name,
+        code: "ELE",
+        course_number: (200 + index),
+        department: "Open Electives",
         credit_hours: depaul_course_credit_hours,
         school: depaul,
         category: "Open Electives"
@@ -240,10 +240,8 @@ if Rails.env.development?
 
   # 6. Create Equivalent Courses at CCC and UIC
 
-  # CCC Courses (66 credits)
+  # CCC Courses
   ccc_courses = []
-
-  # CCC course credit hours (standardized to semester hours)
   ccc_course_credit_hours = 3.0
 
   # CCC Liberal Studies Courses
@@ -264,12 +262,13 @@ if Rails.env.development?
     "Cultural Anthropology"
   ]
 
-  # Total credits: 14 courses * 3.0 credits = 42 credits
-
-  ccc_liberal_studies_courses.each do |course_name|
+  ccc_liberal_studies_courses.each_with_index do |course_name, index|
     course =
       Course.create!(
         name: course_name,
+        code: "CCC",
+        course_number: (100 + index),
+        department: "Liberal Studies",
         credit_hours: ccc_course_credit_hours,
         school: ccc,
         category: "Liberal Studies"
@@ -290,12 +289,13 @@ if Rails.env.development?
     "Data Structures"
   ]
 
-  # Total credits: 9 courses * 3.0 credits = 27 credits
-
-  ccc_major_courses.each do |course_name|
+  ccc_major_courses.each_with_index do |course_name, index|
     course =
       Course.create!(
         name: course_name,
+        code: "CIS",
+        course_number: (200 + index),
+        department: "Computer Science",
         credit_hours: ccc_course_credit_hours,
         school: ccc,
         category: "Major Requirements"
@@ -303,7 +303,7 @@ if Rails.env.development?
     ccc_courses << course
   end
 
-  # CCC Open Electives to reach 66 credits
+  # CCC Open Electives
   ccc_open_electives = [
     "Introduction to Business",
     "Fundamentals of Marketing",
@@ -312,12 +312,13 @@ if Rails.env.development?
     "Public Relations"
   ]
 
-  # Total credits: 5 courses * 3.0 credits = 15 credits
-
-  ccc_open_electives.each do |course_name|
+  ccc_open_electives.each_with_index do |course_name, index|
     course =
       Course.create!(
         name: course_name,
+        code: "ELE",
+        course_number: (150 + index),
+        department: "Open Electives",
         credit_hours: ccc_course_credit_hours,
         school: ccc,
         category: "Open Electives"
@@ -325,9 +326,7 @@ if Rails.env.development?
     ccc_courses << course
   end
 
-  # Total CCC credits: 42 + 27 + 15 = 84 credits (will enforce transfer limit of 66 credits)
-
-  # UIC Courses (21 credits)
+  # UIC Courses
   uic_courses = []
 
   uic_major_courses = [
@@ -340,12 +339,13 @@ if Rails.env.development?
     "Database Systems"
   ]
 
-  # Total credits: 7 courses * 3.0 credits = 21 credits
-
-  uic_major_courses.each do |course_name|
+  uic_major_courses.each_with_index do |course_name, index|
     course =
       Course.create!(
         name: course_name,
+        code: "CS",
+        course_number: (300 + index),
+        department: "Computer Science",
         credit_hours: 3.0,
         school: uic,
         category: "Major Requirements"
@@ -357,7 +357,6 @@ if Rails.env.development?
 
   # CCC to DePaul Transfers
   ccc_courses.each do |ccc_course|
-    # Find a matching DePaul course
     depaul_course =
       depaul_courses.find do |course|
         course.category == ccc_course.category &&
@@ -370,7 +369,6 @@ if Rails.env.development?
 
   # UIC to DePaul Transfers
   uic_courses.each do |uic_course|
-    # Find a matching DePaul course
     depaul_course =
       depaul_courses.find do |course|
         course.category == uic_course.category &&
@@ -383,7 +381,6 @@ if Rails.env.development?
 
   # CCC to UIC Transfers
   ccc_courses.each do |ccc_course|
-    # Find a matching UIC course
     uic_course =
       uic_courses.find do |course|
         course.category == ccc_course.category &&
@@ -395,11 +392,7 @@ if Rails.env.development?
   end
 
   # 8. Generate the Plan
-
-  # Instantiate the plan generator
   generator = PlanServices::CheapestPlanGenerator.new(degree, ccc, depaul)
-
-  # Generate the plan
   plan = generator.generate_cheapest_plan
 
   if plan

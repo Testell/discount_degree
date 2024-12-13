@@ -32,6 +32,11 @@ class Course < ApplicationRecord
   has_many :course_prerequisites, dependent: :destroy
   has_many :prerequisites, through: :course_prerequisites, source: :prerequisite
 
+  has_many :prerequisite_for,
+           class_name: "CoursePrerequisite",
+           foreign_key: "prerequisite_id",
+           dependent: :destroy
+
   has_many :start_transferable_courses,
            class_name: "TransferableCourse",
            foreign_key: "from_course_id",
