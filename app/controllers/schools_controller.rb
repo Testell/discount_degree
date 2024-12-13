@@ -3,11 +3,11 @@ class SchoolsController < ApplicationController
   before_action :set_school, only: %i[show edit update destroy]
 
   def index
-    @schools = School.all
+    @schools = School.includes(:terms).all
   end
 
   def show
-    @school = School.find(params[:id])
+    @school = School.includes(:terms, :degrees, :courses).find(params[:id])
     @degrees = @school.degrees
     @degree = Degree.new(school: @school)
     @courses = @school.courses
@@ -62,7 +62,7 @@ class SchoolsController < ApplicationController
   private
 
   def set_school
-    @school = School.find(params[:id])
+    @school = School.includes(:terms, :degrees, :courses).find(params[:id])
   end
 
   def school_params
