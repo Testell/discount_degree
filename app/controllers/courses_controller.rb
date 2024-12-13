@@ -5,7 +5,7 @@ class CoursesController < ApplicationController
   before_action :set_transferable_courses, only: [:show]
 
   def index
-    @courses = Course.all
+    @courses = Course.includes(:school, :degree_requirements).all
   end
 
   def show

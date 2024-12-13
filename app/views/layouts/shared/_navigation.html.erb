@@ -1,0 +1,61 @@
+<div id="nav">
+  <nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-3" href="<%= root_path %>">
+        <%= image_tag "favicon.png", alt: "Logo", width: "30", height: "24" %>
+        Discount Degree
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <%= image_tag "hamburger.png", alt: "Menu", width: "30", height: "24" %>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto fs-4">
+          <% if user_signed_in? %>
+            <% if policy(School).index? %>
+              <li class="nav-item">
+                <%= link_to "Schools", schools_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Degrees", degrees_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Courses", courses_path, class: "nav-link" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Profile", user_path(current_user), class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Plans", plans_path, class: "nav-link" %>
+              </li>
+            <% end %>
+            <li class="nav-item">
+              <%= link_to "Sign out",
+              destroy_user_session_path,
+              class: "nav-link",
+              data: {
+                turbo_method: :delete,
+              } %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
