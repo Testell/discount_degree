@@ -1,25 +1,21 @@
 <%= form_with(model: @transferable_course, local: false, html: { id: "new-transferable-course-form" }) do |form| %>
-  <% if @transferable_course.errors.any? %>
-    <div id="error_explanation">
-      <ul>
-        <% @transferable_course.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+  <%= form_errors(@transferable_course) %>  
   <%= form.hidden_field :to_course_id, value: @course.id %>
-
-  <div class="form-group">
-    <%= form.label :from_course_id, "Transferable Course" %>
-    <%= form.collection_select :from_course_id,
-                           @other_courses,
-                           :id,
-                           :name_with_school,
-                           { prompt: "Select a course" },
-                           { class: "form-control" } %>
-  </div>
-
-  <%= form.submit "Add Transferable Course", class: "btn btn-primary" %>
+      <div class="mb-4 row justify-content-center">
+        <div class="col-md-10">
+          <%= form.label :from_course_id, "Transferable Course", class: "form-label fs-4 mb-2" %>
+            <%= form.collection_select :from_course_id,
+                                        @other_courses,
+                                        :id,
+                                        :name_with_school,
+                                        { prompt: "Select a course" },
+                                        class: "form-select fs-4" %>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+          <div class="col-md-10 text-center">
+              <%= form.submit "Add Transferable Course", class: "btn custom-btn-2 fs-4" %>
+          </div>
+      </div>
 <% end %>
+  

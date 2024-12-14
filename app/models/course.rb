@@ -47,10 +47,21 @@ class Course < ApplicationRecord
   has_many :transferable_to_courses, through: :start_transferable_courses, source: :to_course
   has_many :transferable_from_courses, through: :end_transferable_courses, source: :from_course
 
-  scope :with_schools, -> { includes(:school) }
+  scope :basic_load, -> { all }
+
+  scope :with_display_includes, -> { includes(:school) }
+
   scope :with_common_includes, -> { includes(:school, :degree_requirements) }
+
   scope :except_course, ->(course) { where.not(id: course.id) }
-  scope :with_transfer_associations, -> { includes(:school) }
+
+  def self.find_for_show(id)
+    with_display_includes.find(id)
+  end
+
+  def self.find_basic(id)
+    basic_load.find(id)
+  end
 
   def self.new_with_school(school, params = {})
     school.courses.build(params)
@@ -73,11 +84,14 @@ class Course < ApplicationRecord
   end
 
   def transferable_course_relationships
-    TransferableCourse.with_courses.where("from_course_id = :id OR to_course_id = :id", id: id)
+    TransferableCourse
+      .with_courses
+      .includes(from_course: :school, to_course: :school)
+      .where("from_course_id = :id OR to_course_id = :id", id: id)
   end
 
   def available_for_transfer
-    self.class.with_schools.except_course(self)
+    self.class.with_display_includes.except_course(self)
   end
 
   def name_with_school

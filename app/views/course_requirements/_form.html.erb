@@ -1,25 +1,44 @@
-<%= form_with(model: [@degree_requirement, CourseRequirement.new], local: false, html: { id: "new-course-requirement-form" }) do |form| %>
-  <% if @course_requirement&.errors&.any? %>
-    <div id="error_explanation">
-      <ul>
-        <% @course_requirement.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<%= turbo_frame_tag "new_course_requirement_form" do %>
+  <div class="container pt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow custom-card">
+          <div class="card-body">
+            <h2 class="card-title mb-4 fs-3">Add Course Requirement</h2>
+            
+            <%= form_with(model: [@degree_requirement, CourseRequirement.new], html: { id: "new-course-requirement-form" }) do |form| %>
+              <%= form_errors(@course_requirement) %>
+              
+              <div class="mb-4 row justify-content-center">
+                <div class="col-md-10">
+                  <%= form.label :course_id, "Course", class: "form-label fs-4 mb-2" %>
+                  <%= form.collection_select :course_id, 
+                                          Course.all, 
+                                          :id, 
+                                          :name, 
+                                          { prompt: "Select a course" }, 
+                                          class: "form-select fs-4" %>
+                </div>
+              </div>
+              
+              <div class="mb-4 row justify-content-center">
+                <div class="col-md-10">
+                  <div class="form-check">
+                    <%= form.check_box :is_mandatory, class: "form-check-input" %>
+                    <%= form.label :is_mandatory, "Mandatory?", class: "form-check-label fs-4" %>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row justify-content-center">
+                <div class="col-md-10 text-center">
+                  <%= form.submit "Add Course Requirement", class: "btn custom-btn-2 fs-4" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :course_id, "Course" %>
-    <%= form.collection_select :course_id, Course.all, :id, :name, { prompt: "Select a course" }, class: "form-control" %>
-  </div>
-
-  <div>
-    <%= form.label :is_mandatory, "Mandatory?" %>
-    <%= form.check_box :is_mandatory %>
-  </div>
-
-  <div>
-    <%= form.submit "Add Course Requirement", class: "btn btn-primary" %>
   </div>
 <% end %>

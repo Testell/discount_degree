@@ -1,39 +1,49 @@
-<%= form_with(model: [@school, @term], local: true, html: { id: "new-term-form" }) do |form| %>
-  <% if @term.errors.any? %>
-    <div id="error_explanation">
-      <ul class="list-unstyled">
-        <% @term.errors.full_messages.each do |message| %>
-          <li>
-            <div class="alert alert-danger" role="alert">
-              <%= message %>
+<div class="container pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <h2 class="card-title mb-4 fs-3">Add Term</h2>
+          
+          <%= form_with(model: [@school, @term], local: true, html: { id: "new-term-form" }) do |form| %>
+            <%= form_errors(@term) %>
+            
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :name, "Term Name", class: "form-label fs-4 mb-2" %>
+                <%= form.text_field :name, class: "form-control fs-4" %>
+              </div>
             </div>
-          </li>
-        <% end %>
-      </ul>
+            
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :credit_hour_minimum, "Credit Hour Minimum", class: "form-label fs-4 mb-2" %>
+                <%= form.number_field :credit_hour_minimum, class: "form-control fs-4" %>
+              </div>
+            </div>
+            
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :credit_hour_maximum, "Credit Hour Maximum", class: "form-label fs-4 mb-2" %>
+                <%= form.number_field :credit_hour_maximum, class: "form-control fs-4" %>
+              </div>
+            </div>
+            
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :tuition_cost, "Tuition Cost", class: "form-label fs-4 mb-2" %>
+                <%= form.number_field :tuition_cost, step: "0.01", class: "form-control fs-4" %>
+              </div>
+            </div>
+            
+            <div class="row justify-content-center">
+              <div class="col-md-10 text-center">
+                <%= form.submit "Add Term", class: "btn custom-btn-2 fs-4" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= form.label :name, "Term Name" %>
-    <%= form.text_field :name, class: "form-control" %>
   </div>
-
-  <div class="form-group">
-    <%= form.label :credit_hour_minimum %>
-    <%= form.number_field :credit_hour_minimum, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :credit_hour_maximum %>
-    <%= form.number_field :credit_hour_maximum, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :tuition_cost %>
-    <%= form.number_field :tuition_cost, step: 0.01, class: "form-control" %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit "Add Term", class: "btn btn-outline-primary btn-block" %>
-  </div>
-<% end %>
+</div>

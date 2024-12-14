@@ -59,7 +59,12 @@ class CoursesController < ApplicationController
   private
 
   def set_course
-    @course = Course.includes(:school).find(params[:id])
+    @course =
+      if action_name == "show"
+        Course.find_for_show(params[:id])
+      else
+        Course.find_basic(params[:id])
+      end
   end
 
   def set_school
