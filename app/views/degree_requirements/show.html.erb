@@ -3,17 +3,26 @@
 <%= render @degree_requirement %>
 
 <div>
-  <%= link_to "Edit this degree requirement", edit_degree_requirement_path(@degree_requirement) %> |
+  <%= link_to "Edit this degree requirement",
+  edit_degree_requirement_path(@degree_requirement) %>
+  |
   <%= link_to "Back to degree requirements", degree_requirements_path %>
 
-  <%= button_to "Destroy this degree requirement", @degree_requirement, method: :delete %>
+  <%= button_to "Destroy this degree requirement",
+  @degree_requirement,
+  method: :delete %>
 </div>
 
 <h2>Course Requirements</h2>
 <ul id="course-requirements-list">
-  <%= render partial: "course_requirements/course_requirement_list_item", 
-             collection: @degree_requirement.course_requirements, as: :course_requirement %>
+  <%= render partial: "course_requirements/course_requirement_list_item",
+  collection: @degree_requirement.course_requirements,
+  as: :course_requirement %>
 </ul>
 
 <h3>Add a Course Requirement</h3>
-<%= render partial: "course_requirements/form", locals: { degree_requirement: @degree_requirement, course_requirement: CourseRequirement.new } %>
+<%= render partial: "course_requirements/form",
+locals: {
+  degree_requirement: @degree_requirement,
+  course_requirement: CourseRequirement.new,
+} %>

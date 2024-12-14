@@ -4,17 +4,17 @@
       <div class="card shadow custom-card">
         <div class="card-body">
           <h2 class="card-title mb-4 fs-3">Add New Degree</h2>
-          
+
           <%= form_with(model: [@school, @degree], local: true, html: { id: "new-degree-form" }) do |form| %>
             <%= form_errors(@degree) %>
-            
+
             <div class="mb-4 row justify-content-center">
               <div class="col-md-10">
                 <%= form.label :name, "Degree Name", class: "form-label fs-4 mb-2" %>
                 <%= form.text_field :name, class: "form-control fs-4" %>
               </div>
             </div>
-            
+
             <div class="row justify-content-center">
               <div class="col-md-10 text-center">
                 <%= form.submit "Add Degree", class: "btn custom-btn-2 fs-4" %>

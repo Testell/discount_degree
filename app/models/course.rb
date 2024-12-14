@@ -84,10 +84,10 @@ class Course < ApplicationRecord
   end
 
   def transferable_course_relationships
-    TransferableCourse
-      .with_courses
-      .includes(from_course: :school, to_course: :school)
-      .where("from_course_id = :id OR to_course_id = :id", id: id)
+    TransferableCourse.includes(from_course: :school, to_course: :school).where(
+      "from_course_id = :id OR to_course_id = :id",
+      id: id
+    )
   end
 
   def available_for_transfer
@@ -100,5 +100,9 @@ class Course < ApplicationRecord
 
   ransacker :course_number_search do
     Arel.sql("CAST(course_number AS TEXT)")
+  end
+
+  def self.for_transfer_form(excluding_course_id)
+    where.not(id: excluding_course_id).with_display_includes
   end
 end

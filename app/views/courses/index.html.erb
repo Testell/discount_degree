@@ -9,22 +9,28 @@
           <div class="card-body">
             <h5 class="card-title"><%= course.name %></h5>
             <p>
-              <strong>Code:</strong> <%= course.code %>
+              <strong>Code:</strong>
+              <%= course.code %>
             </p>
             <p>
-              <strong>Number:</strong> <%= course.course_number %>
+              <strong>Number:</strong>
+              <%= course.course_number %>
             </p>
             <p>
-              <strong>Credit Hours:</strong> <%= course.credit_hours %>
+              <strong>Credit Hours:</strong>
+              <%= course.credit_hours %>
             </p>
             <p>
-              <strong>Department:</strong> <%= course.department %>
+              <strong>Department:</strong>
+              <%= course.department %>
             </p>
             <p>
-              <strong>Category:</strong> <%= course.category %>
+              <strong>Category:</strong>
+              <%= course.category %>
             </p>
             <p>
-              <strong>School:</strong> <%= course.school.name %>
+              <strong>School:</strong>
+              <%= course.school.name %>
             </p>
 
             <% if course.degree_requirements.any? %>
@@ -33,12 +39,14 @@
                 <% course.degree_requirements.each do |req| %>
                   <li>
                     <%= link_to req.name, degree_requirement_path(req) %>
-                    - Part of <%= req.degree.name %>
+                    - Part of
+                    <%= req.degree.name %>
                   </li>
                 <% end %>
               </ul>
             <% else %>
-              <p><strong>Degree Requirements:</strong> Not yet assigned</p>
+              <p><strong>Degree Requirements:</strong>
+                Not yet assigned</p>
             <% end %>
 
             <div class="admin-actions mt-3">

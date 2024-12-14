@@ -1,6 +1,8 @@
 <li id="course_<%= course.id %>" class="mb-2">
   <%= link_to "#{course.code} - #{course.course_number} - #{course.name} (#{course.credit_hours} credits)",
-              course_path(course),
-              class: "fs-4",
-              data: { turbo_frame: "_top" } %>
+  course_path(course),
+  class: "fs-4",
+  data: {
+    turbo_frame: "_top",
+  } %>
 </li>

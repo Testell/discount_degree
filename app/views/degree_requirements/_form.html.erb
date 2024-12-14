@@ -1,20 +1,22 @@
 <%= form_with(model: [@degree, DegreeRequirement.new], local: true) do |form| %>
   <%= form_errors(form.object) if form.object.errors.any? %>
-  
+
   <div class="mb-4 row">
     <div class="col-12">
       <%= form.label :name, "Requirement Name", class: "form-label fs-4 mb-2" %>
       <%= form.text_field :name, class: "form-control fs-4" %>
     </div>
   </div>
-  
+
   <div class="mb-4 row">
     <div class="col-12">
-      <%= form.label :credit_hour_amount, "Credit Hour Amount", class: "form-label fs-4 mb-2" %>
+      <%= form.label :credit_hour_amount,
+                 "Credit Hour Amount",
+                 class: "form-label fs-4 mb-2" %>
       <%= form.number_field :credit_hour_amount, class: "form-control fs-4" %>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="col-12 text-center">
       <%= form.submit "Add Requirement", class: "btn custom-btn-2 fs-4" %>

@@ -8,8 +8,13 @@
             <%= render @degree %>
           </div>
           <div class="d-flex justify-content-between mt-4">
-            <%= link_to "Edit this degree", edit_degree_path(@degree), class: "btn custom-btn fs-4" %>
-            <%= button_to "Destroy this degree", @degree, method: :delete, class: "btn custom-btn fs-4" %>
+            <%= link_to "Edit this degree",
+            edit_degree_path(@degree),
+            class: "btn custom-btn fs-4" %>
+            <%= button_to "Destroy this degree",
+            @degree,
+            method: :delete,
+            class: "btn custom-btn fs-4" %>
             <%= link_to "Back to degrees", degrees_path, class: "btn custom-btn fs-4" %>
           </div>
         </div>
@@ -21,8 +26,8 @@
     <h2 class="mb-4">Degree Requirements</h2>
     <ul id="degree-requirements-list" class="list-group">
       <%= render partial: "degree_requirements/degree_requirement_list_item",
-                 collection: @degree.degree_requirements,
-                 as: :degree_requirement %>
+      collection: @degree.degree_requirements,
+      as: :degree_requirement %>
     </ul>
 
     <h2 class="mt-5">Add a Requirement</h2>
@@ -43,14 +48,14 @@
           <div class="form-group">
             <%= form.label :starting_school_id, "Select Starting School" %>
             <%= form.select :starting_school_id,
-                            options_from_collection_for_select(
-                              School.where(school_type: "community_college"),
-                              :id,
-                              :name
-                            ),
-                            { prompt: "Select Starting School" },
-                            class: "form-select",
-                            required: true %>
+                        options_from_collection_for_select(
+                          School.where(school_type: "community_college"),
+                          :id,
+                          :name,
+                        ),
+                        { prompt: "Select Starting School" },
+                        class: "form-select",
+                        required: true %>
           </div>
 
           <div class="actions mt-3">

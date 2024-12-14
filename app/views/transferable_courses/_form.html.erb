@@ -1,21 +1,22 @@
 <%= form_with(model: @transferable_course, local: false, html: { id: "new-transferable-course-form" }) do |form| %>
-  <%= form_errors(@transferable_course) %>  
-  <%= form.hidden_field :to_course_id, value: @course.id %>
-      <div class="mb-4 row justify-content-center">
-        <div class="col-md-10">
-          <%= form.label :from_course_id, "Transferable Course", class: "form-label fs-4 mb-2" %>
-            <%= form.collection_select :from_course_id,
-                                        @other_courses,
-                                        :id,
-                                        :name_with_school,
-                                        { prompt: "Select a course" },
-                                        class: "form-select fs-4" %>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-          <div class="col-md-10 text-center">
-              <%= form.submit "Add Transferable Course", class: "btn custom-btn-2 fs-4" %>
-          </div>
-      </div>
+  <%= form_errors(@transferable_course) %>
+  <%= form.hidden_field :to_course_id, value: @transferable_course.to_course_id %>
+
+  <div class="mb-4 row justify-content-center">
+    <div class="col-md-10">
+      <%= form.label :from_course_id, "Transferable Course", class: "form-label fs-4 mb-2" %>
+      <%= form.collection_select :from_course_id,
+                             @other_courses,
+                             :id,
+                             :name_with_school,
+                             { prompt: "Select a course" },
+                             class: "form-select fs-4" %>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-10 text-center">
+      <%= form.submit class: "btn custom-btn-2 fs-4" %>
+    </div>
+  </div>
 <% end %>
-  

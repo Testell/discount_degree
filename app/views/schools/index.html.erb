@@ -9,11 +9,13 @@
           <div class="card-body">
             <h5 class="card-title"><%= school.name %></h5>
             <p>
-              <strong>School Type:</strong> <%= school.school_type.humanize %>
+              <strong>School Type:</strong>
+              <%= school.school_type.humanize %>
             </p>
             <% if school.credit_hour_price.present? %>
               <p>
-                <strong>Credit Hour Price:</strong> <%= number_to_currency(school.credit_hour_price) %>
+                <strong>Credit Hour Price:</strong>
+                <%= number_to_currency(school.credit_hour_price) %>
               </p>
             <% end %>
 
@@ -22,7 +24,11 @@
               <ul>
                 <% school.terms.each do |term| %>
                   <li>
-                    <strong><%= term.name %> (Credits: <%= term.credit_hour_minimum %> - <%= term.credit_hour_maximum %>):</strong>
+                    <strong><%= term.name %>
+                      (Credits:
+                      <%= term.credit_hour_minimum %>
+                      -
+                      <%= term.credit_hour_maximum %>):</strong>
                     <%= number_to_currency(term.tuition_cost) %>
                   </li>
                 <% end %>
@@ -30,13 +36,16 @@
             <% end %>
 
             <p>
-              <strong>Minimum Credits From School:</strong> <%= school.minimum_credits_from_school %>
+              <strong>Minimum Credits From School:</strong>
+              <%= school.minimum_credits_from_school %>
             </p>
             <p>
-              <strong>Max Credits From Community College:</strong> <%= school.max_credits_from_community_college %>
+              <strong>Max Credits From Community College:</strong>
+              <%= school.max_credits_from_community_college %>
             </p>
             <p>
-              <strong>Max Credits From University:</strong> <%= school.max_credits_from_university || 'Not Applicable' %>
+              <strong>Max Credits From University:</strong>
+              <%= school.max_credits_from_university || "Not Applicable" %>
             </p>
 
             <div class="admin-actions mt-3">

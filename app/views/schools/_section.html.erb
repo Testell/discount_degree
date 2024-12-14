@@ -1,16 +1,21 @@
 <% if section == 'degrees' %>
-  
+
   <div class="mb-5">
     <h3 class="fs-3">Add a Degree</h3>
-    <%= render 'degrees/form', degree: @degree %>
+    <%= render "degrees/form", degree: @degree %>
   </div>
 
-  <%= render 'schools/search_form', type: 'degrees' %>
-   <h2 class="fs-2 text-center mb-4">Degrees Offered</h2>
+  <%= render "schools/search_form", type: "degrees" %>
+  <h2 class="fs-2 text-center mb-4">Degrees Offered</h2>
   <ul id="degrees-list" class="list-unstyled">
     <% degrees.each do |degree| %>
       <li class="mb-2">
-        <%= link_to "#{degree.name}", degree_path(degree), class: "fs-4", data: { turbo_frame: "_top" } %>
+        <%= link_to "#{degree.name}",
+        degree_path(degree),
+        class: "fs-4",
+        data: {
+          turbo_frame: "_top",
+        } %>
       </li>
     <% end %>
   </ul>
@@ -18,13 +23,18 @@
 <% elsif section == 'terms' %>
   <div class="mb-5">
     <h3 class="fs-3">Add a Term</h3>
-    <%= render 'terms/form', term: @term, school: @school %>
+    <%= render "terms/form", term: @term, school: @school %>
   </div>
   <h2 class="fs-2 text-center mb-4">Terms</h2>
   <ul id="terms-list" class="list-unstyled">
     <% terms.each do |term| %>
       <li class="mb-2">
-        <%= link_to "#{term.name}", term_path(term), class: "fs-4", data: { turbo_frame: "_top" } %>
+        <%= link_to "#{term.name}",
+        term_path(term),
+        class: "fs-4",
+        data: {
+          turbo_frame: "_top",
+        } %>
       </li>
     <% end %>
   </ul>
@@ -32,11 +42,11 @@
 <% else %>
   <div class="mb-5">
     <h3 class="fs-3">Add a Course</h3>
-    <%= render 'courses/form', course: @course, school: @school %>
+    <%= render "courses/form", course: @course, school: @school %>
   </div>
   <h2 class="fs-2 text-center mb-4">Courses Offered</h2>
-  <%= render 'search_form' %>
+  <%= render "search_form" %>
   <%= turbo_frame_tag "courses-list" do %>
-    <%= render 'schools/courses_list', courses: courses, school: school %>
+    <%= render "schools/courses_list", courses: courses, school: school %>
   <% end %>
 <% end %>

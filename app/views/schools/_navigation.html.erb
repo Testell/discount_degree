@@ -1,17 +1,27 @@
 <ul class="nav nav-underline justify-content-center mb-4">
   <li class="nav-item">
-    <%= link_to "Courses", school_path(school, section: 'courses'),
-          class: "nav-link fs-4 #{current_section == 'courses' || current_section.nil? ? 'active' : ''}",
-          data: { turbo_stream: true } %>
+    <%= link_to "Courses",
+    school_path(school, section: "courses"),
+    class:
+      "nav-link fs-4 #{current_section == "courses" || current_section.nil? ? "active" : ""}",
+    data: {
+      turbo_stream: true,
+    } %>
   </li>
   <li class="nav-item">
-    <%= link_to "Degrees", school_path(school, section: 'degrees'),
-          class: "nav-link fs-4 #{current_section == 'degrees' ? 'active' : ''}",
-          data: { turbo_stream: true } %>
+    <%= link_to "Degrees",
+    school_path(school, section: "degrees"),
+    class: "nav-link fs-4 #{current_section == "degrees" ? "active" : ""}",
+    data: {
+      turbo_stream: true,
+    } %>
   </li>
   <li class="nav-item">
-    <%= link_to "Terms", school_path(school, section: 'terms'),
-          class: "nav-link fs-4 #{current_section == 'terms' ? 'active' : ''}",
-          data: { turbo_stream: true } %>
+    <%= link_to "Terms",
+    school_path(school, section: "terms"),
+    class: "nav-link fs-4 #{current_section == "terms" ? "active" : ""}",
+    data: {
+      turbo_stream: true,
+    } %>
   </li>
 </ul>

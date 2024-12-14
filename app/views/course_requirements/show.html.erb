@@ -3,8 +3,12 @@
 <%= render @course_requirement %>
 
 <div>
-  <%= link_to "Edit this course requirement", edit_course_requirement_path(@course_requirement) %> |
+  <%= link_to "Edit this course requirement",
+  edit_course_requirement_path(@course_requirement) %>
+  |
   <%= link_to "Back to course requirements", course_requirements_path %>
 
-  <%= button_to "Destroy this course requirement", @course_requirement, method: :delete %>
+  <%= button_to "Destroy this course requirement",
+  @course_requirement,
+  method: :delete %>
 </div>

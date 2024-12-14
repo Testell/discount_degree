@@ -5,22 +5,22 @@
         <div class="card shadow custom-card">
           <div class="card-body">
             <h2 class="card-title mb-4 fs-3">Add Course Requirement</h2>
-            
+
             <%= form_with(model: [@degree_requirement, CourseRequirement.new], html: { id: "new-course-requirement-form" }) do |form| %>
               <%= form_errors(@course_requirement) %>
-              
+
               <div class="mb-4 row justify-content-center">
                 <div class="col-md-10">
                   <%= form.label :course_id, "Course", class: "form-label fs-4 mb-2" %>
-                  <%= form.collection_select :course_id, 
-                                          Course.all, 
-                                          :id, 
-                                          :name, 
-                                          { prompt: "Select a course" }, 
-                                          class: "form-select fs-4" %>
+                  <%= form.collection_select :course_id,
+                                         Course.all,
+                                         :id,
+                                         :name,
+                                         { prompt: "Select a course" },
+                                         class: "form-select fs-4" %>
                 </div>
               </div>
-              
+
               <div class="mb-4 row justify-content-center">
                 <div class="col-md-10">
                   <div class="form-check">
@@ -29,7 +29,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <div class="row justify-content-center">
                 <div class="col-md-10 text-center">
                   <%= form.submit "Add Course Requirement", class: "btn custom-btn-2 fs-4" %>
