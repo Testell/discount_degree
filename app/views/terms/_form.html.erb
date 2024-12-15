@@ -5,7 +5,7 @@
         <div class="card-body">
           <h2 class="card-title mb-4 fs-3">Add Term</h2>
 
-          <%= form_with(model: [@school, @term], local: true, html: { id: "new-term-form" }) do |form| %>
+          <%= form_with(model: [@school, @term], local: true, html: { id: "new-term-form" }, data: { turbo: false }) do |form| %>
             <%= form_errors(@term) %>
 
             <div class="mb-4 row justify-content-center">

@@ -3,7 +3,6 @@
     <div class="col-md-10">
       <div class="card shadow custom-card">
         <div class="card-body">
-          <p class="text-success fs-4"><%= notice %></p>
           <div>
             <%= render @course %>
           </div>
@@ -12,10 +11,15 @@
             edit_course_path(@course),
             class: "btn custom-btn fs-4" %>
             <%= button_to "Destroy this course",
-            @course,
+            course_path(@course),
             method: :delete,
+            class: "btn custom-btn fs-4",
+            data: {
+              turbo: false,
+            } %>
+            <%= link_to "Back to school",
+            school_path(@course.school, section: "courses"),
             class: "btn custom-btn fs-4" %>
-            <%= link_to "Back to courses", courses_path, class: "btn custom-btn fs-4" %>
           </div>
         </div>
       </div>

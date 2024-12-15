@@ -8,6 +8,7 @@ class DegreeRequirementsController < ApplicationController
   end
 
   def show
+    @course_requirement = CourseRequirement.new(degree_requirement: @degree_requirement)
   end
 
   def new
@@ -37,17 +38,11 @@ class DegreeRequirementsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @degree_requirement.update(degree_requirement_params)
-        format.html do
-          redirect_to degree_requirement_url(@degree_requirement),
-                      notice: "Degree requirement was successfully updated."
-        end
-        format.json { render :show, status: :ok, location: @degree_requirement }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @degree_requirement.errors, status: :unprocessable_entity }
-      end
+    if @degree_requirement.update(degree_requirement_params)
+      redirect_to degree_requirement_path(@degree_requirement),
+                  notice: "Degree requirement was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -66,7 +61,8 @@ class DegreeRequirementsController < ApplicationController
   private
 
   def set_degree_requirement
-    @degree_requirement = DegreeRequirement.find(params[:id])
+    @degree_requirement =
+      DegreeRequirement.includes(course_requirements: :course).includes(:degree).find(params[:id])
   end
 
   def set_degree

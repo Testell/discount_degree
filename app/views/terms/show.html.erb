@@ -1,11 +1,27 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @term %>
-
-<div>
-  <%= link_to "Edit this term", edit_term_path(@term) %>
-  |
-  <%= link_to "Back to terms", terms_path %>
-
-  <%= button_to "Destroy this term", @term, method: :delete %>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <p class="text-success fs-4"><%= notice %></p>
+          <div>
+            <%= render @term %>
+          </div>
+          <div class="d-flex justify-content-between mt-4">
+            <%= link_to "Edit this term", edit_term_path(@term), class: "btn custom-btn fs-4" %>
+            <%= button_to "Destroy this term",
+            term_path(@term),
+            method: :delete,
+            class: "btn custom-btn fs-4",
+            data: {
+              turbo: false,
+            } %>
+            <%= link_to "Back to school",
+            school_path(@term.school, section: "terms"),
+            class: "btn custom-btn fs-4" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

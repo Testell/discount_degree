@@ -6,7 +6,9 @@
           <div class="card-body">
             <h2 class="card-title mb-4 fs-3">Add Course Requirement</h2>
 
-            <%= form_with(model: [@degree_requirement, CourseRequirement.new], html: { id: "new-course-requirement-form" }) do |form| %>
+            <%= form_with(model: [@degree_requirement, @course_requirement],
+                        url: degree_requirement_course_requirements_path(@degree_requirement),
+                        method: :post) do |form| %>
               <%= form_errors(@course_requirement) %>
 
               <div class="mb-4 row justify-content-center">

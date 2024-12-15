@@ -1,2 +1,26 @@
 <div id="<%= dom_id term %>">
+  <p>
+    <strong>Name:</strong>
+    <%= term.name %>
+  </p>
+
+  <p>
+    <strong>Credit Hour Minimum:</strong>
+    <%= term.credit_hour_minimum %>
+  </p>
+
+  <p>
+    <strong>Credit Hour Maximum:</strong>
+    <%= term.credit_hour_maximum %>
+  </p>
+
+  <p>
+    <strong>Tuition Cost:</strong>
+    <%= number_to_currency(term.tuition_cost) %>
+  </p>
+
+  <p>
+    <strong>School:</strong>
+    <%= term.school.name %>
+  </p>
 </div>

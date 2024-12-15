@@ -50,12 +50,10 @@ class DegreesController < ApplicationController
   end
 
   def destroy
+    school = @degree.school
     @degree.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to degrees_url, notice: "Degree was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to school_path(school, section: "degrees"),
+                notice: "Degree was successfully destroyed."
   end
 
   private

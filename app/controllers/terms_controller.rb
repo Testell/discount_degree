@@ -37,17 +37,11 @@ class TermsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @term.update(term_params)
-        format.html do
-          redirect_to school_path(@term.school, section: "terms"),
-                      notice: "Term was successfully updated."
-        end
-        format.json { render :show, status: :ok, location: @term }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @term.errors, status: :unprocessable_entity }
-      end
+    if @term.update(term_params)
+      redirect_to school_path(@term.school, section: "terms"),
+                  notice: "Term was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 

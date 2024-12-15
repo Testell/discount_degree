@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
   before_action { authorize(@course || Course) }
   before_action :set_course, only: %i[show edit update destroy]
-  before_action :set_school, only: [:create]
+  before_action :set_school, only: %i[create destroy]
   before_action :set_transferable_courses, only: [:show]
 
   def index
@@ -9,6 +9,8 @@ class CoursesController < ApplicationController
   end
 
   def show
+    @course =
+      Course.includes(course_requirements: { degree_requirement: :degree }).find(params[:id])
   end
 
   def new
@@ -48,12 +50,10 @@ class CoursesController < ApplicationController
   end
 
   def destroy
+    school = @course.school
     @course.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to courses_url, notice: "Course was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to school_path(school, section: "courses"),
+                notice: "Course was successfully destroyed."
   end
 
   private
@@ -68,7 +68,7 @@ class CoursesController < ApplicationController
   end
 
   def set_school
-    @school = School.find(params[:school_id])
+    @school = (params[:school_id] ? School.find(params[:school_id]) : @course&.school)
   end
 
   def set_transferable_courses

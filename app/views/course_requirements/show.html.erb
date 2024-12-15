@@ -1,14 +1,44 @@
-<p style="color: green"><%= notice %></p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <p class="text-success fs-4"><%= notice %></p>
+          <div>
+            <div id="<%= dom_id @course_requirement %>">
+              <p>
+                <strong>Course:</strong>
+                <%= @course_requirement.course.name %>
+              </p>
 
-<%= render @course_requirement %>
+              <p>
+                <strong>Degree Requirement:</strong>
+                <%= @course_requirement.degree_requirement.name %>
+              </p>
 
-<div>
-  <%= link_to "Edit this course requirement",
-  edit_course_requirement_path(@course_requirement) %>
-  |
-  <%= link_to "Back to course requirements", course_requirements_path %>
-
-  <%= button_to "Destroy this course requirement",
-  @course_requirement,
-  method: :delete %>
+              <p>
+                <strong>Type:</strong>
+                <%= @course_requirement.is_mandatory ? "Mandatory" : "Optional" %>
+              </p>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between mt-4">
+            <%= link_to "Edit",
+            edit_course_requirement_path(@course_requirement),
+            class: "btn custom-btn fs-4" %>
+            <%= button_to "Delete",
+            course_requirement_path(@course_requirement),
+            method: :delete,
+            class: "btn custom-btn fs-4",
+            data: {
+              turbo: false,
+            } %>
+            <%= link_to "Back",
+            degree_requirement_path(@course_requirement.degree_requirement),
+            class: "btn custom-btn fs-4" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

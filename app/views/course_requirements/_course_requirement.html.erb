@@ -1,17 +1,17 @@
-<div id="<%= dom_id course_requirement %>">
-  <p>
-    <strong>Course:</strong>
-    <%= course_requirement.course_id %>
-  </p>
-
-  <p>
-    <strong>Degree requirement:</strong>
-    <%= course_requirement.degree_requirement_id %>
-  </p>
-
-  <p>
-    <strong>Is mandatory:</strong>
-    <%= course_requirement.is_mandatory %>
-  </p>
-
-</div>
+<li id="<%= dom_id course_requirement %>" class="mb-2">
+  <%= link_to course_path(course_requirement.course), class: "fs-4" do %>
+    <%= course_requirement.course.name %>
+    <span
+      class="badge <%= course_requirement.is_mandatory ? 'bg-primary' : 'bg-secondary' %>"
+    >
+      <%= course_requirement.is_mandatory ? "Mandatory" : "Optional" %>
+    </span>
+  <% end %>
+  <%= button_to "Delete",
+  course_requirement_path(course_requirement),
+  method: :delete,
+  class: "btn btn-danger btn-sm",
+  data: {
+    turbo: false,
+  } %>
+</li>
