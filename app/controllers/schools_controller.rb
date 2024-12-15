@@ -1,7 +1,7 @@
 class SchoolsController < ApplicationController
   include SchoolSectionLoader
   before_action { authorize(@school || School) }
-  before_action :set_school, only: %i[show edit update destroy]
+  before_action :set_school, only: %i[show edit update destroy scrape_courses]
 
   def index
     @schools = School.includes(:terms).all
@@ -90,6 +90,54 @@ class SchoolsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to schools_url, notice: "School was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def scrape_courses
+    result = WebscraperServices::DepaulCourseScraperService.call(@school)
+
+    respond_to do |format|
+      format.turbo_stream do
+        @courses = @school.courses.page(params[:page]).per(10)
+
+        render turbo_stream: [
+                 turbo_stream.replace(
+                   "courses-list",
+                   partial: "schools/courses_list",
+                   locals: {
+                     courses: @courses,
+                     school: @school
+                   }
+                 ),
+                 turbo_stream.replace(
+                   "alerts",
+                   partial: "layouts/shared/alerts",
+                   locals: {
+                     notice:
+                       (
+                         if result[:errors].empty?
+                           "Successfully processed #{result[:processed]} courses"
+                         else
+                           "Encountered errors while processing courses: #{result[:errors].join(", ")}"
+                         end
+                       ),
+                     alert: nil
+                   }
+                 )
+               ]
+      end
+
+      format.html do
+        redirect_to school_path(@school, section: "courses"),
+                    notice:
+                      (
+                        if result[:errors].empty?
+                          "Successfully processed #{result[:processed]} courses"
+                        else
+                          "Encountered errors while processing courses: #{result[:errors].join(", ")}"
+                        end
+                      )
+      end
     end
   end
 

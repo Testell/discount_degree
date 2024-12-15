@@ -27,6 +27,10 @@ class SchoolPolicy < ApplicationPolicy
     admin?
   end
 
+  def scrape_courses?
+    admin?
+  end
+
   class Scope < Scope
     def resolve
       admin? ? scope.all : scope.none

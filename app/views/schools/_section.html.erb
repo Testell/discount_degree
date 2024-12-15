@@ -41,9 +41,25 @@
 
 <% else %>
   <div class="mb-5">
-    <h3 class="fs-3">Add a Course</h3>
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="fs-3">Add a Course</h3>
+      <%= button_to scrape_courses_school_path(@school),
+          class: "btn custom-btn fs-4",
+          form: { data: { turbo_confirm: "This will scrape and update courses from the catalog. Continue?" } },
+          data: { 
+            controller: "button",
+            action: "button#loading",
+            button_loading_class: "disabled",
+          } do %>
+        <span class="d-flex align-items-center">
+          <i class="fas fa-sync-alt me-2"></i>
+          <span>Update from Catalog</span>
+        </span>
+      <% end %>
+    </div>
     <%= render "courses/form", course: @course, school: @school %>
   </div>
+  
   <h2 class="fs-2 text-center mb-4">Courses Offered</h2>
   <%= render "search_form" %>
   <%= turbo_frame_tag "courses-list" do %>
