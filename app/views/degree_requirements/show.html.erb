@@ -1,19 +1,52 @@
-<p style="color: green"><%= notice %></p>
+<div class="container mt-5">
+  <h3 class="fs-3">Degree Requirement</h3>
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <div>
+            <h2 class="fs-3 mb-4"><%= @degree_requirement.name %></h2>
+            <p class="fs-4">
+              <strong>Credit Hours Required:</strong>
+              <%= @degree_requirement.credit_hour_amount %>
+            </p>
+            <p class="fs-4">
+              <strong>Degree:</strong>
+              <%= @degree_requirement.degree.name %>
+            </p>
+          </div>
+          <div class="d-flex justify-content-between mt-4">
+            <%= link_to "Edit",
+            edit_degree_requirement_path(@degree_requirement),
+            class: "btn custom-btn fs-4" %>
+            <%= button_to "Delete",
+            degree_requirement_path(@degree_requirement),
+            method: :delete,
+            class: "btn custom-btn fs-4",
+            data: {
+              turbo: false,
+            } %>
+            <%= link_to "Back to Degree",
+            degree_path(@degree_requirement.degree),
+            class: "btn custom-btn fs-4" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<%= render @degree_requirement %>
+  <div class="mt-5">
+    <h3 class="fs-3">Course Requirements</h3>
+    <%= render "course_requirements/form",
+    degree_requirement: @degree_requirement,
+    course_requirement: @course_requirement %>
 
-<div>
-  <%= link_to "Edit this degree requirement", edit_degree_requirement_path(@degree_requirement) %> |
-  <%= link_to "Back to degree requirements", degree_requirements_path %>
-
-  <%= button_to "Destroy this degree requirement", @degree_requirement, method: :delete %>
+    <%= turbo_frame_tag "course-requirements-list" do %>
+      <ul class="list-unstyled mt-4">
+        <%= render partial: "course_requirements/course_requirement_list_item",
+        collection: @degree_requirement.course_requirements,
+        as: :course_requirement %>
+      </ul>
+    <% end %>
+  </div>
 </div>
-
-<h2>Course Requirements</h2>
-<ul id="course-requirements-list">
-  <%= render partial: "course_requirements/course_requirement_list_item", 
-             collection: @degree_requirement.course_requirements, as: :course_requirement %>
-</ul>
-
-<h3>Add a Course Requirement</h3>
-<%= render partial: "course_requirements/form", locals: { degree_requirement: @degree_requirement, course_requirement: CourseRequirement.new } %>

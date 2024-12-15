@@ -34,6 +34,8 @@ gem "redis", "~> 4.0"
 
 gem "nokogiri", "1.16.5"
 gem "httparty"
+gem "ransack"
+gem "kaminari"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -42,7 +44,7 @@ gem "httparty"
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -55,25 +57,25 @@ gem "bootsnap", require: false
 
 group :development do
   # Linting and formatting
-  gem 'code-scanning-rubocop', '~> 0.5.0'  # Latest version
-gem 'rubocop', '~> 1.60'
+  gem "code-scanning-rubocop", "~> 0.5.0" # Latest version
+  gem "rubocop", "~> 1.60"
 
-gem 'rubocop-performance'
-gem 'rubocop-rails'
-  
+  gem "rubocop-performance"
+  gem "rubocop-rails"
+  gem "erb-formatter"
   # Prettier support gems
-  gem 'prettier'
-  gem 'syntax_tree'
-  gem 'prettier_print'
-  gem 'syntax_tree-haml'
-  gem 'syntax_tree-rbs'
+  gem "prettier"
+  gem "syntax_tree"
+  gem "prettier_print"
+  gem "syntax_tree-haml"
+  gem "syntax_tree-rbs"
 end
 
-gem 'bullet', group: 'development'
+gem "bullet", group: "development"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
@@ -99,7 +101,7 @@ end
 gem "active_link_to"
 gem "appdev_support"
 gem "awesome_print"
-gem 'devise'
+gem "devise"
 gem "dotenv"
 gem "faker"
 gem "htmlbeautifier"

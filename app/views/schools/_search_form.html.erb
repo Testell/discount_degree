@@ -1,0 +1,29 @@
+<% if @q_courses.present? %>
+  <div class="card custom-card shadow-sm mb-4">
+    <div class="card-body">
+      <%= search_form_for @q_courses, 
+          url: school_path(@school, section: 'courses'), 
+          method: :get,
+          html: { data: { turbo_frame: "courses-list" } } do |f| %>
+
+        <div class="input-group">
+          <span class="input-group-text custom-btn">
+            <i class="bi bi-search"></i>
+          </span>
+          <%= f.search_field :name_or_code_cont,
+                         class: "form-control",
+                         style: "background-color: #f8eee7;",
+                         placeholder: "Search courses..." %>
+
+          <button class="btn custom-btn-2" type="submit">Search</button>
+          <%= link_to "Clear",
+          school_path(@school, section: "courses"),
+          class: "btn custom-btn",
+          data: {
+            turbo_frame: "courses-list",
+          } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :degrees, only: [:create]
     resources :courses, only: [:create]
     resources :terms, except: [:show]
+    post "scrape_courses", on: :member
   end
 
   resources :terms

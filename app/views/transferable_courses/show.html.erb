@@ -1,41 +1,36 @@
-<p style="color: green"><%= notice %></p>
+<div class="container mt-5">
+  <div class="card shadow custom-card">
+    <div class="card-body">
+      <p class="text-success fs-4"><%= notice %></p>
 
-<h3>Transferable Courses To Other Schools</h3>
-<% if @transferable_to_courses.any? %>
-  <ul>
-    <% @transferable_to_courses.each do |course| %>
-      <li>
-        <%= link_to course.name, course_path(course) %>
-        (<%= course.school.name %>)
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No transferable courses available to other schools.</p>
-<% end %>
+      <h2 class="mb-4">Course Transfer Details</h2>
 
-<h3>Transferable Courses From Other Schools</h3>
-<% if @transferable_from_courses.any? %>
-  <ul>
-    <% @transferable_from_courses.each do |course| %>
-      <li>
-        <%= link_to course.name, course_path(course) %>
-        (<%= course.school.name %>)
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No transferable courses available from other schools.</p>
-<% end %>
+      <div class="mb-4">
+        <h4>From:</h4>
+        <p class="fs-5">
+          <%= link_to @transferable_course.from_course_details,
+          course_path(@transferable_course.from_course) %>
+        </p>
 
-<div>
-  <%= link_to "Edit this course", edit_course_path(@course) %>
-  |
-  <%= link_to "Back to courses", courses_path %>
-  <%= button_to "Destroy this course",
-  @course,
-  method: :delete,
-  data: {
-    confirm: "Are you sure?",
-  } %>
+        <h4>To:</h4>
+        <p class="fs-5">
+          <%= link_to @transferable_course.to_course_details,
+          course_path(@transferable_course.to_course) %>
+        </p>
+      </div>
+
+      <div class="mt-4">
+        <%= button_to "Delete Transfer Relationship",
+        transferable_course_path(@transferable_course),
+        method: :delete,
+        class: "btn custom-btn fs-4 me-2",
+        data: {
+          confirm: "Are you sure you want to delete this transfer relationship?",
+        } %>
+        <%= link_to "Back to Course",
+        course_path(params[:source_course_id] || @transferable_course.to_course),
+        class: "btn custom-btn fs-4" %>
+      </div>
+    </div>
+  </div>
 </div>

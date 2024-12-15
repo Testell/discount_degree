@@ -1,0 +1,11 @@
+<%= turbo_stream.update "course-requirements-list" do %>
+  <ul class="list-unstyled mt-4">
+    <% if @course_requirements.any? %>
+      <%= render partial: "course_requirements/course_requirement_list_item",
+                collection: @course_requirements,
+                as: :course_requirement %>
+    <% else %>
+      <li class="text-center fs-4">No course requirements yet.</li>
+    <% end %>
+  </ul>
+<% end %>

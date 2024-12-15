@@ -4,7 +4,7 @@ class DegreesController < ApplicationController
   before_action :set_school, only: [:create]
 
   def index
-    @degrees = Degree.all
+    @degrees = Degree.includes(:school).all
   end
 
   def show
@@ -23,13 +23,16 @@ class DegreesController < ApplicationController
 
     respond_to do |format|
       if @degree.save
-        format.html { redirect_to degree_url(@degree), notice: "Degree was successfully created." }
+        format.html do
+          redirect_to school_path(@school, section: "degrees"),
+                      notice: "Degree was successfully created."
+        end
         format.json { render :show, status: :created, location: @degree }
-        format.js
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html do
+          redirect_to school_path(@school, section: "degrees"), status: :unprocessable_entity
+        end
         format.json { render json: @degree.errors, status: :unprocessable_entity }
-        format.js
       end
     end
   end
@@ -47,12 +50,10 @@ class DegreesController < ApplicationController
   end
 
   def destroy
+    school = @degree.school
     @degree.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to degrees_url, notice: "Degree was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to school_path(school, section: "degrees"),
+                notice: "Degree was successfully destroyed."
   end
 
   private

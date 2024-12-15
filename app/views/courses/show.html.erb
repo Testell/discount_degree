@@ -1,24 +1,45 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @course %>
-
-<div>
-  <%= link_to "Edit this course", edit_course_path(@course) %>
-  |
-  <%= link_to "Back to courses", courses_path %>
-
-  <%= button_to "Destroy this course", @course, method: :delete %>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <div>
+            <%= render @course %>
+          </div>
+          <div class="d-flex justify-content-between mt-4">
+            <%= link_to "Edit this course",
+            edit_course_path(@course),
+            class: "btn custom-btn fs-4" %>
+            <%= button_to "Destroy this course",
+            course_path(@course),
+            method: :delete,
+            class: "btn custom-btn fs-4",
+            data: {
+              turbo: false,
+            } %>
+            <%= link_to "Back to school",
+            school_path(@course.school, section: "courses"),
+            class: "btn custom-btn fs-4" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3 class="mt-5">Add a Transferable Course</h3>
+  <div class="card shadow custom-card mt-3">
+    <div class="card-body">
+      <%= render "transferable_courses/form", transferable_course: @transferable_course %>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <h2 class="mb-4">Transferable Courses</h2>
+    <ul id="transferable-courses-list" class="list-group">
+      <% @transferable_courses.each do |transferable_course| %>
+        <%= render partial: "transferable_courses/transferable_course_list_item",
+        locals: {
+          transferable_course: transferable_course,
+        } %>
+      <% end %>
+    </ul>
+  </div>
 </div>
-
-<h2>Transferable Courses</h2>
-<ul id="transferable-courses-list">
-  <% @transferable_courses.each do |transferable_course| %>
-    <%= render partial: "transferable_courses/transferable_course_list_item",
-    locals: {
-      transferable_course: transferable_course,
-    } %>
-  <% end %>
-</ul>
-
-<h3>Add a Transferable Course</h3>
-<%= render "transferable_courses/form", transferable_course: @transferable_course %>

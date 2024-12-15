@@ -1,58 +1,72 @@
-<%= form_with(model: [@school, @course], local: false, html: { id: "new-course-form" }) do |form| %>
-  <% if @course.errors.any? %>
-    <div id="error_explanation">
-      <ul class="list-unstyled">
-        <% @course.errors.full_messages.each do |message| %>
-          <li>
-            <div class="alert alert-danger" role="alert">
-              <%= message %>
+<%= form_with(model: [@school, @course], html: { class: "container pt-5" }) do |form| %>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <h2 class="card-title mb-4 fs-3"><%= @course.new_record? ? "Add New Course" : "Edit Course" %></h2>
+
+          <%= form_errors(@course) %>
+
+          <div class="mb-4 row justify-content-center">
+            <div class="col-md-10">
+              <%= form.label :department, "Department", class: "form-label fs-4 mb-2" %>
+              <%= form.text_field :department, class: "form-control fs-4" %>
             </div>
-          </li>
-        <% end %>
-      </ul>
+          </div>
+
+          <div class="mb-4 row justify-content-center">
+            <div class="col-md-10">
+              <%= form.label :code, "Department Code", class: "form-label fs-4 mb-2" %>
+              <%= form.text_field :code, class: "form-control fs-4", id: "course-code-field" %>
+            </div>
+          </div>
+
+          <div class="mb-4 row justify-content-center">
+            <div class="col-md-10">
+              <%= form.label :course_number, "Course Number", class: "form-label fs-4 mb-2" %>
+              <%= form.number_field :course_number, class: "form-control fs-4" %>
+            </div>
+          </div>
+
+          <div class="mb-4 row justify-content-center">
+            <div class="col-md-10">
+              <%= form.label :name, "Course Name", class: "form-label fs-4 mb-2" %>
+              <%= form.text_field :name, class: "form-control fs-4" %>
+            </div>
+          </div>
+
+          <div class="mb-4 row justify-content-center">
+            <div class="col-md-10">
+              <%= form.label :credit_hours, "Credit Hours", class: "form-label fs-4 mb-2" %>
+              <%= form.number_field :credit_hours, class: "form-control fs-4", step: "0.0001" %>
+            </div>
+          </div>
+
+          <div class="mb-4 row justify-content-center">
+            <div class="col-md-10">
+              <%= form.label :category, "Category", class: "form-label fs-4 mb-2" %>
+              <%= form.text_field :category, class: "form-control fs-4" %>
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-md-10 text-center">
+              <%= form.submit @course.new_record? ? "Add Course" : "Update Course",
+                          class: "btn custom-btn-2 fs-4 me-2" %>
+
+              <%= link_to "Cancel",
+              (
+                if @course.new_record?
+                  school_path(@course.school, section: "courses")
+                else
+                  course_path(@course)
+                end
+              ),
+              class: "btn custom-btn fs-4" %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= form.label :department, "Department" %>
-    <%= form.text_field :department, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :code, "Department Code" %>
-    <%= form.text_field :code,
-                    class: "form-control",
-                    id: "course-code-field",
-                    disabled: false %>
-    <button
-      type="button"
-      id="edit-course-code"
-      class="btn btn-link"
-      style="display: none;"
-    >Edit</button>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :course_number, "Course Number" %>
-    <%= form.number_field :course_number, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :name, "Course Name" %>
-    <%= form.text_field :name, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :credit_hours, "Credit Hours" %>
-    <%= form.number_field :credit_hours, class: "form-control", step: "0.0001" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :category, "Category" %>
-    <%= form.text_field :category, class: "form-control" %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit "Add Course", class: "btn btn-outline-primary btn-block" %>
   </div>
 <% end %>

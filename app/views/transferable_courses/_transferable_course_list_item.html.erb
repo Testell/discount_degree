@@ -1,8 +1,8 @@
-<li id="transferable_course_<%= transferable_course.id %>">
-  <%= link_to transferable_course_path(transferable_course) do %>
-    From:
-    <%= transferable_course.from_course.name %>
-    - To:
-    <%= transferable_course.to_course.name %>
+<li
+  id="transferable_course_<%= transferable_course.id %>"
+  class="list-group-item"
+>
+  <%= link_to transferable_course_path(transferable_course, source_course_id: transferable_course.to_course_id), class: "fs-4 text-decoration-none" do %>
+    <%= transferable_course.formatted_relation %>
   <% end %>
 </li>

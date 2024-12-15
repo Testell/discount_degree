@@ -1,49 +1,75 @@
-<%= form_with(model: @school, local: true, html: { id: "new-school-form" }) do |form| %>
-  <% if @school.errors.any? %>
-    <div id="error_explanation">
-      <ul class="list-unstyled">
-        <% @school.errors.full_messages.each do |message| %>
-          <li>
-            <div class="alert alert-danger" role="alert">
-              <%= message %>
+<div class="container pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <h2 class="card-title mb-4 fs-3">Add School</h2>
+
+          <%= form_with(model: @school, data: { turbo: false }) do |form| %>
+            <%= form_errors(@school) %>
+
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :name, "School Name", class: "form-label fs-4 mb-2" %>
+                <%= form.text_field :name, class: "form-control fs-4" %>
+              </div>
             </div>
-          </li>
-        <% end %>
-      </ul>
+
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :school_type, "School Type", class: "form-label fs-4 mb-2" %>
+                <%= form.select :school_type,
+                            %w[community_college university],
+                            {},
+                            class: "form-select fs-4" %>
+              </div>
+            </div>
+
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :credit_hour_price,
+                           "Credit Hour Price",
+                           class: "form-label fs-4 mb-2" %>
+                <%= form.number_field :credit_hour_price, class: "form-control fs-4" %>
+              </div>
+            </div>
+
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :minimum_credits_from_school,
+                           "Minimum Credits Required From School",
+                           class: "form-label fs-4 mb-2" %>
+                <%= form.number_field :minimum_credits_from_school, class: "form-control fs-4" %>
+              </div>
+            </div>
+
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :max_credits_from_community_college,
+                           "Max Credits From Community College",
+                           class: "form-label fs-4 mb-2" %>
+                <%= form.number_field :max_credits_from_community_college,
+                                  class: "form-control fs-4" %>
+              </div>
+            </div>
+
+            <div class="mb-4 row justify-content-center">
+              <div class="col-md-10">
+                <%= form.label :max_credits_from_university,
+                           "Max Credits From University",
+                           class: "form-label fs-4 mb-2" %>
+                <%= form.number_field :max_credits_from_university, class: "form-control fs-4" %>
+              </div>
+            </div>
+
+            <div class="row justify-content-center">
+              <div class="col-md-10 text-center">
+                <%= form.submit "Add School", class: "btn custom-btn-2 fs-4" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= form.label :name, "School Name" %>
-    <%= form.text_field :name, class: "form-control" %>
   </div>
-
-  <div class="form-group">
-    <%= form.label :school_type, "School Type" %>
-    <%= form.select :school_type, [["University", "university"], ["Community College", "community_college"]], {}, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :credit_hour_price, "Credit Hour Price" %>
-    <%= form.number_field :credit_hour_price, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :minimum_credits_from_school, "Minimum Credits from School" %>
-    <%= form.number_field :minimum_credits_from_school, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :max_credits_from_community_college, "Max Credits from Community College" %>
-    <%= form.number_field :max_credits_from_community_college, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :max_credits_from_university, "Max Credits from Other Universities" %>
-    <%= form.number_field :max_credits_from_university, class: "form-control" %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit "Add School", class: "btn btn-outline-primary btn-block" %>
-  </div>
-<% end %>
+</div>

@@ -1,56 +1,72 @@
-<p style="color: green"><%= notice %></p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <div>
+            <%= render @school %>
+          </div>
+          <div class="d-flex justify-content-between mt-4">
+            <%= link_to "Edit this school",
+            edit_school_path(@school),
+            class: "btn custom-btn fs-4" %>
+            <%= button_to "Destroy this school",
+            @school,
+            method: :delete,
+            class: "btn custom-btn fs-4" %>
+            <%= link_to "Back to schools", schools_path, class: "btn custom-btn fs-4" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<%= render @school %>
+  <div class="container mt-5">
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <%= turbo_frame_tag "navigation" do %>
+          <ul class="nav nav-underline justify-content-center mb-4">
+            <li class="nav-item">
+              <%= link_to "Courses",
+              school_path(@school, section: "courses"),
+              class:
+                "nav-link fs-4 #{params[:section] == "courses" || params[:section].nil? ? "active fw-bold" : ""}",
+              data: {
+                turbo_stream: true,
+              } %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Degrees",
+              school_path(@school, section: "degrees"),
+              class: "nav-link fs-4 #{params[:section] == "degrees" ? "active fw-bold" : ""}",
+              data: {
+                turbo_stream: true,
+              } %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Terms",
+              school_path(@school, section: "terms"),
+              class: "nav-link fs-4 #{params[:section] == "terms" ? "active fw-bold" : ""}",
+              data: {
+                turbo_stream: true,
+              } %>
+            </li>
+          </ul>
+        <% end %>
+      </div>
+    </div>
 
-<div>
-  <%= link_to "Edit this school", edit_school_path(@school) %> |
-  <%= link_to "Back to schools", schools_path %>
-
-  <%= button_to "Destroy this school", @school, method: :delete %>
-</div>
-
-<ul class="nav nav-underline">
-  <li class="nav-item">
-    <a class="nav-link <%= params[:section] == 'courses' || params[:section].nil? ? 'active' : '' %>" href="?section=courses">Courses</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <%= params[:section] == 'degrees' ? 'active' : '' %>" href="?section=degrees">Degrees</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <%= params[:section] == 'terms' ? 'active' : '' %>" href="?section=terms">Terms</a>
-  </li>
-</ul>
-
-<div class="mt-4">
-  <% if params[:section] == 'degrees' %>
-    <h2>Degrees Offered</h2>
-    <ul id="degrees-list">
-      <%= render partial: 'degrees/degree_list_item', collection: @degrees, as: :degree %>
-    </ul>
-
-    <h3>Add a Degree</h3>
-    <%= render 'degrees/form', degree: @degree %>
-
-  <% elsif params[:section] == 'terms' %>
-    <h2>Terms</h2>
-    <ul id="terms-list">
-      <%= render partial: 'terms/term_list_item', collection: @school.terms, as: :term %>
-    </ul>
-
-    <h3>Add a Term</h3>
-    <%= render 'terms/form', term: @term, school: @school %>
-
-  <% else %>
-    <h2>Courses Offered</h2>
-    <ul id="courses-list">
-      <% @courses.each do |course| %>
-        <li>
-          <%= link_to "#{course.name} - #{course.code} (#{course.credit_hours} credits)", course_path(course) %>
-        </li>
-      <% end %>
-    </ul>
-
-    <h3>Add a Course</h3>
-    <%= render 'courses/form', course: @course, school: @school %>
-  <% end %>
+    <%= turbo_frame_tag "section_content" do %>
+      <div id="section-wrapper">
+        <%= render partial: "schools/section",
+        locals: {
+          section: params[:section],
+          courses: @courses,
+          degrees: @degrees,
+          terms: @terms,
+          school: @school,
+        } %>
+      </div>
+    <% end %>
+  </div>
 </div>

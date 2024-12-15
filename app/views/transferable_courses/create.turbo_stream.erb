@@ -1,0 +1,11 @@
+<%= turbo_stream.append "transferable-courses-list" do %>
+  <%= render partial: 'transferable_courses/transferable_course_list_item', locals: { transferable_course: @saved_course } %>
+<% end %>
+
+<%= turbo_stream.replace "new-transferable-course-form" do %>
+  <%= render "form", transferable_course: @transferable_course %>
+<% end %>
+
+<%= turbo_stream.update "alert-container" do %>
+  <p class="notice fs-4">Transferable course was successfully created.</p>
+<% end %>

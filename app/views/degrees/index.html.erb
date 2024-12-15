@@ -1,14 +1,22 @@
-<p style="color: green"><%= notice %></p>
+<div class="admin-container">
+  <h1 class="admin-header">Degrees</h1>
 
-<h1>Degrees</h1>
+  <div class="row">
+    <% @degrees.each do |degree| %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow custom-card">
+          <div class="card-body">
+            <%= render degree %>
+            <div class="admin-actions mt-3">
+              <%= link_to "Show", degree, class: "btn custom-btn-2" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
-<div id="degrees">
-  <% @degrees.each do |degree| %>
-    <%= render degree %>
-    <p>
-      <%= link_to "Show this degree", degree %>
-    </p>
-  <% end %>
+  <div class="text-center mt-4">
+    <%= link_to "New Degree", new_degree_path, class: "btn custom-btn-2 fs-4" %>
+  </div>
 </div>
-
-<%= link_to "New degree", new_degree_path %>

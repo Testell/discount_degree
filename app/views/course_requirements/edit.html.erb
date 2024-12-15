@@ -1,10 +1,12 @@
-<h1>Editing course requirement</h1>
-
-<%= render "form", course_requirement: @course_requirement %>
-
-<br>
-
-<div>
-  <%= link_to "Show this course requirement", @course_requirement %> |
-  <%= link_to "Back to course requirements", course_requirements_path %>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <h2 class="card-title mb-4 fs-3">Edit Course Requirement</h2>
+          <%= render "form", course_requirement: @course_requirement %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

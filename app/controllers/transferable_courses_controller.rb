@@ -17,22 +17,21 @@ class TransferableCoursesController < ApplicationController
   end
 
   def edit
+    @other_courses = Course.where.not(id: @transferable_course.to_course_id)
   end
 
   def create
-    @transferable_course = TransferableCourse.new(transferable_course_params)
+    @transferable_course = TransferableCourse.create_with_associations(transferable_course_params)
+    @course = Course.find(transferable_course_params[:to_course_id])
+    @other_courses = Course.for_transfer_form(@course.id)
 
     respond_to do |format|
-      if @transferable_course.save
-        format.html do
-          redirect_to transferable_course_url(@transferable_course),
-                      notice: "Transferable course was successfully created."
-        end
-        format.json { render :show, status: :created, location: @transferable_course }
-        format.js
+      if @transferable_course.persisted?
+        @saved_course = @transferable_course
+        @transferable_course = TransferableCourse.initialize_for_course(@course.id)
+        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @transferable_course.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -53,12 +52,13 @@ class TransferableCoursesController < ApplicationController
   end
 
   def destroy
+    source_course_id = @transferable_course.to_course_id
     @transferable_course.destroy!
 
     respond_to do |format|
       format.html do
-        redirect_to transferable_courses_url,
-                    notice: "Transferable course was successfully destroyed."
+        redirect_to course_path(source_course_id),
+                    notice: "Transfer relationship was successfully removed."
       end
       format.json { head :no_content }
     end
@@ -67,7 +67,7 @@ class TransferableCoursesController < ApplicationController
   private
 
   def set_transferable_course
-    @transferable_course = TransferableCourse.find(params[:id])
+    @transferable_course = TransferableCourse.with_associated_courses.find(params[:id])
   end
 
   def transferable_course_params

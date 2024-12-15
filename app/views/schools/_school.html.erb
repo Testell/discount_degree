@@ -21,7 +21,11 @@
     <ul>
       <% school.terms.each do |term| %>
         <li>
-          <strong><%= term.name %> (Credits: <%= term.credit_hour_minimum %> - <%= term.credit_hour_maximum %>):</strong>
+          <strong><%= term.name %>
+            (Credits:
+            <%= term.credit_hour_minimum %>
+            -
+            <%= term.credit_hour_maximum %>):</strong>
           <%= number_to_currency(term.tuition_cost) %>
         </li>
       <% end %>

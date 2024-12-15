@@ -41,7 +41,7 @@
         <% course.degree_requirements.each do |req| %>
           <li>
             <%= link_to req.name, degree_requirement_path(req) %>
-            - Part of
+            - 
             <%= req.degree.name %>
           </li>
         <% end %>

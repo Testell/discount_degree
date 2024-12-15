@@ -23,18 +23,29 @@ class CourseRequirementsController < ApplicationController
 
     respond_to do |format|
       if @course_requirement.save
+        format.turbo_stream
         format.html do
           redirect_to degree_requirement_path(@degree_requirement),
                       notice: "Course requirement was successfully created."
         end
         format.json { render :show, status: :created, location: @course_requirement }
-        format.js
       else
         format.html do
           redirect_to degree_requirement_path(@degree_requirement),
                       alert: "Unable to create course requirement."
         end
         format.json { render json: @course_requirement.errors, status: :unprocessable_entity }
+        format.turbo_stream do
+          render turbo_stream:
+                   turbo_stream.replace(
+                     "new_course_requirement_form",
+                     partial: "form",
+                     locals: {
+                       degree_requirement: @degree_requirement,
+                       course_requirement: @course_requirement
+                     }
+                   )
+        end
       end
     end
   end
@@ -59,12 +70,14 @@ class CourseRequirementsController < ApplicationController
     @course_requirement.destroy!
 
     respond_to do |format|
-      format.js
       format.html do
         redirect_to degree_requirement_path(@degree_requirement),
                     notice: "Course requirement was successfully destroyed."
       end
-      format.json { head :no_content }
+      format.turbo_stream do
+        @course_requirements = @degree_requirement.course_requirements.includes(:course)
+        render :destroy
+      end
     end
   end
 

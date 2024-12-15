@@ -1,17 +1,14 @@
 class CoursesController < ApplicationController
   before_action { authorize(@course || Course) }
   before_action :set_course, only: %i[show edit update destroy]
-  before_action :set_school, only: [:create]
+  before_action :set_school, only: %i[create destroy]
+  before_action :set_transferable_courses, only: [:show]
 
   def index
-    @courses = Course.all
+    @courses = Course.with_common_includes
   end
 
   def show
-    @course = Course.find(params[:id])
-    @transferable_courses = @course.end_transferable_courses || []
-    @transferable_course = TransferableCourse.new(to_course: @course)
-    @other_courses = Course.where.not(school_id: @course.school_id)
   end
 
   def new
@@ -19,17 +16,20 @@ class CoursesController < ApplicationController
   end
 
   def create
-    @course = @school.courses.build(course_params)
+    @course = Course.new_with_school(@school, course_params)
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, notice: "Course was successfully created." }
+        format.html do
+          redirect_to school_path(@school, section: "courses"),
+                      notice: "Course was successfully created."
+        end
         format.json { render :show, status: :created, location: @course }
-        format.js
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html do
+          redirect_to school_path(@school, section: "courses"), status: :unprocessable_entity
+        end
         format.json { render json: @course.errors, status: :unprocessable_entity }
-        format.js
       end
     end
   end
@@ -48,22 +48,32 @@ class CoursesController < ApplicationController
   end
 
   def destroy
+    school = @course.school
     @course.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to courses_url, notice: "Course was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to school_path(school, section: "courses"),
+                notice: "Course was successfully destroyed."
   end
 
   private
 
   def set_course
-    @course = Course.find(params[:id])
+    @course =
+      if action_name == "show"
+        Course.find_for_show(params[:id])
+      else
+        Course.find_basic(params[:id])
+      end
   end
 
   def set_school
-    @school = School.find(params[:school_id])
+    @school = (params[:school_id] ? School.find(params[:school_id]) : @course&.school)
+  end
+
+  def set_transferable_courses
+    transfer_info = @course.transfer_details
+    @transferable_courses = transfer_info[:transferable_courses]
+    @transferable_course = transfer_info[:transferable_course]
+    @other_courses = transfer_info[:other_courses]
   end
 
   def course_params

@@ -2,27 +2,34 @@
   <ul class="nav nav-underline justify-content-center mb-4">
     <li class="nav-item">
       <%= link_to "Full-time at #{@plan.ending_school.name}",
-          show_plan_path(
-            plan_id: @plan.id,
-            alternate_plan_id: @alternate_plan&.id,
-            show_full_time: true
-          ),
-          class: "nav-link fs-3 text-dark #{@showing_full_time ? 'active' : ''}",
-          data: { remote: true } %>
+      show_plan_path(
+        plan_id: @plan.id,
+        alternate_plan_id: @alternate_plan&.id,
+        show_full_time: true,
+      ),
+      class: "nav-link fs-3 text-dark #{@showing_full_time ? "active" : ""}",
+      data: {
+        remote: true,
+      } %>
     </li>
     <li class="nav-item">
       <%= link_to "Part-time at #{@plan.ending_school.name}",
-          show_plan_path(
-            plan_id: @plan.id,
-            alternate_plan_id: @alternate_plan&.id,
-            show_full_time: false
-          ),
-          class: "nav-link fs-3 text-dark #{!@showing_full_time ? 'active' : ''}",
-          data: { remote: true } %>
+      show_plan_path(
+        plan_id: @plan.id,
+        alternate_plan_id: @alternate_plan&.id,
+        show_full_time: false,
+      ),
+      class: "nav-link fs-3 text-dark #{!@showing_full_time ? "active" : ""}",
+      data: {
+        remote: true,
+      } %>
     </li>
   </ul>
 
   <div id="planContent">
-    <%= render partial: 'plans/plan', locals: { plan: @showing_full_time ? @plan : @alternate_plan } %>
+    <%= render partial: "plans/plan",
+    locals: {
+      plan: @showing_full_time ? @plan : @alternate_plan,
+    } %>
   </div>
 </div>

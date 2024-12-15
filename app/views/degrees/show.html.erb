@@ -1,52 +1,130 @@
-<p style="color: green"><%= notice %></p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card shadow custom-card">
+        <div class="card-body">
+          <div>
+            <%= render @degree %>
+          </div>
+          <div class="d-flex justify-content-between mt-4">
+            <%= link_to "Edit this degree",
+            edit_degree_path(@degree),
+            class: "btn custom-btn fs-4" %>
+            <%= button_to "Destroy this degree",
+            degree_path(@degree),
+            method: :delete,
+            class: "btn custom-btn fs-4",
+            data: {
+              turbo: false,
+            } %>
+            <%= link_to "Back to school",
+            school_path(@degree.school, section: "degrees"),
+            class: "btn custom-btn fs-4" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<%= render @degree %>
+  <div class="mt-5">
+    <h3 class="fs-3">Add a Requirement</h3>
+    <div class="card shadow custom-card mt-3">
+      <div class="card-body">
+        <%= form_with(model: [@degree, DegreeRequirement.new(degree: @degree)], local: true) do |form| %>
+          <% if form.object.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(form.object.errors.count, "error") %>
+                prohibited this requirement from being saved:</h2>
 
-<div>
-  <%= link_to "Edit this degree", edit_degree_path(@degree) %>
-  |
-  <%= link_to "Back to degrees", degrees_path %>
+              <ul>
+                <% form.object.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
 
-  <%= button_to "Destroy this degree", @degree, method: :delete %>
+          <div class="mb-4 row justify-content-center">
+            <div class="col-md-10">
+              <%= form.label :name, "Requirement Name", class: "form-label fs-4 mb-2" %>
+              <%= form.text_field :name, class: "form-control fs-4" %>
+            </div>
+          </div>
+
+          <div class="mb-4 row justify-content-center">
+            <div class="col-md-10">
+              <%= form.label :credit_hour_amount,
+                         "Credit Hour Amount",
+                         class: "form-label fs-4 mb-2" %>
+              <%= form.number_field :credit_hour_amount, class: "form-control fs-4" %>
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-md-10 text-center">
+              <%= form.submit "Add Requirement",
+                          class: "btn custom-btn-2 fs-4",
+                          data: {
+                            disable_with: "Adding...",
+                          } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <h3 class="fs-3">Requirements</h3>
+      <% if @degree.degree_requirements.where.not(id: nil).any? %>
+        <ul id="degree-requirements-list" class="list-unstyled mt-4">
+          <% @degree.degree_requirements.where.not(id: nil).each do |requirement| %>
+            <%= render "degree_requirements/degree_requirement_list_item",
+            degree: @degree,
+            degree_requirement: requirement %>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No requirements have been added yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <h2 class="mt-5">Find Cheapest Plan</h2>
+  <div class="card shadow custom-card mt-3">
+    <div class="card-body">
+      <%= form_with url: generate_cheapest_plan_degree_path(@degree), local: true, method: :post, scope: :plan do |form| %>
+        <% if flash[:alert] %>
+          <div class="alert alert-danger"><%= flash[:alert] %></div>
+        <% end %>
+
+        <div class="form-group">
+          <%= form.label :starting_school_id, "Select Starting School" %>
+          <%= form.select :starting_school_id,
+                      options_from_collection_for_select(
+                        School.where(school_type: "community_college"),
+                        :id,
+                        :name,
+                      ),
+                      { prompt: "Select Starting School" },
+                      class: "form-select",
+                      required: true %>
+        </div>
+
+        <div class="actions mt-3">
+          <%= form.submit "Generate Cheapest Plan", class: "btn custom-btn btn-block fs-4" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <h2 class="mt-5">Generated Plan</h2>
+  <div class="card shadow custom-card mt-3">
+    <div class="card-body">
+      <% if @plans.any? %>
+        <%= render @plans %>
+      <% else %>
+        <p class="text-muted">No plans generated yet.</p>
+      <% end %>
+    </div>
+  </div>
 </div>
-
-<h2>Degree Requirements</h2>
-<ul id="degree-requirements-list">
-  <%= render partial: "degree_requirements/degree_requirement_list_item",
-  collection: @degree.degree_requirements,
-  as: :degree_requirement %>
-</ul>
-
-<h2>Add a Requirement</h2>
-<%= render "degree_requirements/form", degree: @degree %>
-
-<h2 class="mt-5">Find Cheapest Plan</h2>
-<%= form_with url: generate_cheapest_plan_degree_path(@degree), local: true, method: :post, scope: :plan do |form| %>
-  <% if flash[:alert] %>
-    <div class="alert alert-danger"><%= flash[:alert] %></div>
-  <% end %>
-
-  <div class="form-group">
-    <%= form.label :starting_school_id, "Select Starting School" %>
-    <%= form.select :starting_school_id,
-                options_from_collection_for_select(
-                  School.where(school_type: "community_college"),
-                  :id,
-                  :name,
-                ),
-                { prompt: "Select Starting School" },
-                class: "form-control",
-                required: true %>
-  </div>
-
-  <div class="actions mt-3">
-    <%= form.submit "Generate Cheapest Plan", class: "btn btn-outline-primary btn-block" %>
-  </div>
-<% end %>
-
-<h2 class="mt-5">Generated Plan</h2>
-<% if @plans.any? %>
-  <%= render @plans %>
-<% else %>
-  <p>No plans generated yet.</p>
-<% end %>

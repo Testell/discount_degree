@@ -13,16 +13,6 @@
  *= require_tree .
  *= require_self
  */
-
-
-
-/* #home-page, #nav {
-  font-family: "Darker Grotesque", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-} */
-
  body {
   font-family: "Darker Grotesque", sans-serif;
   font-optical-sizing: auto;
@@ -135,12 +125,52 @@ a:hover, a:visited, a:active {
   text-decoration: none !important;
 }
 
+
 .custom-navbar .nav-link {
-  text-decoration: none; /* No underline by default */
+  text-decoration: none; 
 }
 
 .custom-navbar .nav-link:hover {
-  text-decoration: underline !important; /* Add underline on hover */
-  color: #000 !important; /* Ensure consistent hover color */
-  cursor: pointer; /* Show pointer cursor */
+  text-decoration: underline !important; 
+  color: #000 !important; 
+  cursor: pointer; 
 }
+
+.pagination {
+  font-family: "Darker Grotesque", sans-serif;
+}
+
+.pagination .page-link {
+  background-color: #f8eee7;
+  border-color: #343434;
+  color: #343434;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+}
+
+.pagination .page-link:hover {
+  background-color: #f9f5f0;
+  color: #000;
+  text-decoration: none;
+  box-shadow: 0 0 10px rgba(52, 52, 52, 0.2);
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #f9f5f0;
+  border-color: #343434;
+  color: #000;
+  font-weight: 500;
+  box-shadow: 0 0 10px rgba(52, 52, 52, 0.5);
+}
+
+.pagination .page-item.disabled .page-link {
+  background-color: #f8eee7;
+  border-color: #ccc;
+  color: #888;
+}
+
+.pagination .page-link:focus {
+  box-shadow: 0 0 0 0.25rem rgba(52, 52, 52, 0.2);
+  outline: none;
+}
+
