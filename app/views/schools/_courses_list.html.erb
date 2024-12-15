@@ -5,5 +5,11 @@
     <% end %>
   </div>
 
-  <%= paginate courses, remote: true %>
+  <%= paginate courses,
+  params: {
+    controller: "schools",
+    action: "show",
+    id: school.id,
+    section: "courses",
+  } %>
 </div>

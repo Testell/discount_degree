@@ -99,14 +99,18 @@ class SchoolsController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         @courses = @school.courses.page(params[:page]).per(10)
+        @course = Course.new(school: @school)
 
         render turbo_stream: [
                  turbo_stream.replace(
-                   "courses-list",
-                   partial: "schools/courses_list",
+                   "section_content",
+                   partial: "schools/section",
                    locals: {
+                     section: "courses",
                      courses: @courses,
-                     school: @school
+                     school: @school,
+                     degrees: @degrees,
+                     terms: @terms
                    }
                  ),
                  turbo_stream.replace(
@@ -125,18 +129,6 @@ class SchoolsController < ApplicationController
                    }
                  )
                ]
-      end
-
-      format.html do
-        redirect_to school_path(@school, section: "courses"),
-                    notice:
-                      (
-                        if result[:errors].empty?
-                          "Successfully processed #{result[:processed]} courses"
-                        else
-                          "Encountered errors while processing courses: #{result[:errors].join(", ")}"
-                        end
-                      )
       end
     end
   end
