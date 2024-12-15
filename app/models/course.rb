@@ -29,8 +29,7 @@ class Course < ApplicationRecord
 
   scope :with_common_includes, -> { includes(:school, :degree_requirements) }
 
-  scope :with_show_includes,
-        -> { includes(:school).includes(course_requirements: { degree_requirement: :degree }) }
+  scope :with_show_includes, -> { includes(:school) }
 
   scope :except_course, ->(course) { where.not(id: course.id) }
 
