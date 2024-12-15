@@ -9,8 +9,6 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course =
-      Course.includes(course_requirements: { degree_requirement: :degree }).find(params[:id])
   end
 
   def new
