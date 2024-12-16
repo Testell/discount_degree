@@ -185,7 +185,7 @@ module WebscraperServices
         next unless course_data
 
         transformed_course = {
-          code: course_data[:code],
+          code: course_data[:code].upcase,
           department: course_data[:department],
           course_number: course_data[:course_number].to_i,
           name: normalize_course_name(course_data[:name]),
@@ -205,7 +205,18 @@ module WebscraperServices
     end
 
     def normalize_course_name(name)
-      name.strip.gsub(/\s+/, " ")
+      words = name.strip.downcase.split(/\s+/)
+      words
+        .map do |word|
+          if word.match?(/^[ivxlcdm]+$/i)
+            word.upcase
+          elsif word.match?(/^[a-z]+$/i)
+            word.capitalize
+          else
+            word
+          end
+        end
+        .join(" ")
     end
 
     def normalize_prerequisites(prereq_data)
