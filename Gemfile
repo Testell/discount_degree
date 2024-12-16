@@ -37,6 +37,11 @@ gem "httparty"
 gem "ransack"
 gem "kaminari"
 
+gem 'blazer'
+gem 'chartkick'
+gem 'groupdate'
+gem 'ahoy_matey'
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
