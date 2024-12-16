@@ -1,0 +1,7 @@
+<h1>Admin Dashboard</h1>
+
+<h2>Source of Traffic</h2>
+<%= pie_chart @source_of_traffic_data, donut: true, legend: "bottom" %>
+
+<h2>Favorite Pages</h2>
+<%= bar_chart @favorite_pages_data, xtitle: "Page", ytitle: "Visits" %>

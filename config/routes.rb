@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get "dashboards/show"
+  end
   devise_for :users
 
   authenticate :user, ->(user) { user.admin? } do
     mount Blazer::Engine, at: "blazer"
+  end
+
+  namespace :admin do
+    resource :dashboard, only: [:show]
   end
 
   resources :users do

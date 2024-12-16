@@ -1,6 +1,8 @@
 import "@hotwired/turbo-rails"
 import "controllers"
+import "chartkick"
+import "Chart.bundle"
+import "jquery"
 
-import jquery from "jquery";
-window.jQuery = jquery;
-window.$ = jquery;
+// Assign jQuery to global variables
+window.jQuery = window.$ = jQuery
