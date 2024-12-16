@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  authenticate :user, ->(user) { user.admin? } do
+    mount Blazer::Engine, at: "blazer"
+  end
+
   resources :users do
     member do
       post "save_plan", to: "saved_plans#create", as: "save_plan"

@@ -1,3 +1,27 @@
+# == Schema Information
+#
+# Table name: courses
+#
+#  id            :bigint           not null, primary key
+#  category      :string
+#  code          :string           not null
+#  course_number :integer          not null
+#  credit_hours  :decimal(5, 4)    not null
+#  department    :string           not null
+#  description   :text
+#  name          :string           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  school_id     :bigint           not null
+#
+# Indexes
+#
+#  index_courses_on_school_id  (school_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (school_id => schools.id)
+#
 class Course < ApplicationRecord
   belongs_to :school, required: true, class_name: "School", foreign_key: "school_id"
   belongs_to :term, optional: true
