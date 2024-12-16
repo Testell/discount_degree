@@ -72,14 +72,41 @@ Project Link: [https://github.com/Testell/discount_degree](https://github.com/Te
   1. Plans needs to be refactored to account for custom user plans in the future
   2. All is_mandatory = false course_requirement courses should be saved as a list of options
   3. List of options is all possible courses at school that can be chosen(ex. All philospohy classes for philosphy requirement)
-  4. User plans table which is identical to plans will be the users custom plans with all optional courses chosen
+  4. User plans table which is identical to plans currently, will be the users custom plans with all optional courses chosen.
 
-- Next steps for Algo
-  - It is broken. What started off as an off by 1 error turned into a mess with bad sample data.
-  1. The main problem is if an exact amount of credits can not be found for a degree requirement, a significant amount
-      of credits will be added PAST the required amount. This is from starting the process over again, and eventually a bug happens where 
-      more classes then needed are added. I believe this is happening in the reconstruct_path method of the cheapest_plan_generater service file
+- Next steps for cheapest_plan_service
+  - The algorithm needs comprehensive testing
+
+  - Intermediary university logic is questionable
+
+  - Currently works, but if transferable courses have differing credit hours the total will be off
+        I have to do more research on this but from what I understand the credit hour amount given
+        for a transfer course depends on the school. So if you take a 3 credit hour course at a 
+        community college and transfer it to a university, the university might not have a equivalent
+        course, but the course may be valid for transfer to fulfill a degree requirement. Otherwise the 
+        course might have a 1 to 1 transfer to another course. In the case that its a 1 to 1 
+        transfer, the amount of credit hours given varies by school. The algo currently works 
+        on the 1 to 1 transfer method where the ending school rewards the credit hours based on the course
+        offered at their school, but total credits will be off if the credit amounts are
+        different, due to displaying the credit hours from the school the course was taken.
+
+    - May have to refactor the transferable courses table to connect to degree requirements
+      in the case of schools not having 1 to 1 transfers.
+
+    Feedback i've gotten on the service:
+
+    - All paths should be shown. 
+      I think this can be filtered to:
+        Find cheapest plan, cheapest full time plan, and the traditional 
+        plans(full time at ending uni, and community -> ending university)
+
+      With all of these a graph can be shown to users showing comparisons of time spent vs money spent.
+
+
+
+
+    
   
-  Sketch for algo:
+  Sketch for algorithm:
 
   ![Alt text](image-2.png)
