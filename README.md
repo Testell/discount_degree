@@ -27,7 +27,7 @@ It will show you all available transfer credits from a community college, and po
 `rails db:setup`
 
 5. Run:
-`rails db:migrate`
+`rails db:migrate` <!-- Does the migration give you the user or the setup? >
   - This will give you:
     - A admin account email: admin@example.com pw: admin123
     - Sample data with courses/transferable courses, a degree, 3 schools, and it will generate a plan.

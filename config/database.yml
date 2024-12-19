@@ -24,8 +24,8 @@ default: &default
 development:
   <<: *default
   database: discount_degree_development
-  username: discountdegreemainadmin
-  password: adminpassword
+  # username: discountdegreemainadmin <- Did this give you an error?
+  # password: adminpassword
   host: localhost
   port: 5432
 

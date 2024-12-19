@@ -3,13 +3,13 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  email                  :string           default(""), not null
+#  email                  :string           not null
 #  encrypted_password     :string           default(""), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  role                   :string
-#  username               :string
+#  role                   :string           not null
+#  username               :string           not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
