@@ -8,6 +8,8 @@ module WebscraperServices
     class ScrapingError < StandardError
     end
 
+    #Could use comments alsso seems like it cann be dynamic in the future
+
     DEPARTMENT_URLS = {
       "CSC" => "https://catalog.depaul.edu/course-descriptions/csc/",
       "IS" => "https://catalog.depaul.edu/course-descriptions/is/",

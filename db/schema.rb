@@ -20,11 +20,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_16_090458) do
     t.string "name"
     t.jsonb "properties"
     t.datetime "time"
-    t.index %w[name time], name: "index_ahoy_events_on_name_and_time"
-    t.index ["properties"],
-            name: "index_ahoy_events_on_properties",
-            opclass: :jsonb_path_ops,
-            using: :gin
+    t.index ["name", "time"], name: "index_ahoy_events_on_name_and_time"
+    t.index ["properties"], name: "index_ahoy_events_on_properties", opclass: :jsonb_path_ops, using: :gin
     t.index ["user_id"], name: "index_ahoy_events_on_user_id"
     t.index ["visit_id"], name: "index_ahoy_events_on_visit_id"
   end
@@ -57,7 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_16_090458) do
     t.datetime "started_at"
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
-    t.index %w[visitor_token started_at], name: "index_ahoy_visits_on_visitor_token_and_started_at"
+    t.index ["visitor_token", "started_at"], name: "index_ahoy_visits_on_visitor_token_and_started_at"
   end
 
   create_table "blazer_audits", force: :cascade do |t|
@@ -122,9 +119,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_16_090458) do
     t.string "logic_type", default: "and", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index %w[course_id prerequisite_id],
-            name: "index_course_prerequisites_on_course_id_and_prerequisite_id",
-            unique: true
+    t.index ["course_id", "prerequisite_id"], name: "index_course_prerequisites_on_course_id_and_prerequisite_id", unique: true
     t.index ["course_id"], name: "index_course_prerequisites_on_course_id"
     t.index ["prerequisite_id"], name: "index_course_prerequisites_on_prerequisite_id"
   end
@@ -182,11 +177,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_16_090458) do
     t.jsonb "transferable_courses", default: [], null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "plan_type"
     t.index ["degree_id"], name: "index_plans_on_degree_id"
     t.index ["ending_school_id"], name: "index_plans_on_ending_school_id"
     t.index ["intermediary_school_id"], name: "index_plans_on_intermediary_school_id"
-    t.index ["plan_type"], name: "index_plans_on_plan_type"
     t.index ["starting_school_id"], name: "index_plans_on_starting_school_id"
   end
 
@@ -229,13 +222,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_16_090458) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
+    t.string "email", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "username", null: false
+    t.string "role", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "username"
-    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
